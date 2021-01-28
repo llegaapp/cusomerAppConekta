@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>748214889490-ujapts54hpesd8jfgko7ivvhm5o29lb8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.748214889490-ujapts54hpesd8jfgko7ivvhm5o29lb8</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>748214889490-peql56k4ese27gtti68s7ap2gkbcdssf.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAQ1CCd8p-ssVZr06hmSryiFlFcfpO7uME</string>
+	<key>GCM_SENDER_ID</key>
+	<string>748214889490</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.fooddelivery</string>
+	<key>PROJECT_ID</key>
+	<string>quickstartfcm-47f9b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>quickstartfcm-47f9b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:748214889490:ios:9bcdf74dee430da316bccb</string>
+	<key>DATABASE_URL</key>
+	<string>https://quickstartfcm-47f9b.firebaseio.com</string>
+</dict>
+</plist>

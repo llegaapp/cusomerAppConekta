@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "project_number": "958782086482",
+    "project_id": "llega04-36ba0",
+    "storage_bucket": "llega04-36ba0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958782086482:android:9a6445e6ab83cf2a9b6e8b",
+        "android_client_info": {
+          "package_name": "com.abg.llega04.deliveryboy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958782086482-jke86dtkglcas3f3jrnl9gvt687gmacu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsdsQHoMII0WHYcOkxSwiURwA1rPBPor0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958782086482-jke86dtkglcas3f3jrnl9gvt687gmacu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "958782086482-jtkkg6c22a5kt0gkp8aan2j20vqvln6i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.abg.llega04"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958782086482:android:a8700fd0d2e41c2e9b6e8b",
+        "android_client_info": {
+          "package_name": "com.abg.llega04.owner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958782086482-jke86dtkglcas3f3jrnl9gvt687gmacu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsdsQHoMII0WHYcOkxSwiURwA1rPBPor0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958782086482-jke86dtkglcas3f3jrnl9gvt687gmacu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "958782086482-jtkkg6c22a5kt0gkp8aan2j20vqvln6i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.abg.llega04"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958782086482:android:5584a2913fa3e1089b6e8b",
+        "android_client_info": {
+          "package_name": "net.llega.customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958782086482-jke86dtkglcas3f3jrnl9gvt687gmacu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsdsQHoMII0WHYcOkxSwiURwA1rPBPor0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958782086482-jke86dtkglcas3f3jrnl9gvt687gmacu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "958782086482-jtkkg6c22a5kt0gkp8aan2j20vqvln6i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.abg.llega04"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
