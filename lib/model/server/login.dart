@@ -3,7 +3,7 @@ import 'package:fooddelivery/config/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../utils.dart';
+import 'package:fooddelivery/model/utils.dart';
 
 login(String email, String password,
     Function(String name, String password, String avatar, String email, String token, String phone,String rfc,String businessName, int unreadNotify, String) callback,

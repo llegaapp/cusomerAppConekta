@@ -6,7 +6,7 @@ import 'package:fooddelivery/model/pref.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../utils.dart';
+import 'package:fooddelivery/model/utils.dart';
 
 class MainWindowDataAPI {
 

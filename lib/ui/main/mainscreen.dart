@@ -14,7 +14,7 @@ import 'package:fooddelivery/ui/main/home.dart';
 import 'package:fooddelivery/ui/main/map.dart';
 import 'package:fooddelivery/ui/main/orderdetails.dart';
 import 'package:fooddelivery/ui/main/orders.dart';
-import 'package:fooddelivery/ui/menu/chat.dart';
+//import 'package:fooddelivery/ui/menu/chat.dart';
 import 'package:fooddelivery/ui/menu/documents.dart';
 import 'package:fooddelivery/ui/menu/help.dart';
 import 'package:fooddelivery/ui/menu/language.dart';
@@ -259,7 +259,8 @@ class _MainScreenState extends State<MainScreen>
 
           if (_currentState == "about" || _currentState == "delivery" || _currentState == "privacy"
               || _currentState == "terms" || _currentState == "refund")
-            DocumentsScreen(doc: _currentState, onBack: onBack),
+              _mydoc(),
+          
           if (_currentState == "faq")
             HelpScreen(onBack: onBack),
           //if (_currentState == "chat")
@@ -299,6 +300,12 @@ class _MainScreenState extends State<MainScreen>
     ));
   }
 
+  Widget _mydoc()
+  {
+    _currentPage = 2;
+    return DocumentsScreen(doc: _currentState, onBack: onBack);
+  }
+
   onBack(String route){
     if (route == "open_menu")
       return _openMenu();
@@ -330,6 +337,7 @@ class _MainScreenState extends State<MainScreen>
   }
 
   routes(String route){
+    _currentState = route;
     if (route == "map")
       setState(() {
         _currentPage = 0;
@@ -358,6 +366,7 @@ class _MainScreenState extends State<MainScreen>
         || route == "terms" || route == "refund" || route == "faq" || route == "language"
         || route == "chat" || route == "notify" || route == "wallet" || route == "order_details"){
       _currentState = route;
+      
     }
   }
 
@@ -392,7 +401,7 @@ class _MainScreenState extends State<MainScreen>
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-              Container(
+            Container(
             alignment: Alignment.center,
             child: Text(strings.get(156), textAlign: TextAlign.center, style: theme.text18boldPrimary,) // "Edit profile",
               ), // "Reason to Reject",
@@ -422,10 +431,7 @@ class _MainScreenState extends State<MainScreen>
               SizedBox(height: 20,),
               Text("${strings.get(290)}:", style: theme.text12bold,),  // Razon Social
               _edit(editControllerBusinessName, strings.get(290), false,'empty'),  
-                
-              
-              
-
+                 
               //  "Enter your User Phone",
               SizedBox(height: 30,),
     
@@ -445,7 +451,7 @@ class _MainScreenState extends State<MainScreen>
               formKey.currentState.save();
       
               setState(() {
-    _show = 0;
+                _show = 0;
               });
               
               _callbackSave();
@@ -460,7 +466,7 @@ class _MainScreenState extends State<MainScreen>
             textStyle: theme.text14boldWhite,
             pressButton: (){
               setState(() {
-    _show = 0;
+                _show = 0;
               });
             }
             )),

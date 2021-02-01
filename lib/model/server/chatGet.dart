@@ -3,7 +3,7 @@ import 'package:fooddelivery/config/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../utils.dart';
+import 'package:fooddelivery/model/utils.dart';
 
 chatGet(String uid, Function(List<ChatMessages>) callback, Function(String) callbackError) async {
 

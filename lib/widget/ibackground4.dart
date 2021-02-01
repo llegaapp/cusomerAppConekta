@@ -21,13 +21,13 @@ class IBackground4 extends StatelessWidget {
     if (heroTag != null)
       _heroTag = heroTag;
 
-    var _width = 300.0;
+    /*var _width = 300.0;
     if (width != null)
       _width = width;
 
     var _colorsGradient = [Color.fromARGB(255, 33, 206, 186), Color.fromARGB(255, 172, 229, 184), Color.fromARGB(255, 172, 229, 184)];
     if (colorsGradient != null)
-      _colorsGradient = colorsGradient;
+      _colorsGradient = colorsGradient;*/
 
     return Hero(
         tag: _heroTag,

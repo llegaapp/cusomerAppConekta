@@ -228,7 +228,7 @@ _notify2(Color _color){
   );
 }
 
-_chat(Function(String) callback, Color _color){
+/*_chat(Function(String) callback, Color _color){
   return Stack(
     children: <Widget>[
       UnconstrainedBox(
@@ -246,9 +246,9 @@ _chat(Function(String) callback, Color _color){
               ))),
     ],
   );
-}
+}*/
 
-_chat2(Color _color){
+/*_chat2(Color _color){
   return UnconstrainedBox(
       child: Container(
         margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
@@ -290,7 +290,7 @@ _chat2(Color _color){
         ),
       )
   );
-}
+}*/
 
 _buttonMenu(Function(String) callback, Color _color){
   return Stack(
