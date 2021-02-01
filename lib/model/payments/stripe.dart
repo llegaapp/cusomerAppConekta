@@ -50,10 +50,12 @@ class Stripe{
       var response = await http.post(url, headers: requestHeaders, body: body).timeout(const Duration(seconds: 10));
 
       dprint(url);
-      dprint('Response status: ${response.statusCode}');
+      dprint('Response status STRIPE: ${response.statusCode}');
       dprint('Response body: ${response.body}');
-
-      return json.decode(response.body);
+      var result = json.decode(response.body);
+      var sec = result['client_secret'];
+      dprint('Response body: $sec');
+      return result;
     } catch (ex) {
       print (ex);
     }
@@ -68,9 +70,10 @@ class Stripe{
       var paymentMethod = await StripePayment.paymentRequestWithCardForm(CardFormPaymentRequest()).catchError(setError);
       print(paymentMethod);
       var paymentIntent = await createPaymentIntent(amount.toString(), currency);
-      if (paymentIntent == null)
+      dprint('Paso paymentIntent ok');
+      /*if (paymentIntent == null)
         return onError("error1");
-      dprint(paymentIntent);
+      dprint(paymentIntent);*/
       var sec = paymentIntent['client_secret'];
       var response = await StripePayment.confirmPaymentIntent(
         PaymentIntent(

@@ -348,7 +348,9 @@ class _DeliveryScreenState extends State<DeliveryScreen>
               children: [
                 Text(text1, style: theme.text14bold,),
                 SizedBox(height: 5,),
-                Text(text2, style: theme.text14,)
+                Container(
+                  width: windowWidth -100,
+                  child: Text(text2, style: theme.text14,))
               ],
             )
           ],

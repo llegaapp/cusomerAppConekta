@@ -47,10 +47,10 @@ bool isRFC( String rfc ) {
 
   if ( rfc.isEmpty ) return false;
 
-  //Pattern pattern = r'^[A-Z,Ñ,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$';
+  //Pattern pattern = r'^[A-Z,ï¿½,&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$';
   //Pattern pattern = r'^[A-Z]{4}([0-9]{2})(1[0-2]|0[1-9])([0-3][0-9])([ -]?)([A-Z0-9]{4})$'; 
-  //Pattern pattern = r'/^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/';
-  Pattern pattern = r'^([A-ZÑ\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$'; 
+  //Pattern pattern = r'/^([A-Zï¿½&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/';
+  Pattern pattern = r'^([A-Zï¿½\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$'; 
   
   RegExp regExp   = new RegExp(pattern);
   
@@ -62,7 +62,6 @@ bool isRFC( String rfc ) {
 
 validators(String _value, String _type)
   { 
-    
 
     if(_type == 'empty')
     {
