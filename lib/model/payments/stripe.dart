@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:fooddelivery/model/dprint.dart';
 import 'package:fooddelivery/ui/main/home.dart';
 import 'package:stripe_payment/stripe_payment.dart';
@@ -36,7 +37,7 @@ class Stripe{
   // }
 
 
-  createPaymentIntent(String amount, String currency) async {
+  createPaymentIntent(String amount, String currency, String ticketCode) async {
     var stripeSecret = homeScreen.mainWindowData.payments.stripeSecretKey;
 
     try {
@@ -45,7 +46,14 @@ class Stripe{
         'Authorization' : "Bearer $stripeSecret",
       };
 
-      Map<String, dynamic> body= {"amount": amount, "currency" : currency, "payment_method_types[]": "card"};
+      Map<String, dynamic> body= {
+      "amount": amount, 
+      "currency" : currency, 
+      "description": "Orden #$ticketCode llega delivery", 
+      "metadata[order_id]":  ticketCode,
+      "payment_method_types[]": "card"
+      }; 
+      
       var url = "https://api.stripe.com/v1/payment_intents";
       var response = await http.post(url, headers: requestHeaders, body: body).timeout(const Duration(seconds: 10));
 
@@ -53,8 +61,8 @@ class Stripe{
       dprint('Response status STRIPE: ${response.statusCode}');
       dprint('Response body: ${response.body}');
       var result = json.decode(response.body);
-      var sec = result['client_secret'];
-      dprint('Response body: $sec');
+      //var sec = result['client_secret'];
+      //dprint('Response body: $sec');
       return result;
     } catch (ex) {
       print (ex);
@@ -65,11 +73,18 @@ class Stripe{
   Function(String) _onError;
 
   Future<void> openCheckoutCard(int amount, String desc, String clientPhone, String companyName, String currency,
-      Function(String) onSuccess, Function(String) onError) async {
+      Function(String,String) onSuccess, Function(String) onError) async {
     _onError = onError;
       var paymentMethod = await StripePayment.paymentRequestWithCardForm(CardFormPaymentRequest()).catchError(setError);
+     
+      var now = new DateTime.now();
+      var bytes = utf8.encode(now.toString()); // data being hashed
+      print(now.toString());
+      var ticketCode = sha1.convert(bytes);
+      String ticketCode1 = ticketCode.toString().substring(0,10);
+      print(ticketCode1);
       print(paymentMethod);
-      var paymentIntent = await createPaymentIntent(amount.toString(), currency);
+      var paymentIntent = await createPaymentIntent(amount.toString(), currency,ticketCode1);
       dprint('Paso paymentIntent ok');
       /*if (paymentIntent == null)
         return onError("error1");
@@ -82,7 +97,7 @@ class Stripe{
         ),
       ).catchError(setError);
       print(response);
-      onSuccess("Payment $currency${amount/100} Stripe:${response.paymentIntentId}");
+      onSuccess("Payment $currency${amount/100} Stripe:${response.paymentIntentId}",ticketCode1);
       return true;
   }
 

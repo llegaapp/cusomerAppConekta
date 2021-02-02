@@ -10,7 +10,7 @@ class RazorpayModel{
 
   var _razorpay = Razorpay();
 
-  Function(String) _onSuccess;
+  Function(String,String) _onSuccess;
   Function(String) _onError;
 
   init(){
@@ -24,7 +24,7 @@ class RazorpayModel{
     dprint(response.orderId);
     dprint(response.signature);
     if (_onSuccess != null)
-      _onSuccess("Payment $summa Razorpay:${response.paymentId}");
+      _onSuccess("Payment $summa Razorpay:${response.paymentId}",'');
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -41,7 +41,7 @@ class RazorpayModel{
   String summa;
 
   void openCheckout(String amount, String desc, String clientPhone, String companyName, String currency,
-      Function(String) onSuccess, Function(String) onError) async {
+      Function(String,String) onSuccess, Function(String) onError) async {
     summa = "$currency${int.parse(amount)/100}";
     _onError = onError;
     var razorpayId = homeScreen.mainWindowData.payments.razKey;

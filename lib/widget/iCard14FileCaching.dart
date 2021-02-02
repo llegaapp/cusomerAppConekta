@@ -13,7 +13,8 @@ class ICard14FileCaching extends StatefulWidget {
   final String image;
   final String id;
   final Color colorProgressBar;
-  final Function(String id, String hero) callback;
+  final Function(String id, String hero) callback; 
+  final String ticketCode;
   final String text;
   final TextStyle textStyle;
   final String text2;
@@ -31,7 +32,7 @@ class ICard14FileCaching extends StatefulWidget {
   final int shadow;
 
   ICard14FileCaching({this.color = Colors.white, this.width = 100, this.height = 100,
-    this.id = "", this.callback, this.image = "",
+    this.id = "", this.callback, this.image = "",this.ticketCode = "",
     this.text = "",this.textStyle,
     this.text2 = "", this.textStyle2,
     this.text3 = "", this.textStyle3,
@@ -136,7 +137,8 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       SizedBox(height: 5,),
-                      Row(children: [
+                      Text('Ticket '+widget.ticketCode, style: _textStyle3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),
+                      Row(children: [ 
                         Expanded(child: Text(widget.text, style: _textStyle, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),  // name
                         Text(widget.text5, style: _textStyle5, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)
                       ],),

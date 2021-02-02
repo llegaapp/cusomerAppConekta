@@ -23,7 +23,7 @@ pay(int _currVal, BuildContext context, Function(bool) waits, String phone,
   openDialog = openDialog2;
   _waits = waits;
   if (_currVal == 1) {
-    _onSuccess("Cash on Delivery");
+    _onSuccess("Cash on Delivery",'');
   }
 
   var razorpayCompanyName = homeScreen.mainWindowData.payments.razName;
@@ -43,7 +43,7 @@ pay(int _currVal, BuildContext context, Function(bool) waits, String phone,
     var paystack = PayStackModel();
     var ret = await paystack.handleCheckout(basket.getTotal(true), account.email, context);
     if (ret != null)
-      _onSuccess(ret);
+      _onSuccess(ret,'');
   }
   if (_currVal == 5) { // paypal
     String _total = basket.getTotal(true).toStringAsFixed(appSettings.symbolDigits);
@@ -60,7 +60,7 @@ pay(int _currVal, BuildContext context, Function(bool) waits, String phone,
             clientId: homeScreen.mainWindowData.payments.payPalClientId,
             sandBoxMode: homeScreen.mainWindowData.payments.payPalSandBoxMode,
             onFinish: (w){
-              _onSuccess("PayPal: $w");
+              _onSuccess("PayPal: $w",'');
             }
         ),
       ),
@@ -93,7 +93,7 @@ pay(int _currVal, BuildContext context, Function(bool) waits, String phone,
       var ret = await yandex.handleCheckout(t, account.email, context, basket.getDesc());
       _waits(false);
       if (ret != null)
-        _onSuccess("YandexKassa: $ret");
+        _onSuccess("YandexKassa: $ret",'');
     }catch(ex ){
       _waits(false);
     }
@@ -111,7 +111,7 @@ pay(int _currVal, BuildContext context, Function(bool) waits, String phone,
             apiKey: homeScreen.mainWindowData.payments.instamojoApiKey,
             sandBoxMode: homeScreen.mainWindowData.payments.instamojoSandBoxMode,
             onFinish: (w){
-              _onSuccess("INSTAMOJO: $w");
+              _onSuccess("INSTAMOJO: $w",'');
             }
         ),
       ),
@@ -120,7 +120,7 @@ pay(int _currVal, BuildContext context, Function(bool) waits, String phone,
 
 }
 
-_onSuccess(String id){
+_onSuccess(String id,String ticketCode){
   _waits(true);
   var curbsidePickup = pref.get(Pref.deliveryCurbsidePickup);
   var addr = pref.get(Pref.deliveryAddress);
@@ -128,10 +128,10 @@ _onSuccess(String id){
   var hint = pref.get(Pref.deliveryHint);
   var lat = pref.get(Pref.deliveryLatitude);
   var lng = pref.get(Pref.deliveryLongitude);
-  basket.createOrder(id, addr, phone, hint, lat, lng, curbsidePickup, couponName, _openDialog, _onError);
+  basket.createOrder(id, addr, phone, hint, lat, lng, curbsidePickup, couponName,ticketCode, _openDialog, _onError);
 }
 
-_onSuccessWallet(String id){
+_onSuccessWallet(String id,String ticketCode){
   walletId = id;
   _waits(true);
   var curbsidePickup = pref.get(Pref.deliveryCurbsidePickup);
@@ -140,7 +140,7 @@ _onSuccessWallet(String id){
   var hint = pref.get(Pref.deliveryHint);
   var lat = pref.get(Pref.deliveryLatitude);
   var lng = pref.get(Pref.deliveryLongitude);
-  basket.createOrder("wallet#$id", addr, phone, hint, lat, lng, curbsidePickup, couponName, _openDialog, _onError);
+  basket.createOrder("wallet#$id", addr, phone, hint, lat, lng, curbsidePickup, couponName,ticketCode, _openDialog, _onError);
 }
 
 _onError(String err){

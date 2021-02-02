@@ -13,6 +13,7 @@ class Basket{
   double taxes = 0.0;
   String restaurant;
   String orderid;
+  String ticketCode;
   double fee = 0.0;
   String _percentage;
   String defCurrency = "";
@@ -24,6 +25,7 @@ class Basket{
     _percentage = percentage;
     orderid = order.id;
     restaurant = order.restaurant;
+    ticketCode = order.ticketCode;
     taxes = defaultTax;
     basket.clear();
     for (var item in orderdetails){
@@ -98,7 +100,7 @@ class Basket{
     basket.add(t);
     restaurant = t.restaurant;
     addToBasket(basket, account.token, '10', "hint", restaurant, "Cash on Delivery", "0", "0",
-        "", "",  0.0, "0.0", "0.0", "false", "",
+        "", "",  0.0, "0.0", "0.0", "false", "","",
         (String id, String _fee, String percent) {
           fee = double.parse(_fee);
           _percentage = percent;
@@ -282,7 +284,7 @@ class Basket{
 
   String _paymentid = "";
   createOrder(String id, String addr, String phone, String hint, String lat, String lng, String curbsidePickup,
-      String couponName,
+      String couponName,String pticketCode,
       Function() _success, Function(String) _error){
     _paymentid = id;
     for (var item in basket)
@@ -290,11 +292,12 @@ class Basket{
       basketReset(account.token, (){
       var _total = getTotal(true);
       addToBasket(basket, account.token, taxes.toString(), hint, restaurant, _paymentid, "0", "1", addr, phone,
-          _total, lat, lng, curbsidePickup, couponName,
+          _total, lat, lng, curbsidePickup, couponName, pticketCode,
               (String id, String _fee, String percent) {
             fee = double.parse(_fee);
             _percentage = percent;
               orderid = id;
+              ticketCode = pticketCode;
             _success();
             basket.clear();
           }, _error);

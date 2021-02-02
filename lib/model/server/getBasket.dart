@@ -79,12 +79,13 @@ class OrderData {
   String hint;
   String active;
   String restaurant;
+  String ticketCode;
   String method;
   String total;
   String fee;
 
   OrderData({this.id, this.user, this.driver, this.status, this.pstatus, this.tax,
-    this.hint, this.active, this.restaurant, this.method, this.total, this.fee});
+    this.hint, this.active, this.restaurant, this.ticketCode, this.method, this.total, this.fee});
   factory OrderData.fromJson(Map<String, dynamic> json) {
     return OrderData(
       id : json['id'].toString(),
@@ -96,6 +97,7 @@ class OrderData {
       hint: json['hint'].toString(),
       active: json['active'].toString(),
       restaurant: json['restaurant'].toString(),
+      ticketCode: json['ticketCode'].toString(),
       method: json['method'].toString(),
       total: json['total'].toString(),
       fee: json['fee'].toString(),

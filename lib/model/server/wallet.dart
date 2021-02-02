@@ -65,7 +65,7 @@ walletTopUp(String uid, String total, String id, Function(double) callback, Func
   }
 }
 
-payOnWallet(String uid, String total, Function(String) callback, Function(String) callbackError) async {
+payOnWallet(String uid, String total, Function(String,String) callback, Function(String) callbackError) async {
   try {
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
@@ -86,7 +86,7 @@ payOnWallet(String uid, String total, Function(String) callback, Function(String
     if (response.statusCode == 200) {
       var jsonResult = json.decode(response.body);
       if (jsonResult['error'] == 0) {
-        callback(jsonResult['id']);
+        callback(jsonResult['id'],'');
       }else
         callbackError(jsonResult['msg']);
     } else

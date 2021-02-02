@@ -825,7 +825,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
             Container(
               width: windowWidth,
               margin: EdgeInsets.only(left: 10, right: 10),
-              child: Text("${strings.get(253)}${basket.orderid}", textAlign: TextAlign.start, style: theme.text14,), // "Order No. #",
+              child: Text("${strings.get(253)}${basket.orderid} Código del Ticket:${basket.ticketCode}", textAlign: TextAlign.start, style: theme.text14,), // "Order No. #",
             ),
             SizedBox(height: 15,),
           ],

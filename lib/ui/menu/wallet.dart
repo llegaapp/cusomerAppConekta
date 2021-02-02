@@ -74,7 +74,7 @@ class _WalletScreenState extends State<WalletScreen> {
       var paystack = PayStackModel();
       var ret = await paystack.handleCheckout(total, account.email, context);
       if (ret != null)
-        _onSuccess(ret);
+        _onSuccess(ret,'');
     }
     if (_currVal == 5) { // paypal
       String _total = total.toStringAsFixed(appSettings.symbolDigits);
@@ -91,7 +91,7 @@ class _WalletScreenState extends State<WalletScreen> {
               clientId: homeScreen.mainWindowData.payments.payPalClientId,
               sandBoxMode: homeScreen.mainWindowData.payments.payPalSandBoxMode,
               onFinish: (w){
-                _onSuccess("PayPal: $w");
+                _onSuccess("PayPal: $w",'');
               }
           ),
         ),
@@ -117,7 +117,7 @@ class _WalletScreenState extends State<WalletScreen> {
         var ret = await yandex.handleCheckout(t, account.email, context, "");
         _waits(false);
         if (ret != null)
-          _onSuccess("YandexKassa: $ret");
+          _onSuccess("YandexKassa: $ret",'');
       }catch(ex ){
         _waits(false);
       }
@@ -135,7 +135,7 @@ class _WalletScreenState extends State<WalletScreen> {
               apiKey: homeScreen.mainWindowData.payments.instamojoApiKey,
               sandBoxMode: homeScreen.mainWindowData.payments.instamojoSandBoxMode,
               onFinish: (w){
-                _onSuccess("INSTAMOJO: $w");
+                _onSuccess("INSTAMOJO: $w",'');
               }
           ),
         ),
@@ -153,7 +153,7 @@ class _WalletScreenState extends State<WalletScreen> {
     openDialog("${strings.get(128)} $err"); // "Something went wrong. ",
   }
 
-  _onSuccess(String id){
+  _onSuccess(String id,String ticketCode){
     walletTopUp(account.token, total.toStringAsFixed(appSettings.symbolDigits),  id, _successTopUp, _error);
   }
 

@@ -192,7 +192,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 
   _list(List<Widget> list){
-    var height = windowWidth*0.3;
+    var height = windowWidth*0.35;
     if (_data == null)
       return;
     for (var item in _data) {
@@ -202,6 +202,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             shadow: appSettings.shadow,
             color: theme.colorBackground,
             colorProgressBar: theme.colorPrimary,
+            ticketCode: item.ticketCode,
             text: item.name,
             textStyle: theme.text16bold,
             text2: item.restaurant,

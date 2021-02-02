@@ -128,7 +128,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   _body(){
     var list = List<Widget>();
-    var height = windowWidth*0.3;
+    var height = windowWidth*0.35;
 
     list.add(SizedBox(height: 20,));
     int _status = 1;
@@ -143,6 +143,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               colorProgressBar: theme.colorPrimary,
               heroId: idHeroes,
               color: theme.colorBackground,
+              ticketCode: item.ticketCode,
               text: item.name,
               textStyle: theme.text16bold,
               text2: item.restaurant,
