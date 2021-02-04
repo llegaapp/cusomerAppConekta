@@ -11,11 +11,12 @@ class PaypalPayment extends StatefulWidget {
   final String userLastName;
   final String userEmail;
   final String payAmount;
+  final String ticketCode;
   final String clientId;
   final String secret;
   final String sandBoxMode;
 
-  PaypalPayment({this.onFinish, this.currency, this.userFirstName, this.userLastName, this.userEmail, this.payAmount,
+  PaypalPayment({this.onFinish, this.currency, this.userFirstName, this.userLastName, this.userEmail, this.payAmount, this.ticketCode,
         this.clientId, this.secret, this.sandBoxMode});
 
   @override
@@ -46,7 +47,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
       try {
         accessToken = await services.getAccessToken(widget.clientId, widget.secret, widget.sandBoxMode);
 
-        final transactions = getOrderParams(widget.userFirstName, widget.userLastName, "Foods", widget.payAmount, widget.currency);
+        final transactions = getOrderParams(widget.userFirstName, widget.userLastName, "Foods", widget.payAmount,widget.ticketCode, widget.currency);
         final res =
             await services.createPaypalPayment(transactions, accessToken);
         if (res != null) {
@@ -74,7 +75,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
 
   int quantity = 1;
 
-  Map<String, dynamic> getOrderParams(userFirstName, userLastName, itemName, itemPrice, String currency) {
+  Map<String, dynamic> getOrderParams(userFirstName, userLastName, itemName, itemPrice, ticketCode, String currency) {
     Map<String, dynamic> params = {
       "intent": "sale",
       "payer": {"payment_method": "paypal"},
@@ -90,7 +91,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
               "shipping_discount": "0"
             }
           },
-          "description": "The payment transaction description.",
+          "description": "Orden #$ticketCode llega delivery",
           "payment_options": {
             "allowed_payment_method": "INSTANT_FUNDING_SOURCE"
           },
@@ -100,7 +101,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
           }
         }
       ],
-      "note_to_payer": "Contact us for any questions on your order.",
+      "note_to_payer": "Contáctenos para cualquier pregunta sobre su pedido.",
       "redirect_urls": {"return_url": returnURL, "cancel_url": cancelURL}
     };
     return params;

@@ -9,6 +9,7 @@ import 'package:fooddelivery/model/payments/razorpay.dart';
 import 'package:fooddelivery/model/payments/stripe.dart';
 import 'package:fooddelivery/model/payments/yandex.dart';
 import 'package:fooddelivery/model/server/wallet.dart';
+import 'package:fooddelivery/model/utils.dart';
 import 'package:fooddelivery/ui/main/home.dart';
 import 'package:fooddelivery/widget/colorloader2.dart';
 import 'package:fooddelivery/widget/easyDialog2.dart';
@@ -78,6 +79,7 @@ class _WalletScreenState extends State<WalletScreen> {
     }
     if (_currVal == 5) { // paypal
       String _total = total.toStringAsFixed(appSettings.symbolDigits);
+      String ticketcode = sha1Ticketcode();
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -87,11 +89,12 @@ class _WalletScreenState extends State<WalletScreen> {
               userLastName: "",
               userEmail: "",
               payAmount: _total,
+              ticketCode: ticketcode,
               secret: homeScreen.mainWindowData.payments.payPalSecret,
               clientId: homeScreen.mainWindowData.payments.payPalClientId,
               sandBoxMode: homeScreen.mainWindowData.payments.payPalSandBoxMode,
               onFinish: (w){
-                _onSuccess("PayPal: $w",'');
+                _onSuccess("PayPal: $w", ticketcode);
               }
           ),
         ),

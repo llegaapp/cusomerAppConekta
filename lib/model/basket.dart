@@ -5,6 +5,7 @@ import 'package:fooddelivery/model/server/deleteFromBasket.dart';
 import 'package:fooddelivery/model/server/getBasket.dart';
 import 'package:fooddelivery/model/server/mainwindowdata.dart';
 import 'package:fooddelivery/model/server/setCountinBasket.dart';
+import 'package:fooddelivery/model/utils.dart';
 import 'dprint.dart';
 import 'homescreenModel.dart';
 
@@ -99,8 +100,9 @@ class Basket{
     var t = DishesData().from(item);
     basket.add(t);
     restaurant = t.restaurant;
+    String ticketCode = sha1Ticketcode();
     addToBasket(basket, account.token, '10', "hint", restaurant, "Cash on Delivery", "0", "0",
-        "", "",  0.0, "0.0", "0.0", "false", "","",
+        "", "",  0.0, "0.0", "0.0", "false", "",ticketCode,
         (String id, String _fee, String percent) {
           fee = double.parse(_fee);
           _percentage = percent;

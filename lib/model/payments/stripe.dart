@@ -1,6 +1,6 @@
-import 'dart:convert';
-import 'package:crypto/crypto.dart';
+import 'dart:convert'; 
 import 'package:fooddelivery/model/dprint.dart';
+import 'package:fooddelivery/model/utils.dart';
 import 'package:fooddelivery/ui/main/home.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 import 'package:http/http.dart' as http;
@@ -77,11 +77,9 @@ class Stripe{
     _onError = onError;
       var paymentMethod = await StripePayment.paymentRequestWithCardForm(CardFormPaymentRequest()).catchError(setError);
      
-      var now = new DateTime.now();
-      var bytes = utf8.encode(now.toString()); // data being hashed
-      print(now.toString());
-      var ticketCode = sha1.convert(bytes);
-      String ticketCode1 = ticketCode.toString().substring(0,10);
+       
+      String ticketCode1 = sha1Ticketcode();
+      
       print(ticketCode1);
       print(paymentMethod);
       var paymentIntent = await createPaymentIntent(amount.toString(), currency,ticketCode1);

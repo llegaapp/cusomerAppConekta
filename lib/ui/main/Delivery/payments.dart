@@ -6,6 +6,7 @@ import 'package:fooddelivery/model/payments/razorpay.dart';
 import 'package:fooddelivery/model/payments/stripe.dart';
 import 'package:fooddelivery/model/payments/yandex.dart';
 import 'package:fooddelivery/model/server/wallet.dart';
+import 'package:fooddelivery/model/utils.dart';
 import 'package:fooddelivery/ui/main/home.dart';
 import 'package:fooddelivery/ui/main/mainscreen.dart';
 import '../../../main.dart';
@@ -22,8 +23,9 @@ pay(int _currVal, BuildContext context, Function(bool) waits, String phone,
   _openDialog = _openDialog2;
   openDialog = openDialog2;
   _waits = waits;
+  String ticketCode = sha1Ticketcode();
   if (_currVal == 1) {
-    _onSuccess("Cash on Delivery",'');
+    _onSuccess("Cash on Delivery",ticketCode);
   }
 
   var razorpayCompanyName = homeScreen.mainWindowData.payments.razName;
@@ -47,6 +49,7 @@ pay(int _currVal, BuildContext context, Function(bool) waits, String phone,
   }
   if (_currVal == 5) { // paypal
     String _total = basket.getTotal(true).toStringAsFixed(appSettings.symbolDigits);
+    String ticketcode = sha1Ticketcode();
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -56,11 +59,12 @@ pay(int _currVal, BuildContext context, Function(bool) waits, String phone,
             userLastName: "",
             userEmail: "",
             payAmount: _total,
-            secret: homeScreen.mainWindowData.payments.payPalSecret,
+            ticketCode: ticketcode,
             clientId: homeScreen.mainWindowData.payments.payPalClientId,
+            secret: homeScreen.mainWindowData.payments.payPalSecret, 
             sandBoxMode: homeScreen.mainWindowData.payments.payPalSandBoxMode,
             onFinish: (w){
-              _onSuccess("PayPal: $w",'');
+              _onSuccess("PayPal: $w",ticketcode);
             }
         ),
       ),
@@ -128,7 +132,7 @@ _onSuccess(String id,String ticketCode){
   var hint = pref.get(Pref.deliveryHint);
   var lat = pref.get(Pref.deliveryLatitude);
   var lng = pref.get(Pref.deliveryLongitude);
-  basket.createOrder(id, addr, phone, hint, lat, lng, curbsidePickup, couponName,ticketCode, _openDialog, _onError);
+  basket.createOrder(id, addr, phone, hint, lat, lng, curbsidePickup, couponName, ticketCode, _openDialog, _onError);
 }
 
 _onSuccessWallet(String id,String ticketCode){

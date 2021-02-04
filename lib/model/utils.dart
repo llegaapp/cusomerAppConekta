@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:fooddelivery/main.dart';
 
 double toDouble(String str){
@@ -102,4 +105,14 @@ validators(String _value, String _type)
     } 
 
     return null;
+  }
+
+  String sha1Ticketcode()
+  {
+      var now = new DateTime.now();
+      var bytes = utf8.encode(now.toString()); // data being hashed
+      
+      var ticketCode = sha1.convert(bytes);
+      String ticketCode1 = ticketCode.toString().substring(0,10);
+      return  ticketCode1;
   }
