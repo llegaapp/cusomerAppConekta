@@ -921,22 +921,40 @@ class _DeliveryScreenState extends State<DeliveryScreen>
         )
       );
 
-    list.add(_itemTextLine(strings.get(93), basket.makePriceSctring(t), basket.makePriceSctring(t2),));  // "Subtotal",
+    list.add(_itemText(strings.get(93), basket.makePriceSctring(t2),false));  // "Subtotal",
     list.add(SizedBox(height: 5,));
-    list.add(_itemTextLine(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(false)),
-      basket.makePriceSctring(basket.getShoppingCost(true)),));                            // "Shopping costs",
+    list.add(_itemText(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(true)),false));                            // "Shopping costs",
     list.add(SizedBox(height: 5,));
-    list.add(_itemTextLine(strings.get(95), basket.makePriceSctring(basket.getTaxes(false)),
-        basket.makePriceSctring(basket.getTaxes(true))));  // "Taxes",
+    list.add(_itemText(strings.get(95),basket.makePriceSctring(basket.getTaxes(true)),false));  // "Taxes",
     list.add(SizedBox(height: 5,));
-    list.add(_itemTextLine(strings.get(96), basket.makePriceSctring(basket.getTotal(false)),
-      basket.makePriceSctring(basket.getTotal(true)),));  // "Total",
+    
+    list.add(_itemTextLine('Cupón','',
+       '-' +basket.makePriceSctring(basket.getCoupons())));  // "Taxes",
+    list.add(SizedBox(height: 5,));
+    list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(true)),true));  // "Total",
 
     list.add(SizedBox(height: 15,));
 
     return Container(
         color: Colors.black.withAlpha(40),
         child: Column(children: list,));
+  }
+
+   _itemText(String leftText, String rightText, bool bold){
+    var _style = theme.text14;
+    if (bold)
+      _style = theme.text14bold;
+    return Container(
+      margin: EdgeInsets.only(left: 20, right: 20),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(leftText, style: _style,),
+          ),
+          Text(rightText, style: _style,),
+        ],
+      ),
+    );
   }
 
 }

@@ -143,20 +143,36 @@ class Basket{
       return fee;
   }
 
-  getTaxes(bool needCoupons){
+  /*getTaxes(bool needCoupons){
     double t = getSubTotal(needCoupons) * taxes/100;
+    return t;
+  }*/
+
+  getTaxes(bool needCoupons){ 
+    double t = (getShoppingCost(needCoupons) + getSubTotal(needCoupons)) * taxes/100;
     return t;
   }
   
   double getTotal(bool needCoupons){
     double _subTotal = getSubTotal(needCoupons);
+
     var _fee = 0.0;
     if (_percentage == '1')
       _fee = _subTotal * fee/100;
     else
       _fee = fee;
-    var _taxes = _subTotal*(taxes/100);
-    return _subTotal+_fee+_taxes;
+    
+    var _taxes = (_fee + _subTotal) * (taxes/100);
+    var _total = _subTotal + _fee + _taxes;
+
+    if (!needCoupons)
+      return _total;
+
+    if (_coupon != null){
+       return _total- getCoupons();
+    }
+     
+    return _total;
   }
 
   setCoupon(Coupon coupon) {
@@ -197,7 +213,9 @@ class Basket{
 
   getSubTotal(bool needCoupons){
     var _total = _getSubTotal();
-    if (!needCoupons)
+    return _total;
+
+    /*if (!needCoupons)
       return _total;
     if (_coupon != null){
       dprint("getSubTotal coupon present");
@@ -257,16 +275,92 @@ class Basket{
         couponComment = "${strings.get(264)} ${_coupon.amount}\n";  // "The minimum purchase amount must be",
       }
     }
-    return _total;
+    return _total;*/
+  }
+
+  getCoupons()
+  {
+    var _total = _getSubTotal();
+    if (_coupon != null){
+      dprint("getSubTotal coupon present");
+      couponComment = "";
+      if (_total > _coupon.amount){
+        //
+        var total = 0.0;
+        for (var food in basket){
+          var price = getItemPrice(food);
+          var priceCoupon = price;
+
+          if (_coupon.allRestaurants == '1') {
+            priceCoupon = _couponCalculate(price);
+            if (_coupon.allCategory != '1' && !_coupon.categoryList.contains(food.category)) {
+              priceCoupon = price;
+              dprint("getSubTotal not present in category list=${_coupon.categoryList} need=${food.category}");
+            }else
+              dprint("getSubTotal present in category list=${_coupon.categoryList} need=${food.category}");
+
+            if (_coupon.allFoods != '1' && !_coupon.foodsList.contains(food.id)) {
+              priceCoupon = price;
+              dprint("getSubTotal not present in foods list=${_coupon.foodsList} need=${food.id}");
+            }else
+              dprint("getSubTotal present in foods list=${_coupon.foodsList} need=${food.id}");
+
+          }else{
+            if (_coupon.restaurantsList.contains(food.restaurant)) {
+              priceCoupon = _couponCalculate(price);
+              if (_coupon.allCategory != '1' && !_coupon.categoryList.contains(food.category)) {
+                //priceCoupon = price;
+                priceCoupon = 0;
+                dprint("getSubTotal not present in category list=${_coupon.categoryList} need=${food.category}");
+              }else
+                dprint("getSubTotal present in category list=${_coupon.categoryList} need=${food.category}");
+
+              if (_coupon.allFoods != '1' && !_coupon.foodsList.contains(food.id)){
+                //priceCoupon = price;
+                priceCoupon = 0;
+                dprint("getSubTotal not present in foods list=${_coupon.foodsList} need=${food.id}");
+              }else
+                dprint("getSubTotal present in foods list=${_coupon.foodsList} need=${food.id}");
+
+            }else
+              priceCoupon = 0;
+              //priceCoupon = price;
+          }
+          if (priceCoupon != price)
+            dprint("getSubTotal food ${food.id}:${food.name} IN ACTION. ${_getItemPriceDEBUG(food)} WITH COUPON=${_couponCalculateDEBUG(price)}");
+          else{
+            dprint("getSubTotal food ${food.id}:${food.name} NO IN ACTION. ${_getItemPriceDEBUG(food)}");
+            couponComment = "$couponComment${strings.get(262)} ${food.name} ${strings.get(263)}\n"; // Food does not participate in the promotion",
+          }
+          total += priceCoupon;
+        }
+        if (total != _total)
+          if (_coupon.inpercents != '1')
+            total =  _coupon.discount;
+        return total;
+      }else{
+        couponComment = "${strings.get(264)} ${_coupon.amount}\n";  // "The minimum purchase amount must be",
+        return 0; 
+      }
+    }
+    return 0; 
   }
 
   _couponCalculate(var _total){
+    if (_coupon.inpercents == '1')
+      _total = (_coupon.discount)/100*_total;
+    else
+      _total -= _coupon.discount;
+    return _total;
+  }
+
+   /*_couponCalculate(var _total){
     if (_coupon.inpercents == '1')
       _total = (100-_coupon.discount)/100*_total;
     else
       _total -= _coupon.discount;
     return _total;
-  }
+  }*/
 
   _couponCalculateDEBUG(var _total){
     if (_coupon.inpercents == '1')
