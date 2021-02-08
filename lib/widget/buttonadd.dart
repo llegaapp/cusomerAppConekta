@@ -79,7 +79,7 @@ buttonAddToCart(DishesData item, Function redraw, Function onCancel, var _scaffo
                       if (!account.isAuth())
                         return route.push(mainContext, "/login");
                       if (basket.restaurantCheck(item.restaurant)) {
-                        if (basket.dishInBasket(item.id))
+                        if (basket.dishInBasket(item))
                           _scaffoldKey.currentState.showSnackBar(new SnackBar(
                             content: new Text(strings.get(131)), // "This food already added to cart",
                             duration: Duration(seconds: 3),

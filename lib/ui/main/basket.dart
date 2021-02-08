@@ -286,7 +286,8 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
       image: "$serverImages${item.image}",
       incDec: _onItemChangeCount,
       delete: _onItemDelete,
-      id: item.id,
+      id: item.id, 
+      hashid: item.hashid, 
       count: item.count,
       getCount: basket.getCount,
     ));

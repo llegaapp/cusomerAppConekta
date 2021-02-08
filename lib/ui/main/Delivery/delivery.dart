@@ -929,7 +929,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     list.add(SizedBox(height: 5,));
     
     list.add(_itemTextLine('Cupón','',
-       '-' +basket.makePriceSctring(basket.getCoupons())));  // "Taxes",
+       '-' + basket.makePriceSctring(basket.getCoupons())));  // "Taxes",
     list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(true)),true));  // "Total",
 

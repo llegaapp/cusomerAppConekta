@@ -329,7 +329,9 @@ class FoodsReviews {
 }
 
 class DishesData {
-  String id;
+  String id;         // FoodID
+  String idDetails;  // OrderDetailsID
+  String hashid;     // For use in Cart 
   String name;
   String image;
   double price;
@@ -352,7 +354,7 @@ class DishesData {
   bool delivered;
   int count;
   //
-  DishesData({this.id, this.name, this.published, this.image, this.restaurantName, this.desc, this.ingredients,
+  DishesData({this.id,this.idDetails, this.hashid , this.name, this.published, this.image, this.restaurantName, this.desc, this.ingredients,
       this.nutritions, this.restaurantPhone, this.restaurantMobilePhone, this.extras, this.foodsreviews, this.price, this.restaurant,
       this.category, this.fee, this.percent, this.discountprice,
       this.delivered = false, this.count = 0, this.discount = "",
@@ -378,6 +380,8 @@ class DishesData {
     }
     return DishesData(
       id : json['id'].toString(),
+      idDetails : json['idDetails'].toString(),
+      hashid : json['hashid'].toString(),
       name: json['name'].toString(),
       published: json['published'].toString(),
       restaurant: json['restaurant'].toString(),
@@ -407,6 +411,8 @@ class DishesData {
     fee = item.fee;
     percent = item.percent;
     id = item.id;
+    idDetails = item.idDetails;
+    hashid = item.hashid;
     desc = item.desc;
     restaurantName = item.restaurantName;
     restaurant = item.restaurant;
@@ -431,12 +437,12 @@ class DishesData {
       discPrice = discountprice;
 
     var _text = '{"food": $t, "count": "$count", "foodprice": "$discPrice", "extras": "0", '
-        '"extrascount" : "0", "extrasprice": "0", "foodid": "$id", "extrasid" : "0", "image" : $t2}';
+        '"extrascount" : "0", "extrasprice": "0", "foodid": "$id", "hashid": "$hashid", "extrasid" : "0", "image" : $t2}';
     for (var item in extras){
       if (item.select){
         var t = json.encode(item.name);
         _text = '$_text, {"food": "", "count": "0", "foodprice": "0", "extras": $t, '
-            '"extrascount" : "$count", "extrasprice": "${item.price}", "foodid": "$id", "extrasid" : "${item.id}", '
+            '"extrascount" : "$count", "extrasprice": "${item.price}", "foodid": "$id", "hashid": "$hashid", "extrasid" : "${item.id}", '
             '"image" : ${json.encode(item.image)}}';
       }
     }

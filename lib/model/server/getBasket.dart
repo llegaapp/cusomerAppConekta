@@ -108,6 +108,7 @@ class OrderData {
 
 class OrderDetailsData {
   String id;
+  String hashid;
   String order;
   String food;
   int count;
@@ -120,11 +121,12 @@ class OrderDetailsData {
   String image;
   String category;
 
-  OrderDetailsData({this.id, this.order, this.food, this.count, this.foodprice, this.extras, this.extrascount,
+  OrderDetailsData({this.id, this.hashid, this.order, this.food, this.count, this.foodprice, this.extras, this.extrascount,
     this.extrasprice, this.foodid, this.extrasid, this.image, this.category});
   factory OrderDetailsData.fromJson(Map<String, dynamic> json) {
     return OrderDetailsData(
       id : json['id'].toString(),
+      hashid : json['hashid'].toString(),
       order : json['order'].toString(),
       food : json['food'].toString(),
       count : toInt(json['count'].toString()),

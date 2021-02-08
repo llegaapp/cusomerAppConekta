@@ -3,7 +3,7 @@ import 'package:fooddelivery/config/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-deleteFromBasket(String uid, String orderid, String id, Function() callback, Function(String) callbackError) async {
+deleteFromBasket(String uid, String orderid, String id, String hashid, Function() callback, Function(String) callbackError) async {
 
   try {
     Map<String, String> requestHeaders = {
@@ -12,7 +12,7 @@ deleteFromBasket(String uid, String orderid, String id, Function() callback, Fun
       'Authorization' : "Bearer $uid",
     };
 
-    String body = '{"orderid" : "$orderid", "id": "$id"}';
+    String body = '{"orderid" : "$orderid", "id": "$id", "hashid": "$hashid"}';
 
     dprint('body: $body');
     var url = "${serverPath}deleteFromBasket";

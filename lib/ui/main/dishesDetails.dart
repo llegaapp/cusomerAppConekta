@@ -64,7 +64,7 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
       return route.push(context, "/login");
     //_this.count = _count;
     if (basket.restaurantCheck(_this.restaurant)) {
-      if (basket.dishInBasket(_this.id))
+      if (basket.dishInBasket(_this))
         _scaffoldKey.currentState.showSnackBar(new SnackBar(
           content: new Text(strings.get(131)), // "This food already added to cart",
           duration: Duration(seconds: 3),

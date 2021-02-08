@@ -3,7 +3,7 @@ import 'package:fooddelivery/config/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-setCountInBasket(String uid, String orderid, String foodId, String count, Function() callback, Function(String) callbackError) async {
+setCountInBasket(String uid, String orderid, String foodId, String hashid, String count, Function() callback, Function(String) callbackError) async {
 
   try {
     Map<String, String> requestHeaders = {
@@ -12,7 +12,7 @@ setCountInBasket(String uid, String orderid, String foodId, String count, Functi
       'Authorization' : "Bearer $uid",
     };
 
-    String body = '{"orderid" : "$orderid", "foodid" : "$foodId", "count": "$count"}';
+    String body = '{"orderid" : "$orderid", "foodid" : "$foodId", "hashid" : "$hashid", "count": "$count"}';
 
     dprint('body: $body');
     var url = "${serverPath}setCountInBasket";

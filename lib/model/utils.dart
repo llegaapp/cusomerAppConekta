@@ -107,12 +107,12 @@ validators(String _value, String _type)
     return null;
   }
 
-  String sha1Ticketcode()
+  String sha1Ticketcode( {int limit = 10})
   {
       var now = new DateTime.now();
       var bytes = utf8.encode(now.toString()); // data being hashed
       
       var ticketCode = sha1.convert(bytes);
-      String ticketCode1 = ticketCode.toString().substring(0,10);
+      String ticketCode1 = ticketCode.toString().substring(0,limit);
       return  ticketCode1;
   }

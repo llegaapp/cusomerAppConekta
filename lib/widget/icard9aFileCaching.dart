@@ -22,6 +22,7 @@ class ICard9aFileCaching extends StatefulWidget {
   final Function(String, int) incDec;
   final Function(String) getCount;
   final String id;
+  final String hashid;
   final String heroTag;
   final int count;
   final Color colorProgressBar;
@@ -29,7 +30,7 @@ class ICard9aFileCaching extends StatefulWidget {
   final int shadow;
 
   ICard9aFileCaching({this.color = Colors.grey, this.price = "", this.priceTitleStyle, this.title1 = "", this.title1Style,
-    this.title2Style, this.press, this.id, this.count = 1, this.colorArrows = Colors.black, this.colorBorder = Colors.white,
+    this.title2Style, this.press, this.id, this.hashid, this.count = 1, this.colorArrows = Colors.black, this.colorBorder = Colors.white,
     this.colorProgressBar = Colors.black, this.getCount, this.delete,
     this.image, this.width = 100, this.heroTag, this.incDec, this.height = 120,
     this.radius, this.shadow});
@@ -159,7 +160,7 @@ class ICard9aFileCachingState extends State<ICard9aFileCaching>{
                                   onTap: (){
                                     setState(() {
                                       if (widget.delete != null)
-                                        widget.delete(widget.id);
+                                        widget.delete(widget.hashid);
                                     });
                                   }, // needed
                                 )),
@@ -215,7 +216,7 @@ class ICard9aFileCachingState extends State<ICard9aFileCaching>{
                       onTap: (){
                         setState(() {
                           if (widget.incDec != null)
-                            widget.incDec(widget.id, widget.getCount(widget.id)+1);
+                            widget.incDec(widget.hashid, widget.getCount(widget.hashid)+1);
                         });
                       }, // needed
                     )),
@@ -225,7 +226,7 @@ class ICard9aFileCachingState extends State<ICard9aFileCaching>{
 
           Container(
             margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-            child: Text(widget.getCount(widget.id).toString(),
+            child: Text(widget.getCount(widget.hashid).toString(),
                 textAlign: TextAlign.left,
                 style: _title2Style
             ),
@@ -255,10 +256,10 @@ class ICard9aFileCachingState extends State<ICard9aFileCaching>{
                     child: InkWell(
                       splashColor: Colors.grey[400],
                       onTap: (){
-                        if (widget.getCount(widget.id) > 1) {
+                        if (widget.getCount(widget.hashid) > 1) {
                           setState(() {
                             if (widget.incDec != null)
-                              widget.incDec(widget.id, widget.getCount(widget.id)-1);
+                              widget.incDec(widget.hashid, widget.getCount(widget.hashid)-1);
                           });
                         }
                       }, // needed

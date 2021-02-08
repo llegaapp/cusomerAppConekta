@@ -31,10 +31,14 @@ class Basket{
     basket.clear();
     for (var item in orderdetails){
       if (item.count != 0)
-        basket.add(DishesData(image: item.image,
+        basket.add(
+          DishesData(
+          image: item.image,
           name: item.food,
           price: item.foodprice,
           id: item.foodid,
+          idDetails: item.id,
+          hashid: item.hashid,
           desc: "",
           ingredients: null,
           nutritions: null,
@@ -66,12 +70,49 @@ class Basket{
       return true;
   }
 
-  bool dishInBasket(String id){
+  bool dishInBasket(DishesData dish){
+    bool result = false;
     for (var item in basket)
       if (item.count != 0)
-        if (item.id == id)
-          return true;
-    return false;
+        if (item.id == dish.id){  
+          int i = 0; 
+          int r1 = 0;
+          int r2 = 0;
+           for (var extra in item.extras){ 
+
+            if(dish.extras[i].select){
+              r1++;
+            }
+            if(extra.select){
+              r2++;
+            }
+
+            if(dish.extras[i].select  &&  extra.select) 
+                result = true;
+            else{
+              result = false;
+            }
+
+            if(dish.extras[i].select == false  &&  extra.select == false) 
+                result = true;
+             
+            
+            i++; 
+           }
+
+           if(r1 == 0 && r2 == 0){
+              result = true;
+           }
+
+           if(r1 == item.extras.length && r2 == item.extras.length){
+              result = true;
+           }
+
+           if(result)
+             return true;
+        }
+          
+    return result;
   }
 
 
@@ -92,11 +133,12 @@ class Basket{
   }
 
   delete(DishesData item){
-    deleteFromBasket(account.token, orderid, item.id, () {
+    deleteFromBasket(account.token, orderid, item.id,item.hashid, () {
         }, (String _) {});
   }
 
   add(DishesData item){
+    item.hashid = sha1Ticketcode(limit:14);
     var t = DishesData().from(item);
     basket.add(t);
     restaurant = t.restaurant;
@@ -115,7 +157,7 @@ class Basket{
   deleteFrmBasket(String id){
     DishesData _current;
     for (var d in basket)
-      if (d.id == id) {
+      if (d.hashid == id) {
         delete(d);
         d.count = 0;
         _current = d;
@@ -127,9 +169,9 @@ class Basket{
 
   setCount(String id, int value){
     for (var d in basket)
-      if (d.id == id) {
+      if (d.hashid == id) {
         d.count = value;
-        setCountInBasket(account.token, orderid, d.id, value.toString(), () {
+        setCountInBasket(account.token, orderid, d.id, d.hashid, value.toString(), () {
         }, (String _) {});
         break;
       }
@@ -402,7 +444,7 @@ class Basket{
 
   getCount(String id){
     for (var item in basket)
-      if (item.id == id)
+      if (item.hashid == id)
         if (item.count != 0)
           return item.count;
   }
