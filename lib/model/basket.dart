@@ -71,48 +71,41 @@ class Basket{
   }
 
   bool dishInBasket(DishesData dish){
-    bool result = false;
-    for (var item in basket)
+    
+    for (var item in basket){
       if (item.count != 0)
-        if (item.id == dish.id){  
-          int i = 0; 
-          int r1 = 0;
-          int r2 = 0;
-           for (var extra in item.extras){ 
-
-            if(dish.extras[i].select){
-              r1++;
-            }
-            if(extra.select){
-              r2++;
-            }
-
-            if(dish.extras[i].select  &&  extra.select) 
-                result = true;
-            else{
-              result = false;
-            }
-
-            if(dish.extras[i].select == false  &&  extra.select == false) 
-                result = true;
-             
+        if (item.id == dish.id){   
+           
+          String permutation = '';
+          for (var extra in item.extras)
+          { 
+             if(extra.select)
+               permutation = permutation + '1';
+             else{
+               permutation = permutation + '0';
+             } 
             
-            i++; 
-           }
-
-           if(r1 == 0 && r2 == 0){
-              result = true;
-           }
-
-           if(r1 == item.extras.length && r2 == item.extras.length){
-              result = true;
-           }
-
-           if(result)
-             return true;
-        }
+          }
           
-    return result;
+          String permutation2 = '';
+          for (var extra in dish.extras)
+          { 
+            if(extra.select)
+              permutation2 = permutation2 + '1';
+            else{
+              permutation2 = permutation2 + '0';
+            }      
+          }
+
+          if(permutation == permutation2)
+            return true;
+
+        } 
+     
+    }
+ 
+
+    return false;
   }
 
 
