@@ -1,5 +1,6 @@
 import 'package:fooddelivery/model/dprint.dart';
 import 'package:fooddelivery/config/api.dart';
+import 'package:fooddelivery/model/server/getBasket.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -73,16 +74,32 @@ class OrdersData {
   String image;
   String curbsidePickup;
   String arrived;
+  String tax;
+  String fee;
+  String address;
+  String send;
+  String hint;
+  double couponTotal;
   List<OrderTimes> ordertimes;
+  List<OrderDetailsData> orderdetails;
+  
   OrdersData({this.orderid, this.date, this.status, this.total, this.restaurant,this.ticketCode, this.name, this.image, this.statusName,
-    this.ordertimes, this.curbsidePickup, this.arrived});
+    this.ordertimes, this.curbsidePickup, this.arrived, this.tax, this.fee, this.address, this.send, this.hint, this.couponTotal, this.orderdetails});
   factory OrdersData.fromJson(Map<String, dynamic> json) {
     var _ordertimes;
+    var _orderdetails;
     if (json['ordertimes'] != null){
       var items = json['ordertimes'];
       var t = items.map((f)=> OrderTimes.fromJson(f)).toList();
       _ordertimes = t.cast<OrderTimes>().toList();
     }
+
+    if (json['orderdetails'] != null){
+      var items = json['orderdetails'];
+      var t = items.map((f)=> OrderDetailsData.fromJson(f)).toList();
+      _orderdetails = t.cast<OrderDetailsData>().toList();
+    }
+
     return OrdersData(
         orderid : json['orderid'].toString(),
         date: json['date'].toString(),
@@ -94,8 +111,15 @@ class OrdersData {
         name: json['name'].toString(),
         image: json['image'].toString(),
         ordertimes: _ordertimes,
+        orderdetails: _orderdetails,
         curbsidePickup: (json['curbsidePickup'] != null) ? json['curbsidePickup'].toString() : "false",
         arrived: (json['arrived'] != null) ? json['arrived'].toString() : "false",
+        tax: json['tax'].toString(),
+        fee: json['fee'].toString(),
+        address: json['address'].toString(),
+        send: json['send'].toString(),
+        hint: json['hint'].toString(),
+        couponTotal: toDouble(json['couponTotal'].toString()),
     );
   }
 }

@@ -27,6 +27,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     curbSidePickupArrived(idOrder, account.token, _arrivedSuccess, _arrivedError);
   }
 
+  _moreDetails(String orderDetails){
+    for (var item in _data)
+      if (item.orderid == orderDetails){
+        openDialogOrderDetails(item); 
+      } 
+  }
+
   _arrivedSuccess(){
     _waits(false);
     for (var item in _data)
@@ -218,6 +225,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
           }
         }
         list.add(SizedBox(height: 5,));
+        list.add(_buttonMoreDetails(item.orderid));
+        list.add(SizedBox(height: 5,));
+        
         break;
       }
 
@@ -239,6 +249,28 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               _arrived();
             },
             child: Text(strings.get(203),    // "I've arrived",
+              overflow: TextOverflow.clip,
+              style: theme.text14boldWhite,
+            ),
+          ),
+        ));
+  }
+
+  _buttonMoreDetails(String orderDetails){
+    return Container(
+        alignment: Alignment.center,
+        child: Container(
+          height: 40,
+          child: RaisedButton(
+            elevation: 0,
+            color: theme.colorPrimary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            onPressed: ()  {
+              _moreDetails(orderDetails);
+            },
+            child: Text('Mas detalles',    // "I've arrived",
               overflow: TextOverflow.clip,
               style: theme.text14boldWhite,
             ),
@@ -321,6 +353,175 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     setState(() {
       _show = 1;
     });
+  }
+
+  openDialogOrderDetails(order) {
+    _dialogBody = Column(
+      children: [
+        SizedBox(height: 5,),
+        Text('Detalles de Pago', style: theme.text16Red,),
+        SizedBox(height: 20,),
+
+        Container(
+              padding: EdgeInsets.only(left: 10,right: 10, bottom: 10,top: 10),
+              width:  MediaQuery.of(context).size.width - 35, 
+              decoration: BoxDecoration( 
+                border: Border( 
+                        top: BorderSide( //  <--- top side
+                                color:  Colors.grey[300],
+                                width:  1.0,
+                              ),
+                       
+                        ),
+                      ),
+
+              child: Column(
+                children: _printItemOrderDetails(order),
+                
+              )
+        ),
+
+        SizedBox(height: 5,),
+
+        Container(
+              padding: EdgeInsets.only(left: 10,right: 10, bottom: 10,top: 10),
+              width:  MediaQuery.of(context).size.width - 35, 
+              decoration: BoxDecoration( 
+                border: Border( 
+                        top: BorderSide( //  <--- top side
+                                color:  Colors.grey[300],
+                                width:  1.0,
+                              ),
+                        bottom: BorderSide( //  <--- top side
+                                color:  Colors.grey[300],
+                                width:  1.0,
+                              ),
+                        ),
+                      ),
+
+              child: Column(
+                children: [
+                  _textLineExpanded('Subtotal de Productos','\$' + subTotal(order).toString()),
+                  _textLineExpanded('Gastos de Envío','\$' +order.fee.toString()),
+                  _textLineExpanded('I:V.A', '\$' + getTax(order)),
+                  _textLineExpanded('Cupón','\$' + order.couponTotal.toString()),
+                  _textLineExpanded('Total',"\$" + getTotal(order),pfontWeight:FontWeight.bold),
+                ],
+              )
+        ),
+
+        SizedBox(height: 25,),
+        IButton3(
+            color: theme.colorPrimary,
+            text: strings.get(155),              // Cancel
+            textStyle: theme.text14boldWhite,
+            pressButton: (){
+              setState(() {
+                _show = 0;
+              });
+            }
+        ),
+      ],
+    );
+
+    setState(() {
+      _show = 1;
+    });
+  }
+
+  List<Widget> _printItemOrderDetails(order)
+  {
+        List<Widget> list = [ 
+                  _textLine('Ticket:',order.ticketCode),
+                  _textLine('Método Pago:','PayPal'),
+                  _textLine('Entrega:',order.address),
+                  SizedBox(height:20),
+                ]; 
+
+        for (var item  in order.orderdetails) 
+        {
+            double price = item.foodprice;
+            int count = item.count;
+            String food = item.food;
+            if(item.foodprice  == 0.0){
+              price = double.parse(item.extrasprice);
+              count = int.parse(item.extrascount);
+              food = '  -Extra '+ item.extras;
+            } 
+           
+            double total = count * price;
+            String leftText = food + ' (' + count.toString() + ' x \$' + price.toString() + ')'; 
+            list.add(_textLineExpanded(leftText,'\$'+total.toString()));
+        }
+
+        return list;
+  } 
+
+  double subTotal(order)
+  {
+      double subtotal = 0.0; 
+
+      for (var item  in order.orderdetails) 
+        {
+            double price = item.foodprice;
+            int count = item.count; 
+            if(item.foodprice  == 0.0){
+              price = double.parse(item.extrasprice);
+              count = int.parse(item.extrascount); 
+            } 
+           
+            double total = count * price;
+            subtotal = subtotal + total;
+        }
+
+      return subtotal;
+  }
+
+  String getTax(order)
+  {
+    int tax = int.parse(order.tax);
+    double ptotal = subTotal(order) + double.parse(order.fee);
+    double total = ptotal * (tax/100); 
+    return  total.toStringAsFixed(appSettings.symbolDigits);
+  }
+
+  String getTotal(order)
+  {
+     double total = order.total - order.couponTotal;
+
+     return  total.toStringAsFixed(appSettings.symbolDigits);
+  }
+ 
+
+  Widget _textLine(text1,text2){
+
+    if(text2.toString().isEmpty)
+      text2 = '-';
+
+    return Row(
+      children: [
+        Text(text1,style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+        SizedBox(width:10),
+        Text(text2),
+      ],
+    );
+  }
+
+  Widget _textLineExpanded(text1,text2,{pfontWeight = FontWeight.normal}){
+
+    if(text2.toString().isEmpty)
+      text2 = '-';
+
+    return Padding(
+      padding: const EdgeInsets.only(top:2.0),
+      child: Row(
+        children: [ 
+          Text(text1,style: TextStyle(color: Colors.black, fontWeight: pfontWeight),),
+          Expanded(child: SizedBox(width:10),),
+          Text(text2),
+        ],
+      ),
+    );
   }
 
 }
