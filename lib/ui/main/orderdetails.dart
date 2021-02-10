@@ -404,7 +404,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   _textLineExpanded('Subtotal de Productos','\$' + subTotal(order).toString()),
                   _textLineExpanded('Gastos de Envío','\$' +order.fee.toString()),
                   _textLineExpanded('I:V.A', '\$' + getTax(order)),
-                  _textLineExpanded('Cupón','\$' + order.couponTotal.toString()),
+                  _textLineExpanded('Cupón','-\$' + order.couponTotal.toString(),pcolor2: Colors.red),
                   _textLineExpanded('Total',"\$" + getTotal(order),pfontWeight:FontWeight.bold),
                 ],
               )
@@ -433,8 +433,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   {
         List<Widget> list = [ 
                   _textLine('Ticket:',order.ticketCode),
-                  _textLine('Método Pago:','PayPal'),
+                  _textLine('Método Pago:',order.method),
                   _textLine('Entrega:',order.address),
+                  _textLine('Fecha:',order.date),
                   SizedBox(height:20),
                 ]; 
 
@@ -487,7 +488,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   String getTotal(order)
   {
-     double total = order.total - order.couponTotal;
+     double total = order.total;
 
      return  total.toStringAsFixed(appSettings.symbolDigits);
   }
@@ -507,7 +508,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     );
   }
 
-  Widget _textLineExpanded(text1,text2,{pfontWeight = FontWeight.normal}){
+  Widget _textLineExpanded(text1,text2,{pfontWeight = FontWeight.normal, pcolor1 = Colors.black,pcolor2 = Colors.black}){
 
     if(text2.toString().isEmpty)
       text2 = '-';
@@ -516,9 +517,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       padding: const EdgeInsets.only(top:2.0),
       child: Row(
         children: [ 
-          Text(text1,style: TextStyle(color: Colors.black, fontWeight: pfontWeight),),
+          Text(text1,style: TextStyle(color: pcolor1, fontWeight: pfontWeight),),
           Expanded(child: SizedBox(width:10),),
-          Text(text2),
+          Text(text2,style: TextStyle(color: pcolor2, fontWeight: pfontWeight),),
         ],
       ),
     );

@@ -21,6 +21,8 @@ import 'package:fooddelivery/widget/iinkwell.dart';
 import 'package:fooddelivery/widget/iinputField2.dart';
 
 String couponName = "";
+String couponTotal = "0.0";
+
 var walletId = "";
 
 class DeliveryScreen extends StatefulWidget {
@@ -911,7 +913,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
 
     var list = List<Widget>();
     var t2 = basket.getSubTotal(true);
-    var t = basket.getSubTotal(false);
+    //var t = basket.getSubTotal(false);
 
     list.add(SizedBox(height: 5,));
     if (basket.couponComment.isNotEmpty)
@@ -927,9 +929,8 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(95),basket.makePriceSctring(basket.getTaxes(true)),false));  // "Taxes",
     list.add(SizedBox(height: 5,));
-    
-    list.add(_itemTextLine('Cupón','',
-       '-' + basket.makePriceSctring(basket.getCoupons())));  // "Taxes",
+    couponTotal =  basket.getCoupons().toString();
+    list.add(_itemTextLine('Cupón','','-' + basket.makePriceSctring(basket.getCoupons())));  // "Cupon",
     list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(true)),true));  // "Total",
 

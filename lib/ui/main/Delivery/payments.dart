@@ -132,7 +132,7 @@ _onSuccess(String id,String ticketCode){
   var hint = pref.get(Pref.deliveryHint);
   var lat = pref.get(Pref.deliveryLatitude);
   var lng = pref.get(Pref.deliveryLongitude);
-  basket.createOrder(id, addr, phone, hint, lat, lng, curbsidePickup, couponName, ticketCode, _openDialog, _onError);
+  basket.createOrder(id, addr, phone, hint, lat, lng, curbsidePickup, couponName,couponTotal, ticketCode, _openDialog, _onError);
 }
 
 _onSuccessWallet(String id,String ticketCode){
@@ -144,7 +144,7 @@ _onSuccessWallet(String id,String ticketCode){
   var hint = pref.get(Pref.deliveryHint);
   var lat = pref.get(Pref.deliveryLatitude);
   var lng = pref.get(Pref.deliveryLongitude);
-  basket.createOrder("wallet#$id", addr, phone, hint, lat, lng, curbsidePickup, couponName,ticketCode, _openDialog, _onError);
+  basket.createOrder("wallet#$id", addr, phone, hint, lat, lng, curbsidePickup, couponName,couponTotal,ticketCode, _openDialog, _onError);
 }
 
 _onError(String err){

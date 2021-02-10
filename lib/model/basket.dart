@@ -137,7 +137,7 @@ class Basket{
     restaurant = t.restaurant;
     String ticketCode = sha1Ticketcode();
     addToBasket(basket, account.token, '10', "hint", restaurant, "Cash on Delivery", "0", "0",
-        "", "",  0.0, "0.0", "0.0", "false", "",ticketCode,
+        "", "",  0.0, "0.0", "0.0", "false", "", "0.0",ticketCode,
         (String id, String _fee, String percent) {
           fee = double.parse(_fee);
           _percentage = percent;
@@ -415,7 +415,7 @@ class Basket{
 
   String _paymentid = "";
   createOrder(String id, String addr, String phone, String hint, String lat, String lng, String curbsidePickup,
-      String couponName,String pticketCode,
+      String couponName,String couponTotal,String pticketCode,
       Function() _success, Function(String) _error){
     _paymentid = id;
     for (var item in basket)
@@ -423,7 +423,7 @@ class Basket{
       basketReset(account.token, (){
       var _total = getTotal(true);
       addToBasket(basket, account.token, taxes.toString(), hint, restaurant, _paymentid, "0", "1", addr, phone,
-          _total, lat, lng, curbsidePickup, couponName, pticketCode,
+          _total, lat, lng, curbsidePickup, couponName,couponTotal, pticketCode,
               (String id, String _fee, String percent) {
             fee = double.parse(_fee);
             _percentage = percent;

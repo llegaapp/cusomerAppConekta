@@ -79,12 +79,13 @@ class OrdersData {
   String address;
   String send;
   String hint;
+  String method;
   double couponTotal;
   List<OrderTimes> ordertimes;
   List<OrderDetailsData> orderdetails;
   
   OrdersData({this.orderid, this.date, this.status, this.total, this.restaurant,this.ticketCode, this.name, this.image, this.statusName,
-    this.ordertimes, this.curbsidePickup, this.arrived, this.tax, this.fee, this.address, this.send, this.hint, this.couponTotal, this.orderdetails});
+    this.ordertimes, this.curbsidePickup, this.arrived, this.tax, this.fee, this.address, this.send, this.hint, this.method, this.couponTotal, this.orderdetails});
   factory OrdersData.fromJson(Map<String, dynamic> json) {
     var _ordertimes;
     var _orderdetails;
@@ -119,6 +120,7 @@ class OrdersData {
         address: json['address'].toString(),
         send: json['send'].toString(),
         hint: json['hint'].toString(),
+        method: json['method'].toString(),
         couponTotal: toDouble(json['couponTotal'].toString()),
     );
   }

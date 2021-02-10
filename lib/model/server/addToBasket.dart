@@ -7,7 +7,7 @@ import 'mainwindowdata.dart';
 
 addToBasket(List<DishesData> basket, String uid, String tax, String hint, String restaurant, String method,  // method = Cash on Delivery
     String fee, String send, String address, String phone, double total, String lat, String lng, String curbsidePickup,
-    String couponName,String ticketCode,
+    String couponName,String couponTotal,String ticketCode,
     Function(String id, String, String) callback, Function(String) callbackError) async {
 
   try {
@@ -30,7 +30,7 @@ addToBasket(List<DishesData> basket, String uid, String tax, String hint, String
 
     var _total = total.toStringAsFixed(2).toString();
     String body = '{"total": "$_total", "address": ${json.encode(address)}, "phone": "$phone", "pstatus": "Waiting for client", '
-        '"lat" : "$lat", "lng" : "$lng", "curbsidePickup" : "$curbsidePickup", '
+        '"lat" : "$lat", "lng" : "$lng", "curbsidePickup" : "$curbsidePickup", "couponTotal" : ${json.encode(couponTotal)},'
         '"send": "$send", "tax": "$tax", "hint": ${json.encode(hint)}, "couponName" : ${json.encode(couponName)},"ticketCode" : "$ticketCode", "restaurant": ${json.encode(restaurant)}, '
         '"method": "$method", "fee": "$fee", "data": $data}';
 
