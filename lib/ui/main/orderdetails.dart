@@ -11,6 +11,7 @@ import 'package:fooddelivery/widget/easyDialog2.dart';
 import 'package:fooddelivery/widget/iCard14FileCaching.dart';
 import 'package:fooddelivery/widget/ibutton3.dart';
 import 'package:fooddelivery/widget/widgets.dart';
+import 'package:intl/intl.dart' as myintl;
 
 class OrderDetailsScreen extends StatefulWidget {
   final Function(String) onBack;
@@ -214,17 +215,25 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
           //list.add(_itemTextPastOrder("${strings.get(196)}", "", true)); // Canceled
         }else{
           if (item.curbsidePickup == "true"){
+
+             var datenow = _getStatusTime(item.ordertimes, 12);
+             if (datenow.isEmpty){
+                DateTime now = new DateTime.now();
+                datenow = myintl.DateFormat('yyyy-MM-dd – kk:mm').format(now);
+             }
+                  
+
             list.add(SizedBox(height: 25,));
             if (item.arrived == "true"){
               list.add(Container(
                 alignment: Alignment.center,
-                child: Text(strings.get(204), style: theme.text18bold,),
+                child: Text(strings.get(204) + ' ' + datenow.toString(), style: theme.text12bold,),
               )); // "Notification send...",
             }else
               list.add(_buttonIveArrived());
           }
         }
-        list.add(SizedBox(height: 5,));
+        list.add(SizedBox(height: 15,));
         list.add(_buttonMoreDetails(item.orderid));
         list.add(SizedBox(height: 5,));
         
@@ -431,10 +440,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   List<Widget> _printItemOrderDetails(order)
   {
+      String delivery = 'Recogida en el Restaurante.';
+      if(order.curbsidePickup.toString() == 'false')
+          delivery = order.address;
+
+      
         List<Widget> list = [ 
                   _textLine('Ticket:',order.ticketCode),
                   _textLine('Método Pago:',order.method),
-                  _textLine('Entrega:',order.address),
+                  _textLine('Entrega:',delivery),
                   _textLine('Fecha:',order.date),
                   SizedBox(height:20),
                 ]; 

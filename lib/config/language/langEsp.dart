@@ -198,7 +198,7 @@ Map<int, String> langEsp = {
       "cuando llegue al lugar de recogida, abra la aplicación. Abra \" Mis pedidos \"y toque en\" Pedido \"para ver los detalles"
       "Haga clic en el botón \" Llegué \"",
   203: "He llegado",
-  204: "Envío de notificación ...",
+  204: "El cliente ha llegado a recoger",
   205: "Chat",
   206: "Billetera",
   207: "Recarga y disfruta de estos beneficios",

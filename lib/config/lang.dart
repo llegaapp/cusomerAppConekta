@@ -244,7 +244,7 @@ class Lang {
         "when you arrive at the pickup location open application. Open \"My Orders\" and tap on \"Order\" for view details. "
         "Click button \"I've arrived\"",
     203 : "I've arrived",
-    204 : "Notification send...",
+    204 : "The customer has come to collect the order",
     205 : "Chat",
     206 : "Wallet",
     207 : "Top up and enjoy these benefits",
