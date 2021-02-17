@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>958782086482-ii2i824f2vnh5blganc66ispk9tdp38o.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.958782086482-ii2i824f2vnh5blganc66ispk9tdp38o</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>958782086482-bdtb2ni2b3n078avue6h8jejo6smvmmo.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAGnAqraMLJXY9zuGKVMZWT0uIQb3cjP_k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>958782086482</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>net.llega.customer</string>
+	<key>PROJECT_ID</key>
+	<string>llega04-36ba0</string>
+	<key>STORAGE_BUCKET</key>
+	<string>llega04-36ba0.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:958782086482:ios:da506ae7d8c7a6f69b6e8b</string>
+</dict>
+</plist>
