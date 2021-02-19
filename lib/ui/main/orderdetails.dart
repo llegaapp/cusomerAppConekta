@@ -110,9 +110,18 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, top: MediaQuery.of(context).padding.top+40),
               child: Container(
-                child: ListView(
-                  padding: EdgeInsets.only(top: 0),
-                  children: _body(),
+                child: RefreshIndicator(
+                  displacement: 200, 
+                 onRefresh: () async { 
+                   _data = [];
+                   await ordersData.init(_success, _onError);
+                   await Future.delayed(Duration(seconds: 1));
+                     setState(() { }); 
+                  },
+                  child: ListView(
+                    padding: EdgeInsets.only(top: 0),
+                    children: _body(),
+                  ),
                 ),
               ),
             ),

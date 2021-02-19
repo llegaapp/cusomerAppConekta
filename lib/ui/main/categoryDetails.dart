@@ -205,9 +205,16 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> with Sing
 
   _body() {
     return Container(
-      child: ListView(
-        padding: EdgeInsets.only(top: 0),
-        children: _children(),
+      child: RefreshIndicator(
+        onRefresh: () async {
+                     setState(() {
+                      // initState();
+                     });
+                  },
+              child: ListView(
+          padding: EdgeInsets.only(top: 0),
+          children: _children(),
+        ),
       ),
     );
   }

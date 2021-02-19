@@ -79,11 +79,18 @@ class HomeScreenModel{
     pref.set(Pref.bottomBarType, appSettings.bottomBarType);
   }
 
-  load(Function() callback, Function(String) callbackError){
+  load(Function() callback, Function(String) callbackError, {reload = false}){
     _callbackError = callbackError;
     _callback = callback;
+
+    if(reload == true){
+      _init = false;
+      mainWindowData = null;
+    }
+      
     if (mainWindowData != null)
-      return _dataLoad(mainWindowData);
+        return _dataLoad(mainWindowData);
+
     _mainWindowDataServerApi.get(_dataLoad, _error);
     loadSecondStep(_secondDataLoad, _error);
   }

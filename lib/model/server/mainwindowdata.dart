@@ -606,6 +606,12 @@ class AppSettings {
   String googleLogin;
   String facebookLogin;
 
+  //Social Media
+  String facebookText;
+  String instagramText;
+  String twitterText;
+  String websiteText;
+
   AppSettings({
     this.currency,
     this.darkMode = "false",
@@ -679,6 +685,12 @@ class AppSettings {
     //
     this.googleLogin,
     this.facebookLogin,
+
+    //Social Media
+    this.facebookText,
+    this.instagramText,
+    this.twitterText,
+    this.websiteText,
   });
 
   factory AppSettings.fromJson(Map<String, dynamic> json) {
@@ -768,6 +780,13 @@ class AppSettings {
       //
       googleLogin : (json['googleLogin_ca'] == null) ? "true" : json['googleLogin_ca'].toString(),
       facebookLogin : (json['facebookLogin_ca'] == null) ? "true" : json['facebookLogin_ca'].toString(),
+
+      // Social Media
+      facebookText : (json['facebook_text'] == null) ? "true" : json['facebook_text'].toString(),
+      instagramText : (json['instagram_text'] == null) ? "true" : json['instagram_text'].toString(),
+      twitterText : (json['twitter_text'] == null) ? "true" : json['twitter_text'].toString(),
+      websiteText : (json['website_text'] == null) ? "true" : json['website_text'].toString(),
+
       // Paris  48.836010 2.331359
       // London 51.511680332118786, -0.12748138132489592
       defaultLat  : (json['defaultLat'] == null) ? 48.836010 : toDouble(json['defaultLat'].toString()),

@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fooddelivery/config/api.dart';
 import 'package:fooddelivery/model/categories.dart';
 import 'package:fooddelivery/model/foods.dart';
 import 'package:fooddelivery/model/homescreenModel.dart';
 import 'package:fooddelivery/ui/main/mainscreen.dart';
 import 'package:fooddelivery/widget/wsearch.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../main.dart';
 import 'ICard21FileCaching.dart';
 
@@ -455,21 +457,28 @@ saleSticker(double width, String dicount, String discountprice, String price){
 
 copyrightBlock(Function(String) callback){
   var list = List<Widget>();
-  list.add(Text(strings.get(69).toUpperCase(), style: theme.text16bold)); // INFORMATION
+  Color iconColor = Color(0xffbc192a); 
+  list.add(Text(strings.get(69).toUpperCase(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: iconColor))); // INFORMATION
   list.add(SizedBox(height: 5,));
+
+   
+  list.add(socialMedia());
 
   if (appSettings.about == "true" && appSettings.aboutTextName != null && appSettings.aboutTextName.isNotEmpty)
     list.add(copyrightItem(appSettings.aboutTextName, 20, callback));
   if (appSettings.delivery == "true" && appSettings.deliveryTextName != null && appSettings.deliveryTextName.isNotEmpty)
     list.add(copyrightItem(appSettings.deliveryTextName, 21, callback));
-  if (appSettings.privacy == "true" && appSettings.privacyTextName != null && appSettings.privacyTextName.isNotEmpty)
-    list.add(copyrightItem(appSettings.privacyTextName, 22, callback));
-  if (appSettings.terms == "true" && appSettings.termsTextName != null && appSettings.termsTextName.isNotEmpty)
-    list.add(copyrightItem(appSettings.termsTextName, 23, callback));
+  
+  
+  list.add(copyTerm(callback));
+
+
   if (appSettings.refund == "true" && appSettings.refundTextName != null && appSettings.refundTextName.isNotEmpty)
     list.add(copyrightItem(appSettings.refundTextName, 24, callback));
 
+
   list.add(SizedBox(height: 10,));
+   
   if (appSettings.copyright == "true" && appSettings.copyrightText != null && appSettings.copyrightText.isNotEmpty)
     list.add(Text(appSettings.copyrightText, style: theme.text14, textAlign: TextAlign.center,));
 
@@ -480,6 +489,65 @@ copyrightBlock(Function(String) callback){
     )
   );
 }
+
+Widget copyTerm(Function(String) callback)
+{
+    var list =  List<Widget>(); 
+    
+    if (appSettings.privacy == "true" && appSettings.privacyTextName != null && appSettings.privacyTextName.isNotEmpty)
+    list.add(copyrightItem(appSettings.privacyTextName, 22, callback));
+    
+    list.add(SizedBox(width:20));
+
+    if (appSettings.terms == "true" && appSettings.termsTextName != null && appSettings.termsTextName.isNotEmpty)
+    list.add(copyrightItem(appSettings.termsTextName, 23, callback));
+    
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children:  list
+    );
+}
+
+Widget socialMedia()
+{
+    var list =  List<Widget>();
+    Color iconColorRed = Color(0xffbc192a); 
+    
+     if (appSettings.websiteText != null && appSettings.websiteText.isNotEmpty)
+      list.add(socialMediaBtn(appSettings.websiteText, new Image.asset('assets/logo.png',color: iconColorRed,)));
+
+    if (appSettings.facebookText != null && appSettings.facebookText.isNotEmpty)
+      list.add(socialMediaBtn(appSettings.facebookText,FaIcon(FontAwesomeIcons.facebook,color: iconColorRed)));
+    
+    if (appSettings.instagramText != null && appSettings.instagramText.isNotEmpty)
+      list.add(socialMediaBtn(appSettings.instagramText, FaIcon(FontAwesomeIcons.instagram,color: iconColorRed)));
+    
+    if (appSettings.twitterText != null && appSettings.twitterText.isNotEmpty)
+      list.add(socialMediaBtn(appSettings.twitterText, FaIcon(FontAwesomeIcons.twitter,color: iconColorRed)));
+    
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children:  list
+    );
+}
+
+
+socialMediaBtn(String link,var icon)
+{
+    return IconButton(
+      // Use the FaIcon Widget + FontAwesomeIcons class for the IconData
+      iconSize: 30,
+      icon: icon, 
+      onPressed: () { 
+         launch(link);
+        }
+     ); 
+     
+}
+
+ 
 
 copyrightItem(String text, int id, Function(String) callback){
   return InkWell(
