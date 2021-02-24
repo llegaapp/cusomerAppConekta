@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/main.dart';
 
 //
 // 02.10.2020 rtl
@@ -19,6 +20,7 @@ class ICard20FileCaching extends StatefulWidget {
   final String image;
   final Color colorRoute;
   final String id;
+  final bool active;
   final TextStyle title;
   final TextStyle body;
   final Function(String id, String hero, String) callback;
@@ -28,7 +30,7 @@ class ICard20FileCaching extends StatefulWidget {
 
   ICard20FileCaching({this.color = Colors.white, this.width = 100, this.height = 100, this.colorProgressBar = Colors.black,
     this.text = "", this.text2 = "", this.image = "", this.colorRoute = Colors.black,
-    this.id = "", this.title, this.body, this.callback, this.callbackNavigateIcon,
+    this.id = "", this.active = true, this.title, this.body, this.callback, this.callbackNavigateIcon,
     this.text3 = "", this.direction,
     this.radius, this.shadow,
   });
@@ -44,9 +46,21 @@ class _ICard20FileCachingState extends State<ICard20FileCaching>{
 
   @override
   Widget build(BuildContext context) {
-    var _id = UniqueKey().toString();
+    
     if (widget.title != null)
       _titleStyle = widget.title;
+    var colorFilter;
+
+    if(widget.active == false){
+        _titleStyle = TextStyle(fontSize: 16, color: theme.colorOfRestaurant, fontWeight: FontWeight.bold); 
+        colorFilter = ColorFilter.mode(Colors.grey, BlendMode.color);
+    }else{
+      colorFilter= null;
+    }
+        
+
+    var _id = UniqueKey().toString();
+    
     if (widget.body != null)
       _bodyStyle = widget.body;
     return Container(
@@ -90,6 +104,7 @@ class _ICard20FileCachingState extends State<ICard20FileCaching>{
                                   imageBuilder: (context, imageProvider) => Container(
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
+                                        colorFilter: colorFilter,
                                         image: imageProvider,
                                         fit: BoxFit.cover,
                                       ),
@@ -130,7 +145,7 @@ class _ICard20FileCachingState extends State<ICard20FileCaching>{
                                   Container(
                                       height: 30,
                                       width: 30,
-                                      child: _route()
+                                      child: _route(widget.active)
                                   ),
 
                                 ],
@@ -169,12 +184,19 @@ class _ICard20FileCachingState extends State<ICard20FileCaching>{
     );
   }
 
-  _route(){
+  _route(bool active){
+
+    Widget imageroute =  Image.asset("assets/route.png",
+          fit: BoxFit.cover, color: widget.colorRoute,
+        );
+
+    if(active == false)
+       imageroute = Icon(Icons.visibility_off_outlined);
+    
+
     return Stack(
       children: <Widget>[
-        Image.asset("assets/route.png",
-          fit: BoxFit.cover, color: widget.colorRoute,
-        ),
+        imageroute,
         Positioned.fill(
           child: Material(
               color: Colors.transparent,

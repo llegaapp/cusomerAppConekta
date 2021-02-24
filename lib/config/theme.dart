@@ -28,6 +28,8 @@ class AppThemeData{
   Color colorDarkModeLight = Color.fromARGB(255, 40, 40, 40); // for dialog background in dark mode
   //
 
+   Color colorOfRestaurant = Color(0xff505050);
+
   TextStyle text12grey;
   TextStyle text12bold;
   TextStyle text12Ubold;

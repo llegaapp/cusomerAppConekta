@@ -179,7 +179,7 @@ class _AddressScreenState extends State<AddressScreen> {
 
     list.add(Container(
         margin: EdgeInsets.only(left: 10, right: 10),
-      child: Text(strings.get(184), style: theme.text18bold, textAlign: TextAlign.center,), // "Select Address",
+      child: Text('strings.get(184)', style: theme.text18bold, textAlign: TextAlign.center,), // "Select Address",
     ));
     list.add(SizedBox(height: 15,));
     list.add(Container(height: 1, color: theme.colorGrey,));

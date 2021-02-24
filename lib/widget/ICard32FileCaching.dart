@@ -17,6 +17,7 @@ class ICard32FileCaching extends StatefulWidget {
   final String text3;
   final String image;
   final String id;
+  final bool active;
   final TextStyle textStyle;
   final TextStyle textStyle2;
   final TextStyle textStyle3;
@@ -31,7 +32,7 @@ class ICard32FileCaching extends StatefulWidget {
 
   ICard32FileCaching({this.color = Colors.white, this.width = 100, this.height = 100,
     this.text = "", this.image = "", this.textStyle2, this.price = "", this.getFavoriteState, this.revertFavoriteState,
-    this.id = "", this.textStyle, this.callback, this.colorProgressBar = Colors.black, this.enableFavorites = true,
+    this.id = "", this.active=true, this.textStyle, this.callback, this.colorProgressBar = Colors.black, this.enableFavorites = true,
     this.text3 = "", this.textStyle3, this.onAddToCartClick,
     this.radius, this.shadow, this.discountprice, this.dicount
   });
@@ -73,6 +74,7 @@ class _ICard32FileCachingState extends State<ICard32FileCaching>{
                   ],
                 )
             ),
+            
             Positioned.fill(
               child: Material(
                   color: Colors.transparent,
@@ -141,10 +143,35 @@ class _ICard32FileCachingState extends State<ICard32FileCaching>{
                   )
               ),
 
+              if(widget.active == false)(
+                
+                ClipRRect(
+                          borderRadius: new BorderRadius.only(bottomLeft: Radius.circular(widget.radius-2), bottomRight: Radius.circular(widget.radius-2)),
+                          
+                child:Container( 
+                  color: Color(0x77a7a7a7),
+                  width: widget.width+10,
+                       
+                        padding: EdgeInsets.only(left: 5, right: 5),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.visibility_off_rounded, color: Colors.white, size: 30,),
+                        Text('No disponible', style: theme.text14boldWhiteShadow),
+                      ],
+                    ),
+                  ),
+                ) )
+              ),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Expanded(child: Container()),
+                  
+                  if(widget.active == true)
                   InkWell(
                     onTap: () {
                       widget.onAddToCartClick(widget.id);
@@ -167,6 +194,7 @@ class _ICard32FileCachingState extends State<ICard32FileCaching>{
                             )
                         )),
                   )),
+                  
                   InkWell(
                       onTap: () {
                         if (widget.callback != null)

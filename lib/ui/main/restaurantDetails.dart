@@ -375,6 +375,14 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> with 
   }
 
   _imageBuild(){
+    /*var colorFilter;
+
+    if(_this.restaurant.onlineActive == false){ 
+        colorFilter = ColorFilter.mode(Colors.grey, BlendMode.color);
+    }else{
+      colorFilter= null;
+    }*/
+
       return Stack(
           children: [
           if (_imageRestaurant != null)
@@ -389,6 +397,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> with 
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
+                        //colorFilter: colorFilter,
                         image: imageProvider,
                         fit: BoxFit.cover,
                       ),
@@ -400,6 +409,28 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> with 
           )
         ),
 
+        if (_this != null && _this.restaurant != null)
+        if ( _this.restaurant.onlineActive == false)(
+           Positioned(
+             bottom: 0,
+             left: 0,
+             child: Container(
+               color: Colors.grey[800],
+               height: 40,
+               width: MediaQuery.of(context).size.width,
+               child: Center(child: Row(
+                 crossAxisAlignment: CrossAxisAlignment.center,
+                 mainAxisAlignment: MainAxisAlignment.center,
+                 children: [
+                   Icon(Icons.visibility_off_rounded,color: Colors.white,),
+                   SizedBox(width: 20,),
+                   Text('Negocio fuera de línea', style: TextStyle(fontSize: 22,color: Colors.white, fontWeight: FontWeight.bold ),),
+                 ],
+               )),
+             ),
+           )
+        ),
+
         if (_wait)(
             Container(
               color: Color(0x80000000),
@@ -407,7 +438,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> with 
               height: windowHeight,
             )),
 
-          ]);
+        ]);
   }
 
   _phone(){

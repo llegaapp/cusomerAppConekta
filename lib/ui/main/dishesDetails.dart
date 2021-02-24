@@ -205,6 +205,7 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
                   child: _body(),
                 ),
 
+                if(_this.active == true)(
                 Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
@@ -226,7 +227,7 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
                             ],
                           )
                       )
-                  ),
+                  )),
 
                 IEasyDialog2(setPosition: (double value){_show = value;}, getPosition: () {return _show;}, color: theme.colorGrey,
                     body: _dialogBody, backgroundColor: theme.colorBackground),
@@ -412,6 +413,27 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
                   margin: EdgeInsets.only(left: 10, right: 10, top: MediaQuery.of(context).padding.top+50),
                   child: saleSticker(windowWidth*0.5, _this.discount, basket.makePriceSctring(_this.discountprice), basket.makePriceSctring(_this.price)),
                 ),
+
+              if(_this.active == false)(
+                
+                Container(
+                  width: windowWidth,
+                  color: Color(0x77a7a7a7),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.visibility_off_rounded, color: Colors.white, size: 60,),
+                        Text('No disponible por el momento', style: theme.text14boldWhiteShadow),
+                      ],
+                    ),
+                  ),
+                )
+                  
+              ),
+
+              
               if (account.isAuth())(
               Container(
                 alignment: Alignment.topRight,

@@ -57,8 +57,8 @@ class _DeliveryScreenState extends State<DeliveryScreen>
         return openDialog(strings.get(184)); // "Select Address",
       if (editControllerPhone.text.isEmpty)
         return openDialog(strings.get(185)); // "Enter Phone number",
-      // if (editControllerComments.text.isEmpty)
-      //   return openDialog(strings.get(186)); // "Enter Comments",
+      if (editControllerComments.text.isEmpty)
+          return openDialog(strings.get(186)); // "Enter Comments",
       if (_checkBoxValue && _vehicleType.isEmpty && !_checkBoxValue2)
         return openDialog(strings.get(248)); // "Select Vehicle Type",
       stage = 2;
@@ -560,7 +560,6 @@ class _DeliveryScreenState extends State<DeliveryScreen>
       list.add(SizedBox(height: 10));
 
 
-
     }else {
 
       list.add(Container(
@@ -643,7 +642,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
       ),
     ));
 
-    /*list.add(Container(
+    list.add(Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 15),
       child: IInputField2(hint : strings.get(85),                      // Comments",
         icon : Icons.chat,
@@ -652,7 +651,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
         colorDefaultText: theme.colorDefaultText,
         colorBackground: theme.colorBackgroundDialog,
       ),
-    ));*/
+    ));
 
     var _time = strings.get(219);
     if (_timeArrivedInit)

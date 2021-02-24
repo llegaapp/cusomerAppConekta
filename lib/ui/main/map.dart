@@ -214,6 +214,7 @@ class _MapScreenState extends State<MapScreen> {
       var _dist = _getDistanceText(item);
       list.add(Stack(
         children: [
+          
           ICard20FileCaching(
             shadow: appSettings.shadow,
             radius: appSettings.radius,
@@ -226,6 +227,7 @@ class _MapScreenState extends State<MapScreen> {
             text3: _dist,
             colorRoute: theme.colorPrimary,
             id: item.id,
+            active: item.onlineActive,
             title: theme.text18boldPrimaryUI,
             body: theme.text16UI,
             callback: _onTopRestaurantClick,
@@ -245,7 +247,7 @@ class _MapScreenState extends State<MapScreen> {
               children: [
               Container(
                 margin: EdgeInsets.all(5),
-                child: _route(item.id),
+                child: _route(item.id,item.onlineActive),
               ),
           Checkbox(
               value: item.areaShowOnMap,
@@ -277,11 +279,16 @@ class _MapScreenState extends State<MapScreen> {
   }
 
 
-  _route(String id){
+  _route(String id, bool onlineActive){
+    
+    Color color = theme.colorPrimary;
+    if(onlineActive == false)
+       color = theme.colorOfRestaurant;
+
     return Stack(
       children: <Widget>[
         Image.asset("assets/route.png",
-          fit: BoxFit.cover, color: theme.colorPrimary,
+          fit: BoxFit.cover, color: color,
         ),
         Positioned.fill(
           child: Material(
@@ -298,6 +305,7 @@ class _MapScreenState extends State<MapScreen> {
       ],
     );
   }
+   
 
   _addMarkers(){
     for (var item in nearYourRestaurants) {
@@ -314,14 +322,20 @@ class _MapScreenState extends State<MapScreen> {
   MarkerId _lastMarkerId;
 
   _addMarker(Restaurants item){
+   
+    double alpha = 1.0;
+    if(item.onlineActive == false)
+       alpha  = 0.4;
+
     var _dist = _getDistanceText(item);
     print("add marker ${item.id}");
     var _lastMarkerId2 = MarkerId(item.id);
     if (idRestaurantOnMap == item.id)
       _lastMarkerId = _lastMarkerId2;
     dprint("_lastMarkerId=$_lastMarkerId");
-    final marker = Marker(
+    final marker = Marker( 
           markerId: _lastMarkerId2,
+          alpha: alpha,
           position: LatLng(
               item.lat, item.lng
           ),

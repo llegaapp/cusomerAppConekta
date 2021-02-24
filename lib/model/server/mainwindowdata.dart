@@ -197,6 +197,7 @@ class Restaurants {
   int area;
   double distance;
   bool areaShowOnMap;
+  bool onlineActive;
 
   Restaurants({this.id, this.name, this.address, this.published, this.lat, this.lng, this.image, this.phone, this.mobilephone, this.desc,
     this.openTimeMonday, this.closeTimeMonday,
@@ -205,7 +206,7 @@ class Restaurants {
     this.openTimeThursday, this.closeTimeThursday,
     this.openTimeFriday, this.closeTimeFriday,
     this.openTimeSaturday, this.closeTimeSaturday,
-    this.openTimeSunday, this.closeTimeSunday, this.area, this.distance = 1, this.areaShowOnMap = false
+    this.openTimeSunday, this.closeTimeSunday, this.area, this.distance = 1, this.areaShowOnMap = false, this.onlineActive = true
   });
   factory Restaurants.fromJson(Map<String, dynamic> json) {
 
@@ -244,6 +245,8 @@ class Restaurants {
       openTimeSunday: json['openTimeSunday'].toString(),
       closeTimeSunday: json['closeTimeSunday'].toString(),
       area: toInt(json['area'].toString()),
+      onlineActive: json["active"] == 1 ? true : false,
+      
     );
   }
 
@@ -353,11 +356,12 @@ class DishesData {
   //
   bool delivered;
   int count;
+  bool active;
   //
   DishesData({this.id,this.idDetails, this.hashid , this.name, this.published, this.image, this.restaurantName, this.desc, this.ingredients,
       this.nutritions, this.restaurantPhone, this.restaurantMobilePhone, this.extras, this.foodsreviews, this.price, this.restaurant,
       this.category, this.fee, this.percent, this.discountprice,
-      this.delivered = false, this.count = 0, this.discount = "",
+      this.delivered = false, this.count = 0, this.active = true, this.discount = "",
   });
   factory DishesData.fromJson(Map<String, dynamic> json) {
     var m;
@@ -398,6 +402,7 @@ class DishesData {
       discountprice: toDouble(json['discountprice'].toString()),
       category: json['category'].toString(),
       fee: json['fee'].toString(),
+      active: json['available'] == 1 ? true : false,
       //percent: json['percent'],
       discount: (toDouble(json['discountprice'].toString()) != 0) ?
           "-${((toDouble(json['price'].toString())-toDouble(json['discountprice'].toString()))~/(toDouble(json['price'].toString())/100)).toString()}%" : "",

@@ -117,6 +117,7 @@ _card32item(DishesData item, double windowWidth, double _height, Function(String
     image: "$serverImages${item.image}",
     dicount: item.discount,
     id: item.id,
+    active: item.active,
     price: basket.makePriceSctring(item.price),
     onAddToCartClick: onAddToCartClick,
     discountprice: (item.discountprice != 0) ? basket.makePriceSctring(item.discountprice) : "",
