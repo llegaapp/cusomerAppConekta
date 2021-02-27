@@ -422,7 +422,8 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> with 
                  crossAxisAlignment: CrossAxisAlignment.center,
                  mainAxisAlignment: MainAxisAlignment.center,
                  children: [
-                   Icon(Icons.visibility_off_rounded,color: Colors.white,),
+                   Image(image: AssetImage("assets/officon.png"), height: 50,),
+                   //Icon(Icons.visibility_off_rounded,color: Colors.white,),
                    SizedBox(width: 20,),
                    Text('Negocio fuera de línea', style: TextStyle(fontSize: 22,color: Colors.white, fontWeight: FontWeight.bold ),),
                  ],

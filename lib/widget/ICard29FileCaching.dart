@@ -114,7 +114,7 @@ class _ICard29FileCachingState extends State<ICard29FileCaching>{
                                 ),
                               ),
                               SizedBox(height: 10,),
-                              Text(widget.text, style: _textStyle, textAlign: TextAlign.start, overflow: TextOverflow.ellipsis,),
+                              Text(widget.text, style: _textStyle, textAlign: TextAlign.start,),
                             ]
                         ),
                       ),

@@ -176,10 +176,11 @@ class _AddressScreenState extends State<AddressScreen> {
 
   _getList() {
     var list = List<Widget>();
-
+    
+    String titleHeader = strings.get(184);
     list.add(Container(
         margin: EdgeInsets.only(left: 10, right: 10),
-      child: Text('strings.get(184)', style: theme.text18bold, textAlign: TextAlign.center,), // "Select Address",
+      child: Text(titleHeader, style: theme.text18bold, textAlign: TextAlign.center,), // "Select Address",
     ));
     list.add(SizedBox(height: 15,));
     list.add(Container(height: 1, color: theme.colorGrey,));
@@ -273,7 +274,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 color: theme.colorGrey.withOpacity(0.1),
                 title: _data.text,
                 type: _type,
-                work: (_data.defaultAddress == "true") ? strings.get(287) : "", // default
+                work: (_data.defaultAddress == "true") ? strings.get(287) : "Marcar Prederterminado", // default
                 titleStyle: theme.text14bold,
                 colorProgressBar: Colors.white,
                 text: "${strings.get(279)}: ${_data.lat} ${strings.get(280)} ${_data.lng}", // Latitude - Longitude

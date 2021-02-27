@@ -159,7 +159,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _error(String err){
     _waits(false);
-    widget.onErrorDialogOpen("${strings.get(128)} $err"); // "Something went wrong. ",
+    widget.onErrorDialogOpen("${strings.get(128)}. Revise su conexión a Internet");
+    //widget.onErrorDialogOpen("${strings.get(128)} $err"); // "Something went wrong. ",
   }
 
   @override
@@ -545,6 +546,7 @@ class _HomeScreenState extends State<HomeScreen> {
         image: item.image,
         colorRoute: theme.colorPrimary,
         id: item.id,
+        active: item.onlineActive,
         title: theme.text18boldPrimaryUI,
         body: theme.text16UI,
         callback: _onRestaurantClick,

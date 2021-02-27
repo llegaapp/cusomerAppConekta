@@ -205,7 +205,7 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
                   child: _body(),
                 ),
 
-                if(_this.active == true)(
+                if(_this.active == true && _this.restaurantActive == true)(
                 Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
@@ -389,6 +389,7 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
 
   _imageBuild(){
     dprint("Food -> idHeroes=$idHeroes");
+    print(_this.restaurantActive);
     return Container(
         child: Hero(
           tag: idHeroes,
@@ -412,9 +413,9 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10, top: MediaQuery.of(context).padding.top+50),
                   child: saleSticker(windowWidth*0.5, _this.discount, basket.makePriceSctring(_this.discountprice), basket.makePriceSctring(_this.price)),
-                ),
+                ), 
 
-              if(_this.active == false)(
+              if(_this.active == false || _this.restaurantActive == false)(
                 
                 Container(
                   width: windowWidth,
@@ -424,7 +425,8 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.visibility_off_rounded, color: Colors.white, size: 60,),
+                        Image(image: AssetImage("assets/officon.png"), height: 50,),
+                        //Icon(Icons.visibility_off_rounded, color: Colors.white, size: 60,),
                         Text('No disponible por el momento', style: theme.text14boldWhiteShadow),
                       ],
                     ),

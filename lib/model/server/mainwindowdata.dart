@@ -350,6 +350,7 @@ class DishesData {
   String restaurantName;
   String restaurantPhone;
   String restaurantMobilePhone;
+  bool restaurantActive;
   String category;
   String fee;
   String percent;
@@ -359,7 +360,7 @@ class DishesData {
   bool active;
   //
   DishesData({this.id,this.idDetails, this.hashid , this.name, this.published, this.image, this.restaurantName, this.desc, this.ingredients,
-      this.nutritions, this.restaurantPhone, this.restaurantMobilePhone, this.extras, this.foodsreviews, this.price, this.restaurant,
+      this.nutritions, this.restaurantPhone, this.restaurantMobilePhone, this.restaurantActive, this.extras, this.foodsreviews, this.price, this.restaurant,
       this.category, this.fee, this.percent, this.discountprice,
       this.delivered = false, this.count = 0, this.active = true, this.discount = "",
   });
@@ -398,11 +399,12 @@ class DishesData {
       foodsreviews: d,
       restaurantPhone: json['restaurantPhone'].toString(),
       restaurantMobilePhone: json['restaurantMobilePhone'].toString(),
+      restaurantActive: json['restaurantActive'] == 1 ? true : false,
+      active: json['available'] == 1 ? true : false,
       price: toDouble(json['price'].toString()),
       discountprice: toDouble(json['discountprice'].toString()),
       category: json['category'].toString(),
-      fee: json['fee'].toString(),
-      active: json['available'] == 1 ? true : false,
+      fee: json['fee'].toString(), 
       //percent: json['percent'],
       discount: (toDouble(json['discountprice'].toString()) != 0) ?
           "-${((toDouble(json['price'].toString())-toDouble(json['discountprice'].toString()))~/(toDouble(json['price'].toString())/100)).toString()}%" : "",
@@ -423,6 +425,7 @@ class DishesData {
     restaurant = item.restaurant;
     restaurantPhone = item.restaurantPhone;
     restaurantMobilePhone = item.restaurantMobilePhone;
+    restaurantActive = item.restaurantActive;
     price = item.price;
     discountprice = item.discountprice;
     ingredients = item.ingredients;

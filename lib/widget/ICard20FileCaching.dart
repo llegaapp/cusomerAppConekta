@@ -191,7 +191,8 @@ class _ICard20FileCachingState extends State<ICard20FileCaching>{
         );
 
     if(active == false)
-       imageroute = Icon(Icons.visibility_off_outlined);
+       imageroute =Image(image: AssetImage("assets/officon.png"), height: 30, color: Colors.black,);
+       //imageroute = Icon(Icons.visibility_off_outlined);
     
 
     return Stack(

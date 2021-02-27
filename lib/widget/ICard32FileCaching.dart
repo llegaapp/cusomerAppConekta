@@ -158,7 +158,8 @@ class _ICard32FileCachingState extends State<ICard32FileCaching>{
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.visibility_off_rounded, color: Colors.white, size: 30,),
+                        Image(image: AssetImage("assets/officon.png"), height: 50,),
+                        //Icon(Icons.visibility_off_rounded, color: Colors.white, size: 30,),
                         Text('No disponible', style: theme.text14boldWhiteShadow),
                       ],
                     ),

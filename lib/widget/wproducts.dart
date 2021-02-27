@@ -102,6 +102,11 @@ dishList2(List<Widget> list, List<DishesData> _mostPopular, BuildContext context
 
 _card32item(DishesData item, double windowWidth, double _height, Function(String id, String heroId)  _onMostPopularClick,
     Function(String) onAddToCartClick){
+
+  bool enabled = item.active;
+  if(item.restaurantActive == false)
+     enabled = false;
+
   return ICard32FileCaching(
     radius: appSettings.radius,
     shadow: appSettings.shadow,
@@ -117,7 +122,7 @@ _card32item(DishesData item, double windowWidth, double _height, Function(String
     image: "$serverImages${item.image}",
     dicount: item.discount,
     id: item.id,
-    active: item.active,
+    active: enabled,
     price: basket.makePriceSctring(item.price),
     onAddToCartClick: onAddToCartClick,
     discountprice: (item.discountprice != 0) ? basket.makePriceSctring(item.discountprice) : "",

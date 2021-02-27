@@ -57,8 +57,8 @@ class _DeliveryScreenState extends State<DeliveryScreen>
         return openDialog(strings.get(184)); // "Select Address",
       if (editControllerPhone.text.isEmpty)
         return openDialog(strings.get(185)); // "Enter Phone number",
-      if (editControllerComments.text.isEmpty)
-          return openDialog(strings.get(186)); // "Enter Comments",
+      /*if (editControllerComments.text.isEmpty)
+          return openDialog(strings.get(186)); // "Enter Comments",*/
       if (_checkBoxValue && _vehicleType.isEmpty && !_checkBoxValue2)
         return openDialog(strings.get(248)); // "Select Vehicle Type",
       stage = 2;
