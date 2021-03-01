@@ -704,11 +704,10 @@ class _MainScreenState extends State<MainScreen>
             textStyle: theme.text14boldWhite,
             pressButton: (){
               /*account.addCallback(this.hashCode.toString(), callback);
-              Future.delayed(Duration(milliseconds: 100), () async {
+                Future.delayed(Duration(milliseconds: 100), () async {
                   await firebaseGetToken();
                 });*/
-              Phoenix.rebirth(context);
-              
+              Phoenix.rebirth(context); 
             }
         ),
 
