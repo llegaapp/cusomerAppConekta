@@ -86,6 +86,7 @@ class HomeScreenModel{
     if(reload == true){
       _init = false;
       mainWindowData = null;
+      _mainWindowDataServerApi = MainWindowDataAPI();
     }
       
     if (mainWindowData != null)

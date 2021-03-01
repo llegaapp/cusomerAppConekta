@@ -47,6 +47,8 @@ dependencies:
   url_launcher: ^5.4.2
   image_picker: ^0.6.7+4
   google_maps_flutter: ^0.5.28+1
+  flutter_phoenix: ^0.1.0
+  
   flutter:
     sdk: flutter
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:fooddelivery/model/account.dart';
 import 'package:fooddelivery/model/homescreenModel.dart';
 import 'package:fooddelivery/model/pref.dart';
@@ -51,7 +52,8 @@ Future<void> main() async {
     if (id.isNotEmpty)
       lid = int.parse(id);
     strings.setLang(lid);  // set default language - English
-    runApp(AppFoodDelivery());
+
+    runApp(Phoenix(child: AppFoodDelivery()));
   });
 
 }
@@ -90,9 +92,9 @@ class AppFoodDelivery  extends StatelessWidget {
       initialRoute: '/splash',
 //      initialRoute: '/paypal2',
       routes: {
-        '/splash': (BuildContext context) => SplashScreen(),
-        '/login': (BuildContext context) => LoginScreen(),
-//        '/paypal2': (BuildContext context) => PayStackPage(),
+        '/splash': (BuildContext context)  => SplashScreen(),
+        '/login': (BuildContext context)   => LoginScreen(),
+//      '/paypal2': (BuildContext context) => PayStackPage(),
 
       },
     );

@@ -159,9 +159,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _error(String err){
     _waits(false);
-    widget.onErrorDialogOpen("${strings.get(128)}. Revise su conexión a Internet");
+    widget.onErrorDialogOpen("Revise su conexión a Internet");
     //widget.onErrorDialogOpen("${strings.get(128)} $err"); // "Something went wrong. ",
   }
+
 
   @override
   void initState() {
@@ -198,19 +199,23 @@ class _HomeScreenState extends State<HomeScreen> {
             margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top+45),
             child: RefreshIndicator(
                   displacement: 200, 
-                 onRefresh: () async { 
-                    
-                   await account.addCallback(this.hashCode.toString(), callback);
+                  onRefresh: () async {  
+                  
+                  //await account.addCallback(this.hashCode.toString(), callback);
                    
                   await homeScreen.load(_dataLoad, _error,reload: true);
-                  await Future.delayed(Duration(seconds: 2));
-                     setState(() { }); 
+                  await Future.delayed(Duration(seconds: 3));
+                  setState(() {
+                    
+                  });
+                  //mainScreenState.onBack("main");
+                 
                   },
-                child: ListView(
-                  padding: EdgeInsets.only(top: 0),
-                  shrinkWrap: true,
-                  children: _children()
-              ),
+                  child: ListView(
+                    padding: EdgeInsets.only(top: 0),
+                    shrinkWrap: true,
+                    children: _children()
+                  ),
             )
         ),
 

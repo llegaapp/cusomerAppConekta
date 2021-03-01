@@ -14,13 +14,14 @@ class ICard35FileCaching extends StatefulWidget {
   final TextStyle textStyle;
   final Color balloonColor;
   final Function(String) callbackDelete;
+  final Function(String) callbackDefault;
   final Function(String) callback;
   final bool selected;
 
   ICard35FileCaching({Key key, this.id, this.color = Colors.grey, this.text = "", this.textStyle, this.title = "",
     this.titleStyle,  this.colorProgressBar = Colors.black, this.type,
     this.balloonColor = Colors.black, this.work = "", this.callback,
-    this.callbackDelete, this.selected,
+    this.callbackDelete, this.callbackDefault, this.selected,
   }) : super(key: key);
 
   @override
@@ -61,6 +62,8 @@ class _ICard35FileCachingState extends State<ICard35FileCaching>{
                   ),
                 child: Text(widget.type, style: theme.text14boldWhite,)
               ),
+
+
               if (widget.work.isNotEmpty)
               Container(
                   padding: EdgeInsets.all(5),
@@ -71,7 +74,65 @@ class _ICard35FileCachingState extends State<ICard35FileCaching>{
                   ),
                   child: Text(widget.work, style: theme.text14boldWhite,)
               ),
-
+              
+              Expanded(child: Container()),
+              
+              //Default Address
+              if (widget.work.isEmpty)(
+                Container(
+                  alignment: Alignment.center,
+                  child: Stack(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: widget.balloonColor.withOpacity(0.2),
+                          borderRadius: new BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                        child: Stack(
+                          children: [
+                            Text('Marcar Prederterminado'),
+                            if (_progress)
+                              UnconstrainedBox(child:
+                              Container(
+                                margin: EdgeInsets.only(top: 3, left: 3),
+                                alignment: Alignment.center,
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(backgroundColor: widget.colorProgressBar, ),
+                              )),
+                          ],
+                        ),
+                      ),
+                      
+                      Container(
+                          width: 180,
+                          height: 40,
+                          
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Material(
+                                color: Colors.transparent,
+                                shape: CircleBorder(),
+                                clipBehavior: Clip.hardEdge,
+                                child: InkWell(
+                                  splashColor: Colors.grey[400],
+                                  onTap: (){
+                                    if (widget.callbackDefault != null && !_progress) {
+                                      setState(() {
+                                        _progress = true;
+                                      });
+                                      widget.callbackDefault(widget.id);
+                                    }
+                                  }, // needed
+                                )),)
+                      )
+                    ],
+                  )
+               )
+              ),
+              
               Expanded(child: Container()),
 
               Container(
@@ -100,6 +161,7 @@ class _ICard35FileCachingState extends State<ICard35FileCaching>{
                           ],
                         ),
                       ),
+                      
                       Container(
                           width: 50,
                           height: 50,

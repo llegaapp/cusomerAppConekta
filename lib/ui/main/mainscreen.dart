@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:fooddelivery/main.dart';
 import 'package:fooddelivery/model/basket.dart';
 import 'package:fooddelivery/model/homescreenModel.dart';
@@ -234,7 +235,7 @@ class _MainScreenState extends State<MainScreen>
           if (_currentPage == 1)
             OrdersScreen(onErrorDialogOpen: _openDialogError, onBack: onBack),
           if (_currentPage == 2)
-            HomeScreen(onErrorDialogOpen: _openDialogError, redraw: (){setState(() {});}, callback: routes, scaffoldKey: _scaffoldKey),
+            HomeScreen(onErrorDialogOpen: _openDialogErrorInternet, redraw: (){setState(() {});}, callback: routes, scaffoldKey: _scaffoldKey),
           if (_currentPage == 3)
             AccountScreen(onDialogOpen: _openDialogs),
           if (_currentPage == 4)
@@ -669,6 +670,49 @@ class _MainScreenState extends State<MainScreen>
       children: [
         Text(_text, style: theme.text14,),
         SizedBox(height: 40,),
+        IButton3(
+            color: theme.colorPrimary,
+            text: strings.get(155),              // Cancel
+            textStyle: theme.text14boldWhite,
+            pressButton: (){
+              setState(() {
+                _show = 0;
+              });
+            }
+        ),
+      ],
+    );
+
+    setState(() {
+      _show = 1;
+    });
+  }
+
+  _openDialogErrorInternet(String _text) {
+    _dialogBody = Column(
+      children: [
+        Image(image: AssetImage('assets/iconllega.png'), height: 210,color: theme.colorPrimary,),
+        SizedBox(height: 0,),
+        Text('¡Oops!', style: TextStyle(fontSize: 32,color: Colors.black, fontWeight: FontWeight.w600),),
+         SizedBox(height: 20,),
+        Text(_text, style: theme.text14,),
+        
+        SizedBox(height: 40,),
+        IButton3(
+            color: theme.colorPrimary,
+            text: 'Volver a intentar',              // Cancel
+            textStyle: theme.text14boldWhite,
+            pressButton: (){
+              /*account.addCallback(this.hashCode.toString(), callback);
+              Future.delayed(Duration(milliseconds: 100), () async {
+                  await firebaseGetToken();
+                });*/
+              Phoenix.rebirth(context);
+              
+            }
+        ),
+
+        SizedBox(height: 20,),
         IButton3(
             color: theme.colorPrimary,
             text: strings.get(155),              // Cancel

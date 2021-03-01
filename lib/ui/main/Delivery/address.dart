@@ -45,6 +45,15 @@ class _AddressScreenState extends State<AddressScreen> {
       setState(() {});
     }, _onError);
   }
+  _editdefaultAddress(String id){
+    print("Default Address item: $id");
+    editdefaultAddress(id, account.token, (List<AddressData> _data) {
+      _waits(false);
+      address = _data;
+      setState(() {});
+    }, _onError);
+  }
+  
 
   _clickAddress(){
     if (editControllerAddress.text.isEmpty)
@@ -228,10 +237,12 @@ class _AddressScreenState extends State<AddressScreen> {
 
     list.add(Container(
       alignment: Alignment.center,
-      child: IButton3(pressButton: _clickAddress,
+      child: IButton3(
+        pressButton: _clickAddress,
         text: strings.get(278),     // "Add Address",
         color: _color,
-        textStyle: theme.text16boldWhite,),
+        textStyle: theme.text16boldWhite,
+        ),
     ),);
 
     list.add(SizedBox(height: 5,));
@@ -274,13 +285,14 @@ class _AddressScreenState extends State<AddressScreen> {
                 color: theme.colorGrey.withOpacity(0.1),
                 title: _data.text,
                 type: _type,
-                work: (_data.defaultAddress == "true") ? strings.get(287) : "Marcar Prederterminado", // default
+                work: (_data.defaultAddress == "true") ? strings.get(287) : "", // default
                 titleStyle: theme.text14bold,
                 colorProgressBar: Colors.white,
                 text: "${strings.get(279)}: ${_data.lat} ${strings.get(280)} ${_data.lng}", // Latitude - Longitude
                 textStyle: theme.text14,
                 balloonColor: theme.colorPrimary,
                 callbackDelete: _dismissAddress,
+                callbackDefault: _editdefaultAddress,
                 callback: _callbackAddress,
                 selected: _data.selected,
             )

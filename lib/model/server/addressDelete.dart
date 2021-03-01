@@ -41,3 +41,43 @@ deleteAddress(String id, String uid, Function(List<AddressData>) callback, Funct
   }
 }
 
+
+
+editdefaultAddress(
+      String idAddress, String uid, Function(List<AddressData>) callback, Function(String) callbackError) async {
+
+  try {
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': "application/json",
+      'Authorization' : "Bearer $uid",
+    };
+
+    var body = json.encoder.convert({
+      'idAddress': '$idAddress', 
+    });
+
+    dprint('body: $body');
+    var url = "${serverPath}editdefaultAddress";
+    var response = await http.post(url, headers: requestHeaders, body: body).timeout(const Duration(seconds: 30));
+
+    dprint("editdefaultAddress");
+    dprint('Response status: ${response.statusCode}');
+    dprint('Response body: ${response.body}');
+
+    if (response.statusCode == 401)
+      return callbackError("401");
+    if (response.statusCode == 200) {
+      var jsonResult = json.decode(response.body);
+      if (jsonResult["error"] == "0") {
+        Response ret = Response.fromJson(jsonResult);
+        callback(ret.address);
+      }else
+        callbackError("error=${jsonResult["error"]}");
+    }else
+      callbackError("statusCode=${response.statusCode}");
+  } catch (ex) {
+    callbackError(ex.toString());
+  }
+}
+
