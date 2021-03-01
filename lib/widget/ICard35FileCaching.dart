@@ -33,6 +33,7 @@ class ICard35FileCaching extends StatefulWidget {
 class _ICard35FileCachingState extends State<ICard35FileCaching>{
 
   var _progress = false;
+  var _progress2 = false;
   @override
   Widget build(BuildContext context) {
     var _color = widget.color;
@@ -89,18 +90,20 @@ class _ICard35FileCachingState extends State<ICard35FileCaching>{
                           color: widget.balloonColor.withOpacity(0.2),
                           borderRadius: new BorderRadius.circular(10),
                         ),
-                        padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                        padding: EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
                         child: Stack(
                           children: [
                             Text('Marcar Prederterminado'),
-                            if (_progress)
+                            if (_progress2)
                               UnconstrainedBox(child:
-                              Container(
-                                margin: EdgeInsets.only(top: 3, left: 3),
-                                alignment: Alignment.center,
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(backgroundColor: widget.colorProgressBar, ),
+                              Center(
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 3, left: 65),
+                                  alignment: Alignment.center,
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(backgroundColor: widget.colorProgressBar, ),
+                                ),
                               )),
                           ],
                         ),
@@ -119,9 +122,9 @@ class _ICard35FileCachingState extends State<ICard35FileCaching>{
                                 child: InkWell(
                                   splashColor: Colors.grey[400],
                                   onTap: (){
-                                    if (widget.callbackDefault != null && !_progress) {
+                                    if (widget.callbackDefault != null && !_progress2) {
                                       setState(() {
-                                        _progress = true;
+                                        _progress2 = true;
                                       });
                                       widget.callbackDefault(widget.id);
                                     }
