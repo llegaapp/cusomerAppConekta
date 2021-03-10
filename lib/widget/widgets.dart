@@ -500,7 +500,7 @@ Widget copyTerm(Function(String) callback)
     list.add(SizedBox(width:20));
 
     if (appSettings.terms == "true" && appSettings.termsTextName != null && appSettings.termsTextName.isNotEmpty)
-    list.add(copyrightItem(appSettings.termsTextName, 23, callback));
+    list.add(copyrightItem(appSettings.termsTextName,  23, callback));
     
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -515,7 +515,7 @@ Widget socialMedia()
     Color iconColorRed = Color(0xffbc192a); 
     
      if (appSettings.websiteText != null && appSettings.websiteText.isNotEmpty)
-      list.add(socialMediaBtn(appSettings.websiteText, new Image.asset('assets/logo.png',color: iconColorRed,)));
+      list.add(socialMediaBtn(appSettings.websiteText, new Image.asset('assets/web.png',color: iconColorRed,)));
 
     if (appSettings.facebookText != null && appSettings.facebookText.isNotEmpty)
       list.add(socialMediaBtn(appSettings.facebookText,FaIcon(FontAwesomeIcons.facebook,color: iconColorRed)));
@@ -572,7 +572,7 @@ copyrightItem(String text, int id, Function(String) callback){
   },
   child: Container(
     margin: EdgeInsets.only(bottom: 5),
-    child: Text(text, style: theme.text14link, textAlign: TextAlign.center)
+    child: Text(text, style: theme.text15link,  textAlign: TextAlign.center)
   ));
 }
 

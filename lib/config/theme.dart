@@ -50,6 +50,7 @@ class AppThemeData{
       decoration: TextDecoration.underline,
       fontSize: 14,
   );
+  TextStyle text15link;
   TextStyle text16;
   TextStyle text16Red;
   TextStyle text16UI;
@@ -164,6 +165,11 @@ class AppThemeData{
       color: Colors.grey,
       fontWeight: FontWeight.w400,
       fontSize: 14,
+    );
+    text15link = TextStyle(
+      color: colorDefaultText,
+      fontWeight: FontWeight.w400,
+      decoration: TextDecoration.underline,
     );
 
     text14boldWhite = TextStyle(
@@ -338,7 +344,7 @@ class AppThemeData{
 // Colors
 //
 var _backgroundColor = Colors.white;
-var _backgroundDarkColor = Colors.black;
+var _backgroundDarkColor = Color(0xFF262626);
 
 
 const MaterialColor white = const MaterialColor(

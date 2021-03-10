@@ -198,18 +198,18 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
             margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top+45),
             child: RefreshIndicator(
-                  displacement: 200, 
-                  onRefresh: () async {  
-                  
+                  displacement: 200,
+                  onRefresh: () async {
+
                   //await account.addCallback(this.hashCode.toString(), callback);
-                   
+
                   await homeScreen.load(_dataLoad, _error,reload: true);
                   await Future.delayed(Duration(seconds: 3));
                   setState(() {
-                    
+
                   });
                   //mainScreenState.onBack("main");
-                 
+
                   },
                   child: ListView(
                     padding: EdgeInsets.only(top: 0),
