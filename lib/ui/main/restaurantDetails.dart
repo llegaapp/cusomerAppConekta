@@ -238,7 +238,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> with 
 
     list.add(Container(
       margin: EdgeInsets.only(left: 20, right: 20),
-      child: IList1(imageAsset: "assets/orders.png", text: (_this != null) ? _this.restaurant.name : "",                // name
+      child: IList1(imageAsset: "assets/logo.png", text: (_this != null) ? _this.restaurant.name : "",                // name
         textStyle: theme.text16bold, imageColor: theme.colorDefaultText),
     ));
 
