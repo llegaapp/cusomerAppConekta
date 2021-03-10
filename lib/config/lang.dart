@@ -34,9 +34,9 @@ class Lang {
   var direction = TextDirection.ltr;
 
   List<LangData> langData = [
-    LangData(name: "Ingles", engName: "English", image: "assets/usa.png", current: false, id: english, direction: TextDirection.ltr),
+    LangData(name: "Inglés", engName: "English", image: "assets/usa.png", current: false, id: english, direction: TextDirection.ltr),
     //LangData(name: "Deutsh", engName: "German", image: "assets/ger.png", current: false, id: german, direction: TextDirection.ltr),
-    LangData(name: "Espanol", engName: "Spanish", image: "assets/esp.png", current: false, id: espanol, direction: TextDirection.ltr),
+    LangData(name: "Español", engName: "Spanish", image: "assets/esp.png", current: false, id: espanol, direction: TextDirection.ltr),
     //LangData(name: "Français", engName: "French", image: "assets/fra.png", current: false, id: french, direction: TextDirection.ltr),
     //LangData(name: "한국어", engName: "Korean", image: "assets/kor.png", current: false, id: korean, direction: TextDirection.ltr),
     //LangData(name: "عربى", engName: "Arabic", image: "assets/arabic.png", current: false, id: arabic, direction: TextDirection.rtl),
