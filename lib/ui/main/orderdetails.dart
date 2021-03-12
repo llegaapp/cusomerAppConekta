@@ -419,26 +419,48 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
               child: Column(
                 children: [
-                  _textLineExpanded('Subtotal de Productos','\$' + subTotal(order).toString()),
-                  _textLineExpanded('Gastos de Envío','\$' +order.fee.toString()),
-                  _textLineExpanded('I:V.A', '\$' + getTax(order)),
-                  _textLineExpanded('Cupón','-\$' + order.couponTotal.toString(),pcolor2: Colors.red),
-                  _textLineExpanded('Total',"\$" + getTotal(order),pfontWeight:FontWeight.bold),
+                  //if(  int.parse( order.fee )==0 ){
+                  _textLineExpandedZero('Subtotal de Productos', subTotal(order).toString()),
+                  _textLineExpandedZero('Gastos de Envío', order.fee.toString()),
+                  _textLineExpandedZero('I:V.A',  getTax(order)),
+                  _textLineExpandedZero('Cupón',order.couponTotal.toString(),pcolor2: Colors.red),
+                  _textLineExpandedZero('Total', getTotal(order),pfontWeight:FontWeight.bold),
+                 // }
                 ],
-              )
+              ),
+
         ),
 
         SizedBox(height: 25,),
-        IButton3(
-            color: theme.colorPrimary,
-            text: strings.get(155),              // Cancel
-            textStyle: theme.text14boldWhite,
-            pressButton: (){
-              setState(() {
-                _show = 0;
-              });
-            }
-        ),
+        Container(
+            width: windowWidth,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    width: windowWidth/2-45,
+                    child: IButton3(
+                      color: theme.colorPrimary,
+                      text: strings.get(288),                  // facturar
+                      textStyle: theme.text14boldWhite,
+
+                    )),
+                SizedBox(width: 10,),
+                Container(
+                    width: windowWidth/2-45,
+                    child: IButton3(
+                        color: theme.colorPrimary,
+                        text: strings.get(155),              // Cancel
+                        textStyle: theme.text14boldWhite,
+                        pressButton: (){
+                          setState(() {
+                            _show = 0;
+                          });
+                        }
+                    )),
+              ],
+            )),
+
       ],
     );
 
@@ -546,6 +568,32 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         ],
       ),
     );
+  }Widget _textLineExpandedZero(text1,text2,{pfontWeight = FontWeight.normal, pcolor1 = Colors.black,pcolor2 = Colors.black}){
+
+  //  if(text2.toString().isEmpty || double.parse( text2 )==0)
+ //     text2 = '-';
+  //  else
+  //    text2 = '\$' +text2;
+    //if(  int.parse( order.fee )==0 ){
+    if(text2.toString().isEmpty || double.parse( text2 )==0){
+
+      return Padding(
+        padding: const EdgeInsets.only(top:2.0),
+        
+      );
+    }else{
+      text2 = '\$' +text2;
+      return Padding(
+        padding: const EdgeInsets.only(top:2.0),
+        child: Row(
+          children: [
+            Text(text1,style: TextStyle(color: pcolor1, fontWeight: pfontWeight),),
+            Expanded(child: SizedBox(width:10),),
+            Text(text2,style: TextStyle(color: pcolor2, fontWeight: pfontWeight),),
+          ],
+        ),
+      );
+    }
   }
 
 }
