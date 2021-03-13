@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/config/api.dart';
 import 'package:fooddelivery/main.dart';
@@ -11,6 +13,8 @@ import 'package:fooddelivery/widget/easyDialog2.dart';
 import 'package:fooddelivery/widget/iCard14FileCaching.dart';
 import 'package:fooddelivery/widget/ibutton3.dart';
 import 'package:fooddelivery/widget/widgets.dart';
+import 'package:fooddelivery/model/utils.dart';
+import 'package:fooddelivery/model/server/facturaOrder.dart';
 import 'package:intl/intl.dart' as myintl;
 
 class OrderDetailsScreen extends StatefulWidget {
@@ -22,6 +26,12 @@ class OrderDetailsScreen extends StatefulWidget {
 }
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
+  final formKey  = GlobalKey<FormState>();
+
+
+  final editControllerRfc = TextEditingController();
+  final editControllerBusinessName = TextEditingController();
+  final editControllerEmail = TextEditingController();
 
   _arrived(){
     _waits(true);
@@ -149,10 +159,19 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
     list.add(SizedBox(height: 20,));
     int _status = 1;
-
+    var colorStatus ;
     for (var item in _data)
       if (item.orderid == idOrder) {
+        var curbsidePickupLbl ='';
+        colorStatus = theme.text16blue;
+        if( item.curbsidePickup=='true') curbsidePickupLbl = strings.get(247);
+        else curbsidePickupLbl = strings.get(311);
         _status = int.parse(item.status);
+        print(item.orderid.toString()+'_status: '+_status.toString());
+
+        if(_status==6)  colorStatus =theme.text16Red;
+       else if(_status==5)  colorStatus =theme.text16Companyon;//si está entregado
+
         list.add(Container(
             child: ICard14FileCaching(
               radius: appSettings.radius,
@@ -161,10 +180,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               heroId: idHeroes,
               color: theme.colorBackground,
               ticketCode: item.ticketCode,
-              text: item.name,
+              text: item.restaurant,
               textStyle: theme.text16bold,
-              text2: item.restaurant,
-              textStyle2: theme.text14,
+              text2: curbsidePickupLbl,
+              textStyle2: theme.text16CompanyonNoBold,
               text3: item.date,
               textStyle3: theme.text14,
               text4: (appSettings.rightSymbol == "false") ? "$_currency${item.total.toStringAsFixed(appSettings.symbolDigits)}" :
@@ -175,7 +194,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               image: "$serverImages${item.image}",
               id: item.orderid,
               text6: item.statusName,
-              textStyle6: theme.text16Companyon,
+              textStyle6: colorStatus,
               text5: "${strings.get(195)}${item.orderid}", // Id #
               textStyle5: theme.text16bold,
 
@@ -288,7 +307,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             onPressed: ()  {
               _moreDetails(orderDetails);
             },
-            child: Text('Mas detalles',    // "I've arrived",
+            child: Text(strings.get(302),    // "I've arrived",
               overflow: TextOverflow.clip,
               style: theme.text14boldWhite,
             ),
@@ -377,35 +396,40 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     _dialogBody = Column(
       children: [
         SizedBox(height: 5,),
-        Text('Detalles de Pago', style: theme.text16Red,),
+        Text( strings.get(295), style: theme.text16Red,),
         SizedBox(height: 20,),
 
         Container(
               padding: EdgeInsets.only(left: 10,right: 10, bottom: 10,top: 10),
-              width:  MediaQuery.of(context).size.width - 35, 
-              decoration: BoxDecoration( 
-                border: Border( 
+              width:  MediaQuery.of(context).size.width - 35,
+              height: (MediaQuery.of(context).size.height / 2) - 50,
+
+              decoration: BoxDecoration(
+                border: Border(
                         top: BorderSide( //  <--- top side
                                 color:  Colors.grey[300],
                                 width:  1.0,
                               ),
-                       
+
                         ),
                       ),
 
-              child: Column(
-                children: _printItemOrderDetails(order),
-                
-              )
+
+               child: SingleChildScrollView(
+                  child:Column(
+                    children: _printItemOrderDetails(order),
+              ),
+
+            ),
         ),
 
         SizedBox(height: 5,),
 
         Container(
               padding: EdgeInsets.only(left: 10,right: 10, bottom: 10,top: 10),
-              width:  MediaQuery.of(context).size.width - 35, 
-              decoration: BoxDecoration( 
-                border: Border( 
+              width:  MediaQuery.of(context).size.width - 35,
+              decoration: BoxDecoration(
+                border: Border(
                         top: BorderSide( //  <--- top side
                                 color:  Colors.grey[300],
                                 width:  1.0,
@@ -420,16 +444,119 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               child: Column(
                 children: [
                   //if(  int.parse( order.fee )==0 ){
-                  _textLineExpandedZero('Subtotal de Productos', subTotal(order).toString()),
-                  _textLineExpandedZero('Gastos de Envío', order.fee.toString()),
-                  _textLineExpandedZero('I:V.A',  getTax(order)),
-                  _textLineExpandedZero('Cupón',order.couponTotal.toString(),pcolor2: Colors.red),
+                  _textLineExpandedZero(strings.get(93), subTotal(order).toString()),//subtotal de productos
+                  _textLineExpandedZero(strings.get(94), order.fee.toString()),//gastos de envío
+                  _textLineExpandedZero(strings.get(95),  getTax(order)),//impuestos de productos
+                  _textLineExpandedZero(strings.get(312),  getTax(order)),//impuestos de productos
+                  _textLineExpandedZero(strings.get(258),order.couponTotal.toString(),pcolor2: Colors.red),//cupones
                   _textLineExpandedZero('Total', getTotal(order),pfontWeight:FontWeight.bold),
                  // }
                 ],
               ),
 
         ),
+
+        SizedBox(height: 25,),
+        facturarBottons(order),
+
+      ],
+    );
+
+    setState(() {
+      _show = 1;
+    });
+  }
+  facturarBottons(order) {
+    int _status = int.parse(order.status);
+    if( _status==5 ){//si está entregado se factura
+      return Container(
+          width: windowWidth,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  width: windowWidth/2-45,
+                  child: IButton3(
+                      color: theme.colorPrimary,
+                      text: strings.get(288),                  // facturar
+                      textStyle: theme.text14boldWhite,
+                      pressButton: (){
+                        openDialogOrderDetailsFactura( order );
+                      }
+
+                  )),
+              SizedBox(width: 10,),
+              Container(
+                  width: windowWidth/2-45,
+                  child: IButton3(
+                      color: theme.colorPrimary,
+                      text: strings.get(155),              // Cancel
+                      textStyle: theme.text14boldWhite,
+                      pressButton: (){
+                        setState(() {
+                          _show = 0;
+                        });
+                      }
+                  )),
+            ],
+          ));
+
+    }else{//si está cancelado o sin entregar no se factura
+      return Container(
+          width: windowWidth,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+
+              Container(
+                  width: windowWidth/2-45,
+                  child: IButton3(
+                      color: theme.colorPrimary,
+                      text: strings.get(155),              // Cancel
+                      textStyle: theme.text14boldWhite,
+                      pressButton: (){
+                        setState(() {
+                          _show = 0;
+                        });
+                      }
+                  )),
+            ],
+          ));
+
+    }
+  }
+  openDialogOrderDetailsFactura(order) {
+    _dialogBody = Column(
+      children: [
+        SizedBox(height: 5,),
+        Text( strings.get(288) , style: theme.text16Red,),
+        SizedBox(height: 20,),
+
+        Container(
+            padding: EdgeInsets.only(left: 10,right: 10, bottom: 10,top: 10),
+            width:  MediaQuery.of(context).size.width - 35,
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide( //  <--- top side
+                  color:  Colors.grey[300],
+                  width:  1.0,
+                ),
+                bottom: BorderSide( //  <--- top side
+                  color:  Colors.grey[300],
+                  width:  1.0,
+                ),
+              ),
+            ),
+
+            child: Column(
+              children: _printItemOrderDetailsFactura(order),
+
+            )
+        ),
+
+        SizedBox(height: 5,),
+
+        _formFactura( order ),
 
         SizedBox(height: 25,),
         Container(
@@ -440,9 +567,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 Container(
                     width: windowWidth/2-45,
                     child: IButton3(
-                      color: theme.colorPrimary,
-                      text: strings.get(288),                  // facturar
-                      textStyle: theme.text14boldWhite,
+                        color: theme.colorPrimary,
+                        text: strings.get(295),                  // detalles de pago
+                        textStyle: theme.text14boldWhite,
+                        pressButton: (){
+                          openDialogOrderDetails( order );
+                        }
 
                     )),
                 SizedBox(width: 10,),
@@ -468,19 +598,18 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       _show = 1;
     });
   }
-
   List<Widget> _printItemOrderDetails(order)
   {
-      String delivery = 'Recogida en el Restaurante.';
+    String delivery = strings.get(247);
       if(order.curbsidePickup.toString() == 'false')
           delivery = order.address;
+       // print( jsonEncode(order) );
 
-      
         List<Widget> list = [ 
                   _textLine('Ticket:',order.ticketCode),
-                  _textLine('Método Pago:',order.method),
-                  _textLine('Entrega:',delivery),
-                  _textLine('Fecha:',order.date),
+                  _textLine(strings.get(301)+':',order.method),
+                  _textLine(strings.get(66)+':',delivery),
+                  _textLine(strings.get(300)+':',order.date),
                   SizedBox(height:20),
                 ]; 
 
@@ -501,8 +630,362 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         }
 
         return list;
-  } 
+  }
+  List<Widget> _printItemOrderDetailsFactura(order)
+  {
+    String delivery = strings.get(247);
+    if(order.curbsidePickup.toString() == 'false')
+      delivery = order.address;
+    // print( jsonEncode(order) );
 
+    List<Widget> list = [
+      _textLine('Ticket:',order.ticketCode),
+      _textLine(strings.get(301)+':',order.method),
+      _textLine(strings.get(66)+':',delivery),
+      _textLine(strings.get(300)+':',order.date),
+      SizedBox(height:5),
+      _textLineFecha(strings.get(299)+':',order.fecha_lim_fac),
+      SizedBox(height:5),
+      _textLine('Total', '\$'+getTotal(order) ),
+      SizedBox(height:10),
+    ];
+
+
+
+    return list;
+  }
+  _formFactura( order ){
+    String dropdownValue = 'One';
+    List<String> _locations = ['A', 'B', 'C', 'D'];
+    String _selected = '';
+
+    editControllerRfc.text    = account.rfc;
+    editControllerEmail.text  = account.email;
+    editControllerBusinessName.text = account.businessName;
+
+    if(order.facturada.toString()=='0' || order.facturada.toString()=='null') {
+      var fechaLimFac ;
+      var today =  DateTime.now();
+      if( order.fecha_lim_fac.toString()!='null' ) fechaLimFac = DateTime.parse(order.fecha_lim_fac);
+
+     //  fechaLimFac = DateTime.parse('2021-03-11 11:49:02');
+      //print('fechaLimFac:');
+     // print(fechaLimFac);
+     // print('today:');
+     // print(today);
+      if( fechaLimFac.isAfter(today)){
+        print('fecha NO vencida de factura');
+        return   Container(
+          width: double.maxFinite,
+          height: (MediaQuery.of(context).size.height / 2) - 50,
+          margin: EdgeInsets.only(left: 20, right: 20),
+          child: Form(
+            key: formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(height: 20,),
+
+                  Text("${strings.get(289)}:", style: theme.text12bold,),
+                  // RFC
+                  _edit(editControllerRfc, strings.get(289), false, 'rfc'),
+
+
+                  SizedBox(height: 20,),
+                  Text("${strings.get(290)}:", style: theme.text12bold,),
+                  // Razon Social
+                  _edit(editControllerBusinessName, strings.get(290), false,
+                      'notempty'),
+
+                  SizedBox(height: 20,),
+
+                  Text("${strings.get(289)}:", style: theme.text12bold,),
+                  // RFC
+                  new DropdownButton<String>(
+                    items: <String>[ 'G01', 'P01' ].map((String value) {
+                      if(value=='G01')_selected='G01- Gastos en General';
+                      if(value=='P01')_selected='P01- Por definor';
+                      return new DropdownMenuItem<String>(
+                        value: value,
+                        child: new Text(_selected),
+                      );
+                    }).toList(),
+                    value:'G01',
+                    isExpanded: true,
+                    onChanged: (_) {},
+                  ),
+
+
+                  SizedBox(height: 20,),
+                  Text("${strings.get(159)}:", style: theme.text12bold,),
+                  // Razon Social
+                  if (account.typeReg == "email")
+                    _edit(
+                        editControllerEmail, strings.get(160), false, 'email'),
+                  //  "Enter your User E-mail",
+                  //  "Enter your User Phone",
+                  SizedBox(height: 30,),
+
+                  Container(
+                      width: windowWidth,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              width: windowWidth / 2 - 45,
+                              child: IButton3(
+                                  color: theme.colorPrimary,
+                                  text: strings.get(296), // Change
+                                  textStyle: theme.text14boldWhite,
+                                  pressButton: () {
+                                    if ( !formKey.currentState.validate() ) return;
+                                    formKey.currentState.save();
+
+                                    setState(() {
+                                     //_show = 0;
+                                    });
+                                    //_openDiaSendSAT();
+                                    _callbackFacturar( order );
+
+                                  }
+                              )),
+
+                        ],
+                      )),
+
+                ],
+              ),
+            ),
+          ),
+        );
+
+      }
+      else{
+        print('fecha vencida de factura');
+        return Container(
+          width: double.maxFinite,
+          height: (MediaQuery
+              .of(context)
+              .size
+              .height / 3) - 50,
+          margin: EdgeInsets.only(left: 10, right: 10),
+
+          child: SingleChildScrollView(
+            child:Column(
+              children: [
+                SizedBox(height: 20,),
+                Text('¡Oops!', style: TextStyle(fontSize: 32,color: Colors.black, fontWeight: FontWeight.w600),),
+                SizedBox(height: 20,),
+                Text(strings.get(303), style: theme.text14bold,),//No es posible generar su factura
+
+                SizedBox(height: 5,),
+                Text(strings.get(304), style: theme.text14boldPimary,),//La fecha límite ha vencido
+
+
+
+              ],
+            ),
+
+          ),
+
+
+
+
+        );
+
+      }
+
+    }else{
+
+        return Container(
+          width: double.maxFinite,
+          height: (MediaQuery
+              .of(context)
+              .size
+              .height / 3) - 50,
+          margin: EdgeInsets.only(left: 10, right: 10),
+
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 20,),
+
+                Row(
+                  children: <Widget>[
+
+                    Icon( FontAwesomeIcons.solidCheckCircle, color: Colors.lightGreen,),//Se ha generado su factura exitosamente
+                    Text(strings.get(307), style: theme.text12bold),
+                  ],
+                ),
+                SizedBox(height: 40,),
+                Row(
+                  children: <Widget>[
+
+                    Container(
+                       // width: windowWidth,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                width: windowWidth/2-45,
+                                child: socialMediaBtn(appSettings.twitterText, new Image.asset('assets/xml.png',color: Colors.brown,))),
+                            SizedBox(width: 10,),
+                            Container(
+                                width: windowWidth/2-45,
+                                child: socialMediaBtn(appSettings.twitterText, Image.asset('assets/pdf.png',color: Colors.red,))),
+                          ],
+                        )),
+                  ],
+                ),
+
+
+
+              ],
+            ),
+
+          ),
+
+
+
+
+        );
+
+      }
+
+  }
+  facturasBtn(String link,var icon)
+  {
+    return IconButton(
+      // Use the FaIcon Widget + FontAwesomeIcons class for the IconData
+        iconSize: 30,
+        icon: icon,
+        onPressed: () {
+          //launch(link);
+        }
+    );
+
+  }
+  _callbackFacturar( order ){
+    _dialogBody = Column(
+      children: [
+        Text(strings.get(306), style: theme.text14boldPimary,),//Enviando los datos al SAT
+        SizedBox(height: 20,),
+        Image.asset(
+          "assets/load.gif",
+          //color: Colors.red,
+        ),
+        SizedBox(height: 20,),
+
+
+      ],
+    );
+    print("factura");
+    print(" orden: ${order.orderid},E-mail: ${editControllerEmail.text},  RFC: ${editControllerRfc.text}, BusinessName: ${editControllerBusinessName.text}");
+    facturaOrder(order.orderid, account.token, editControllerRfc.text, editControllerBusinessName.text, 'G01',editControllerEmail.text,
+        _successFactura, _errorFactura);
+  }
+  _errorFactura(String error){
+    setState(() {
+      //_show = 0;
+    });
+
+    _openDialogError(error); // "Something went wrong. ",
+  }
+  _successFactura( String txt ){
+    setState(() {
+      //_show = 0;
+    });
+   _dialogBody = Column(
+      children: [
+        Row(
+          children: <Widget>[
+            Icon( FontAwesomeIcons.solidCheckCircle, color: Colors.lightGreen,),//Se ha generado su factura exitosamente
+           Text(strings.get(307), style: theme.text12bold),
+          ],
+        ),
+        Text(txt, style: theme.text14,),
+        SizedBox(height: 40,),
+        IButton3(
+            color: theme.colorPrimary,
+            text: strings.get(305),              // Cancel
+            textStyle: theme.text14boldWhite,
+            pressButton: (){
+              setState(() {
+                _show = 0;
+              });
+            }
+        ),
+      ],
+    );
+
+
+
+
+
+    print(' _successFactura ');
+
+
+   // setState(() {
+   // });
+  }
+  _openDialogError(String _text) {
+    _dialogBody = Column(
+      children: [
+        Row(
+          children: <Widget>[
+            Icon( FontAwesomeIcons.timesCircle, color: Colors.red,),//Hemos tenido un error al generar sus facturas
+            Text("  "+strings.get(308), style: theme.text12bold),
+          ],
+        ),
+        SizedBox(height: 5,),
+        Text(_text, style: theme.text14,),
+        SizedBox(height: 40,),
+        IButton3(
+            color: theme.colorPrimary,
+            text: strings.get(305),              // Cancel
+            textStyle: theme.text14boldWhite,
+            pressButton: (){
+              setState(() {
+                _show = 0;
+              });
+            }
+        ),
+      ],
+    );
+  }
+  _edit(TextEditingController _controller, String _hint, bool _obscure, String _type){
+    return Container(
+        child: Directionality(
+          textDirection: strings.direction,
+          child: TextFormField(
+            controller: _controller,
+            onChanged: (String value) async {
+
+            },
+            validator: (value) => validators(value,_type),
+            cursorColor: theme.colorDefaultText,
+            style: theme.text14,
+            cursorWidth: 1,
+            obscureText: _obscure,
+            maxLines: 1,
+            decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                hintText: _hint,
+                hintStyle: theme.text14
+            ),
+          ),
+        ));
+  }
   double subTotal(order)
   {
       double subtotal = 0.0; 
@@ -552,6 +1035,34 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       ],
     );
   }
+  Widget _textLineFecha(text1,text2){
+    var fechaLimFac ;
+    var today =  DateTime.now();
+    if( text2.toString()!='null' ) fechaLimFac = DateTime.parse(text2);
+
+    if( fechaLimFac.isAfter(today)){
+      return Row(
+        children: [
+          Text(text1,style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+          SizedBox(width:10),
+          Text(text2),
+        ],
+      );
+    }else{
+
+      return Row(
+        children: [
+          Text(text1,style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+          SizedBox(width:10),
+          Text(text2,style: theme.text14primary),
+        ],
+      );
+    }
+
+
+
+
+  }
 
   Widget _textLineExpanded(text1,text2,{pfontWeight = FontWeight.normal, pcolor1 = Colors.black,pcolor2 = Colors.black}){
 
@@ -579,7 +1090,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
       return Padding(
         padding: const EdgeInsets.only(top:2.0),
-        
+
       );
     }else{
       text2 = '\$' +text2;

@@ -96,11 +96,11 @@ class _MainScreenState extends State<MainScreen>
     pref.set(Pref.userPassword, editControllerNewPassword1.text);
   }
 
-  _callbackSave(){ 
+  _callbackSave(){
 
     print("User pressed Save profile");
     print("User Name: ${editControllerName.text}, E-mail: ${editControllerEmail.text}, Phone: ${editControllerPhone.text}, RFC: ${editControllerRfc.text}, BusinessName: ${editControllerBusinessName.text}");
-    
+
     changeProfile(account.token, editControllerName.text, editControllerEmail.text, editControllerPhone.text, editControllerRfc.text, editControllerBusinessName.text,
         _successChangeProfile, _errorChangeProfile);
   }
@@ -116,7 +116,7 @@ class _MainScreenState extends State<MainScreen>
     account.email = editControllerEmail.text;
     account.rfc = editControllerRfc.text;
     account.businessName = editControllerBusinessName.text;
-     
+
     setState(() {
     });
   }
@@ -132,7 +132,7 @@ class _MainScreenState extends State<MainScreen>
     print("Open menu");
     if (strings.direction == TextDirection.rtl)
       _scaffoldKey.currentState.openEndDrawer();
-      else
+    else
       _scaffoldKey.currentState.openDrawer();
     setState(() {
 
@@ -148,7 +148,7 @@ class _MainScreenState extends State<MainScreen>
   final editControllerEmail = TextEditingController();
   final editControllerPhone = TextEditingController();
   final editControllerRfc = TextEditingController();
-  final editControllerBusinessName = TextEditingController(); 
+  final editControllerBusinessName = TextEditingController();
   final editControllerOldPassword = TextEditingController();
   final editControllerNewPassword1 = TextEditingController();
   final editControllerNewPassword2 = TextEditingController();
@@ -174,7 +174,7 @@ class _MainScreenState extends State<MainScreen>
     editControllerEmail.dispose();
     editControllerPhone.dispose();
     editControllerRfc.dispose();
-    editControllerBusinessName.dispose(); 
+    editControllerBusinessName.dispose();
     editControllerOldPassword.dispose();
     editControllerNewPassword1.dispose();
     editControllerNewPassword2.dispose();
@@ -222,83 +222,83 @@ class _MainScreenState extends State<MainScreen>
 
           return true;
         },
-    child: Scaffold(
-      key: _scaffoldKey,
-      drawer: Menu(context: context, callback: routes,),
-      endDrawer: Menu(context: context, callback: routes,),
-      backgroundColor: theme.colorBackground,
-      body: Stack(
-        children: <Widget>[
+        child: Scaffold(
+          key: _scaffoldKey,
+          drawer: Menu(context: context, callback: routes,),
+          endDrawer: Menu(context: context, callback: routes,),
+          backgroundColor: theme.colorBackground,
+          body: Stack(
+            children: <Widget>[
 
-          if (_currentPage == 0)
-            MapScreen(),
-          if (_currentPage == 1)
-            OrdersScreen(onErrorDialogOpen: _openDialogError, onBack: onBack),
-          if (_currentPage == 2)
-            HomeScreen(onErrorDialogOpen: _openDialogErrorInternet, redraw: (){setState(() {});}, callback: routes, scaffoldKey: _scaffoldKey),
-          if (_currentPage == 3)
-            AccountScreen(onDialogOpen: _openDialogs),
-          if (_currentPage == 4)
-            FavoritesScreen(scaffoldKey: _scaffoldKey),
+              if (_currentPage == 0)
+                MapScreen(),
+              if (_currentPage == 1)
+                OrdersScreen(onErrorDialogOpen: _openDialogError, onBack: onBack),
+              if (_currentPage == 2)
+                HomeScreen(onErrorDialogOpen: _openDialogErrorInternet, redraw: (){setState(() {});}, callback: routes, scaffoldKey: _scaffoldKey),
+              if (_currentPage == 3)
+                AccountScreen(onDialogOpen: _openDialogs),
+              if (_currentPage == 4)
+                FavoritesScreen(scaffoldKey: _scaffoldKey),
 
-          headerMenuWidget(context, onBack, Colors.black, _headerText),
+              headerMenuWidget(context, onBack, Colors.black, _headerText),
 
-      if (appSettings.bottomBarType == "type1")
-            IBottomBar(colorBackground: appSettings.bottomBarColor, colorSelect: theme.colorPrimary,
-                  colorUnSelect: theme.colorDefaultText.withAlpha(100), callback: _bottonBarChange, initialSelect: _currentPage,
-                getItem: (){return _currentPage;},
-                icons: ["assets/map.png", "assets/orders.png", "assets/home.png", "assets/account.png", "assets/favorites.png"]
-            ),
+              if (appSettings.bottomBarType == "type1")
+                IBottomBar(colorBackground: appSettings.bottomBarColor, colorSelect: theme.colorPrimary,
+                    colorUnSelect: theme.colorDefaultText.withAlpha(100), callback: _bottonBarChange, initialSelect: _currentPage,
+                    getItem: (){return _currentPage;},
+                    icons: ["assets/map.png", "assets/orders.png", "assets/home.png", "assets/account.png", "assets/favorites.png"]
+                ),
 
-      if (appSettings.bottomBarType == "type2")
-          IBottomBar2(colorBackground: appSettings.bottomBarColor, colorSelect: theme.colorPrimary,
-              colorUnSelect: theme.colorDefaultText.withAlpha(100), callback: _bottonBarChange, initialSelect: _currentPage,
-              radius: appSettings.radius, shadow: appSettings.shadow,
-              getItem: (){return _currentPage;},
-              icons: ["assets/map.png", "assets/orders.png", "assets/home.png", "assets/account.png", "assets/favorites.png"]
+              if (appSettings.bottomBarType == "type2")
+                IBottomBar2(colorBackground: appSettings.bottomBarColor, colorSelect: theme.colorPrimary,
+                    colorUnSelect: theme.colorDefaultText.withAlpha(100), callback: _bottonBarChange, initialSelect: _currentPage,
+                    radius: appSettings.radius, shadow: appSettings.shadow,
+                    getItem: (){return _currentPage;},
+                    icons: ["assets/map.png", "assets/orders.png", "assets/home.png", "assets/account.png", "assets/favorites.png"]
+                ),
+
+              if (_currentState == "about" || _currentState == "delivery" || _currentState == "privacy"
+                  || _currentState == "terms" || _currentState == "refund")
+                _mydoc(),
+
+              if (_currentState == "faq")
+                HelpScreen(onBack: onBack),
+              //if (_currentState == "chat")
+              //ChatScreen(onBack: onBack),
+              if (_currentState == "language")
+                LanguageScreen(onBack: onBack, redraw: (){setState(() {});},),
+              if (_currentState == "notify")
+                NotificationScreen(onBack: onBack),
+              if (_currentState == "wallet")
+                WalletScreen(onBack: onBack),
+              if (_currentState == "order_details")
+                OrderDetailsScreen(onBack: onBack),
+              if (_currentState == "basket")
+                BasketScreen(onBack: onBack),
+
+              if (wait)
+                Container(
+                    color: Color(0x80000000),
+                    width: windowWidth,
+                    height: windowHeight,
+                    child: Center(
+                      child: ColorLoader2(
+                        color1: theme.colorPrimary,
+                        color2: theme.colorCompanion,
+                        color3: theme.colorPrimary,
+                      ),
+                    )),
+
+              IEasyDialog2(setPosition: (double value){mainDialogShow = value;}, getPosition: () {return mainDialogShow;}, color: theme.colorGrey,
+                  body: mainDialogBody, backgroundColor: theme.colorBackground),
+
+              IEasyDialog2(setPosition: (double value){_show = value;}, getPosition: () {return _show;}, color: theme.colorGrey,
+                body: _dialogBody, backgroundColor: theme.colorBackground,),
+
+            ],
           ),
-
-          if (_currentState == "about" || _currentState == "delivery" || _currentState == "privacy"
-              || _currentState == "terms" || _currentState == "refund")
-              _mydoc(),
-          
-          if (_currentState == "faq")
-            HelpScreen(onBack: onBack),
-          //if (_currentState == "chat")
-            //ChatScreen(onBack: onBack),
-          if (_currentState == "language")
-            LanguageScreen(onBack: onBack, redraw: (){setState(() {});},),
-          if (_currentState == "notify")
-            NotificationScreen(onBack: onBack),
-          if (_currentState == "wallet")
-            WalletScreen(onBack: onBack),
-          if (_currentState == "order_details")
-            OrderDetailsScreen(onBack: onBack),
-          if (_currentState == "basket")
-            BasketScreen(onBack: onBack),
-
-          if (wait)
-            Container(
-                color: Color(0x80000000),
-                width: windowWidth,
-                height: windowHeight,
-                child: Center(
-                  child: ColorLoader2(
-                    color1: theme.colorPrimary,
-                    color2: theme.colorCompanion,
-                    color3: theme.colorPrimary,
-                  ),
-                )),
-
-          IEasyDialog2(setPosition: (double value){mainDialogShow = value;}, getPosition: () {return mainDialogShow;}, color: theme.colorGrey,
-              body: mainDialogBody, backgroundColor: theme.colorBackground),
-
-          IEasyDialog2(setPosition: (double value){_show = value;}, getPosition: () {return _show;}, color: theme.colorGrey,
-            body: _dialogBody, backgroundColor: theme.colorBackground,),
-
-        ],
-      ),
-    ));
+        ));
   }
 
   Widget _mydoc()
@@ -361,13 +361,13 @@ class _MainScreenState extends State<MainScreen>
       });
     if (route == "redraw")
       print ("mainscreen redraw");
-      setState(() {
-      });
+    setState(() {
+    });
     if (route == "about" || route == "delivery" || route == "privacy"
         || route == "terms" || route == "refund" || route == "faq" || route == "language"
         || route == "chat" || route == "notify" || route == "wallet" || route == "order_details"){
       _currentState = route;
-      
+
     }
   }
 
@@ -390,95 +390,95 @@ class _MainScreenState extends State<MainScreen>
     editControllerPhone.text  = account.phone;
     editControllerRfc.text    = account.rfc;
     editControllerBusinessName.text = account.businessName;
-    
+
 
     _dialogBody = Container(
-        width: double.maxFinite,
-        height: (MediaQuery.of(context).size.height / 2) - 50,
-        margin: EdgeInsets.only(left: 20, right: 20),
-        child: Form(
-          key: formKey, 
-          child: SingleChildScrollView(
+      width: double.maxFinite,
+      height: (MediaQuery.of(context).size.height / 2) - 50,
+      margin: EdgeInsets.only(left: 20, right: 20),
+      child: Form(
+        key: formKey,
+        child: SingleChildScrollView(
           child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-            Container(
-            alignment: Alignment.center,
-            child: Text(strings.get(156), textAlign: TextAlign.center, style: theme.text18boldPrimary,) // "Edit profile",
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                  alignment: Alignment.center,
+                  child: Text(strings.get(156), textAlign: TextAlign.center, style: theme.text18boldPrimary,) // "Edit profile",
               ), // "Reason to Reject",
               SizedBox(height: 20,),
               Text("${strings.get(157)}:", style: theme.text12bold,),  // "User Name",
               _edit(editControllerName, strings.get(158), false,'empty'),                //  "Enter your User Name",
               SizedBox(height: 20,),
               if (account.typeReg == "email")
-              Text("${strings.get(159)}:", style: theme.text12bold,),  // "E-mail",
+                Text("${strings.get(159)}:", style: theme.text12bold,),  // "E-mail",
               if (account.typeReg == "email")
-              _edit(editControllerEmail, strings.get(160), false,'email'),                //  "Enter your User E-mail",
+                _edit(editControllerEmail, strings.get(160), false,'email'),                //  "Enter your User E-mail",
               if (account.typeReg == "email")
-              SizedBox(height: 20,),
+                SizedBox(height: 20,),
               Text("${strings.get(59)}:", style: theme.text12bold,),  // Phone
-              _edit(editControllerPhone, strings.get(161), false,'number'),  
-              
+              _edit(editControllerPhone, strings.get(161), false,'number'),
+
               SizedBox(height: 10,),
               Container(
-                alignment: Alignment.center,
-                child: Text(strings.get(288), textAlign: TextAlign.center, style: theme.text18boldPrimary,) // "Facturacion",
+                  alignment: Alignment.center,
+                  child: Text(strings.get(288), textAlign: TextAlign.center, style: theme.text18boldPrimary,) // "Facturacion",
               ),
 
               SizedBox(height: 20,),
               Text("${strings.get(289)}:", style: theme.text12bold,),  // RFC
-              _edit(editControllerRfc, strings.get(289), false,'rfc'),  
+              _edit(editControllerRfc, strings.get(289), false,'rfc'),
 
               SizedBox(height: 20,),
               Text("${strings.get(290)}:", style: theme.text12bold,),  // Razon Social
-              _edit(editControllerBusinessName, strings.get(290), false,'empty'),  
-                 
+              _edit(editControllerBusinessName, strings.get(290), false,'empty'),
+
               //  "Enter your User Phone",
               SizedBox(height: 30,),
-    
-    Container(
-    width: windowWidth,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-            Container(
-              width: windowWidth/2-45,
-            child: IButton3(
-            color: theme.colorPrimary,
-            text: strings.get(162),                  // Change
-            textStyle: theme.text14boldWhite,
-            pressButton: (){
-              if ( !formKey.currentState.validate() ) return;
-              formKey.currentState.save();
-      
-              setState(() {
-                _show = 0;
-              });
-              
-              _callbackSave();
-            }
-            )),
-            SizedBox(width: 10,),
-      Container(
-        width: windowWidth/2-45,
-        child: IButton3(
-            color: theme.colorPrimary,
-            text: strings.get(155),              // Cancel
-            textStyle: theme.text14boldWhite,
-            pressButton: (){
-              setState(() {
-                _show = 0;
-              });
-            }
-            )),
-        ],
-      )),
 
-        ],
-      ),
+              Container(
+                  width: windowWidth,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: windowWidth/2-45,
+                          child: IButton3(
+                              color: theme.colorPrimary,
+                              text: strings.get(162),                  // Change
+                              textStyle: theme.text14boldWhite,
+                              pressButton: (){
+                                if ( !formKey.currentState.validate() ) return;
+                                formKey.currentState.save();
+
+                                setState(() {
+                                  _show = 0;
+                                });
+
+                                _callbackSave();
+                              }
+                          )),
+                      SizedBox(width: 10,),
+                      Container(
+                          width: windowWidth/2-45,
+                          child: IButton3(
+                              color: theme.colorPrimary,
+                              text: strings.get(155),              // Cancel
+                              textStyle: theme.text14boldWhite,
+                              pressButton: (){
+                                setState(() {
+                                  _show = 0;
+                                });
+                              }
+                          )),
+                    ],
+                  )),
+
+            ],
           ),
         ),
-      );
+      ),
+    );
 
     setState(() {
       _show = 1;
@@ -486,98 +486,98 @@ class _MainScreenState extends State<MainScreen>
   }
 
   _edit(TextEditingController _controller, String _hint, bool _obscure, String _type){
-    return Container( 
-      child: Directionality(
-        textDirection: strings.direction,
-        child: TextFormField(
-        controller: _controller,
-        onChanged: (String value) async {
-          
-        },
-        validator: (value) => validators(value,_type),
-        cursorColor: theme.colorDefaultText,
-        style: theme.text14,
-        cursorWidth: 1,
-        obscureText: _obscure,
-        maxLines: 1,
-        decoration: InputDecoration(
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
+    return Container(
+        child: Directionality(
+          textDirection: strings.direction,
+          child: TextFormField(
+            controller: _controller,
+            onChanged: (String value) async {
+
+            },
+            validator: (value) => validators(value,_type),
+            cursorColor: theme.colorDefaultText,
+            style: theme.text14,
+            cursorWidth: 1,
+            obscureText: _obscure,
+            maxLines: 1,
+            decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                hintText: _hint,
+                hintStyle: theme.text14
             ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-            ),
-            border: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-            ),
-            hintText: _hint,
-            hintStyle: theme.text14
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 
-  
+
 
   _pressChangePasswordButton(){
     _dialogBody = Directionality(
         textDirection: strings.direction,
         child: Container(
-      margin: EdgeInsets.only(left: 20, right: 20),
-      width: double.maxFinite,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-              alignment: Alignment.center,
-              child: Text(strings.get(147), textAlign: TextAlign.center, style: theme.text18boldPrimary,) // "Change password",
-          ), // "Reason to Reject",
-          SizedBox(height: 20,),
-          Text("${strings.get(148)}:", style: theme.text12bold,),  // "Old password",
-          _edit(editControllerOldPassword, strings.get(149), true,'empty'),                //  "Enter your old password",
-          SizedBox(height: 20,),
-          Text("${strings.get(150)}:", style: theme.text12bold,),  // "New password",
-          _edit(editControllerNewPassword1, strings.get(152), true,'empty'),                //  "Enter your new password",
-          SizedBox(height: 20,),
-          Text("${strings.get(153)}:", style: theme.text12bold,),  // "Confirm New password",
-          _edit(editControllerNewPassword2, strings.get(154), true,'empty'),                //  "Enter your new password",
-          SizedBox(height: 30,),
-          Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+          margin: EdgeInsets.only(left: 20, right: 20),
+          width: double.maxFinite,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
               Container(
-              width: windowWidth/2-45,
-                child: IButton3(
-                      color: theme.colorPrimary,
-                      text: strings.get(162),                  // Change
-                      textStyle: theme.text14boldWhite,
-                      pressButton: (){
-                        setState(() {
-                          _show = 0;
-                        });
-                        _callbackChange();
-                      }
-                  )),
-                  SizedBox(width: 10,),
+                  alignment: Alignment.center,
+                  child: Text(strings.get(147), textAlign: TextAlign.center, style: theme.text18boldPrimary,) // "Change password",
+              ), // "Reason to Reject",
+              SizedBox(height: 20,),
+              Text("${strings.get(148)}:", style: theme.text12bold,),  // "Old password",
+              _edit(editControllerOldPassword, strings.get(149), true,'empty'),                //  "Enter your old password",
+              SizedBox(height: 20,),
+              Text("${strings.get(150)}:", style: theme.text12bold,),  // "New password",
+              _edit(editControllerNewPassword1, strings.get(152), true,'empty'),                //  "Enter your new password",
+              SizedBox(height: 20,),
+              Text("${strings.get(153)}:", style: theme.text12bold,),  // "Confirm New password",
+              _edit(editControllerNewPassword2, strings.get(154), true,'empty'),                //  "Enter your new password",
+              SizedBox(height: 30,),
               Container(
-                width: windowWidth/2-45,
-                child: IButton3(
-                      color: theme.colorPrimary,
-                      text: strings.get(155),              // Cancel
-                      textStyle: theme.text14boldWhite,
-                      pressButton: (){
-                        setState(() {
-                          _show = 0;
-                        });
-                      }
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: windowWidth/2-45,
+                          child: IButton3(
+                              color: theme.colorPrimary,
+                              text: strings.get(162),                  // Change
+                              textStyle: theme.text14boldWhite,
+                              pressButton: (){
+                                setState(() {
+                                  _show = 0;
+                                });
+                                _callbackChange();
+                              }
+                          )),
+                      SizedBox(width: 10,),
+                      Container(
+                          width: windowWidth/2-45,
+                          child: IButton3(
+                              color: theme.colorPrimary,
+                              text: strings.get(155),              // Cancel
+                              textStyle: theme.text14boldWhite,
+                              pressButton: (){
+                                setState(() {
+                                  _show = 0;
+                                });
+                              }
+                          )),
+                    ],
                   )),
-                ],
-              )),
 
-        ],
-      ),
-    ));
+            ],
+          ),
+        ));
 
     setState(() {
       _show = 1;
@@ -694,9 +694,9 @@ class _MainScreenState extends State<MainScreen>
         Image(image: AssetImage('assets/iconllega.png'), height: 210,color: theme.colorPrimary,),
         SizedBox(height: 0,),
         Text('¡Oops!', style: TextStyle(fontSize: 32,color: Colors.black, fontWeight: FontWeight.w600),),
-         SizedBox(height: 20,),
+        SizedBox(height: 20,),
         Text(_text, style: theme.text14,),
-        
+
         SizedBox(height: 40,),
         IButton3(
             color: theme.colorPrimary,
@@ -707,7 +707,7 @@ class _MainScreenState extends State<MainScreen>
                 Future.delayed(Duration(milliseconds: 100), () async {
                   await firebaseGetToken();
                 });*/
-              Phoenix.rebirth(context); 
+              Phoenix.rebirth(context);
             }
         ),
 

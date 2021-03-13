@@ -246,7 +246,7 @@ class Restaurants {
       closeTimeSunday: json['closeTimeSunday'].toString(),
       area: toInt(json['area'].toString()),
       onlineActive: json["active"] == 1 ? true : false,
-      
+
     );
   }
 
@@ -296,15 +296,24 @@ class Extras {
   String name;
   String image;
   double price;
+  double precioUnit;
+  double taxFood;
+  double tax;
+
   bool select;
-  Extras({this.id, this.name, this.desc, this.price, this.image, this.select = false});
+  Extras({this.id, this.name, this.desc, this.price, this.precioUnit, this.taxFood,this.tax, this.image, this.select = false});
 
   factory Extras.fromJson(Map<String, dynamic> json) {
+    print('extrassssssssssss   json');
+    print(json);
     return Extras(
       id: json['id'].toString(),
       name: json['name'].toString(),
       desc: json['desc'].toString(),
       price: toDouble(json['price'].toString()),
+      precioUnit: toDouble(json['precioUnit'].toString()),
+      taxFood: toDouble(json['taxFood'].toString()),
+      tax: toDouble(json['tax'].toString()),
       image: json['image'].toString(),
     );
   }
@@ -334,10 +343,13 @@ class FoodsReviews {
 class DishesData {
   String id;         // FoodID
   String idDetails;  // OrderDetailsID
-  String hashid;     // For use in Cart 
+  String hashid;     // For use in Cart
   String name;
   String image;
   double price;
+  double precioUnit;
+  double taxFood;
+  double tax;
   double discountprice;
   String discount;
   String desc;
@@ -360,12 +372,16 @@ class DishesData {
   bool active;
   //
   DishesData({this.id,this.idDetails, this.hashid , this.name, this.published, this.image, this.restaurantName, this.desc, this.ingredients,
-      this.nutritions, this.restaurantPhone, this.restaurantMobilePhone, this.restaurantActive, this.extras, this.foodsreviews, this.price, this.restaurant,
-      this.category, this.fee, this.percent, this.discountprice,
-      this.delivered = false, this.count = 0, this.active = true, this.discount = "",
+    this.nutritions, this.restaurantPhone, this.restaurantMobilePhone, this.restaurantActive, this.extras, this.foodsreviews,
+    this.price,  this.precioUnit,  this.taxFood, this.tax,
+    this.restaurant,
+    this.category, this.fee, this.percent, this.discountprice,
+    this.delivered = false, this.count = 0, this.active = true, this.discount = "",
   });
   factory DishesData.fromJson(Map<String, dynamic> json) {
     var m;
+    print('-----------------------precisUnit------------------------------');
+    print(json);
     if (json['nutritionsdata'] != null) {
       var items = json['nutritionsdata'];
       var t = items.map((f) => Nutritions.fromJson(f)).toList();
@@ -374,6 +390,8 @@ class DishesData {
     var n;
     if (json['extrasdata'] != null) {
       var items = json['extrasdata'];
+      //print('items extradataaaaaaaa');
+      //print(items);
       var t = items.map((f) => Extras.fromJson(f)).toList();
       n = t.cast<Extras>().toList();
     }
@@ -402,12 +420,15 @@ class DishesData {
       restaurantActive: json['restaurantActive'] == 1 ? true : false,
       active: json['available'] == 1 ? true : false,
       price: toDouble(json['price'].toString()),
+      precioUnit: toDouble(json['precioUnit'].toString()),
+      taxFood: toDouble(json['taxFood'].toString()),
+      tax: toDouble(json['tax'].toString()),
       discountprice: toDouble(json['discountprice'].toString()),
       category: json['category'].toString(),
-      fee: json['fee'].toString(), 
+      fee: json['fee'].toString(),
       //percent: json['percent'],
       discount: (toDouble(json['discountprice'].toString()) != 0) ?
-          "-${((toDouble(json['price'].toString())-toDouble(json['discountprice'].toString()))~/(toDouble(json['price'].toString())/100)).toString()}%" : "",
+      "-${((toDouble(json['price'].toString())-toDouble(json['discountprice'].toString()))~/(toDouble(json['price'].toString())/100)).toString()}%" : "",
     );
   }
 
@@ -427,13 +448,22 @@ class DishesData {
     restaurantMobilePhone = item.restaurantMobilePhone;
     restaurantActive = item.restaurantActive;
     price = item.price;
+    precioUnit = item.precioUnit;
+    taxFood = item.taxFood;
+    tax = item.tax;
     discountprice = item.discountprice;
     ingredients = item.ingredients;
     count = item.count;
     extras = List<Extras>();
     category = item.category;
     for (var extras in item.extras)
-      this.extras.add(Extras(id: extras.id, desc: extras.desc, name: extras.name, image: extras.image, price: extras.price, select: extras.select ));
+      this.extras.add(Extras(id: extras.id, desc: extras.desc, name: extras.name, image: extras.image,
+          price: extras.price,
+          precioUnit: extras.precioUnit,
+          taxFood: extras.taxFood,
+          tax: extras.tax,
+          select: extras.select ));
+    //Extras({this.id, this.name, this.desc, this.price, this.precioUnit, this.taxFood,this.tax, this.image, this.select = false});
     return this;
   }
 
@@ -441,16 +471,24 @@ class DishesData {
     var t = json.encode(name);
     var t2 = json.encode(image);
     var discPrice = price;
+    var precioUnita = precioUnit;
+    var taxFooda = taxFood;
+    var taxa = tax;
     if (discountprice != null && discountprice != 0)
       discPrice = discountprice;
 
-    var _text = '{"food": $t, "count": "$count", "foodprice": "$discPrice", "extras": "0", '
-        '"extrascount" : "0", "extrasprice": "0", "foodid": "$id", "hashid": "$hashid", "extrasid" : "0", "image" : $t2}';
+    var _text = '{"food": $t, "count": "$count", "foodprice": "$discPrice","precioUnit": "$precioUnita","taxFood": "$taxFooda","tax": "$taxa", "extras": "0", '
+        '"extrascount" : "0", "extrasprice": "0", "extrasprecioUnit": "0","extrastaxFood": "0","extrastax": "0", "foodid": "$id", "hashid": "$hashid", "extrasid" : "0", "image" : $t2}';
     for (var item in extras){
       if (item.select){
         var t = json.encode(item.name);
         _text = '$_text, {"food": "", "count": "0", "foodprice": "0", "extras": $t, '
-            '"extrascount" : "$count", "extrasprice": "${item.price}", "foodid": "$id", "hashid": "$hashid", "extrasid" : "${item.id}", '
+            '"extrascount" : "$count", '
+            '"extrasprice": "${item.price}", '
+            '"extrasprecioUnit": "${item.precioUnit}", '
+            '"extrastaxFood": "${item.taxFood}", '
+            '"extrastax": "${item.tax}", '
+            '"foodid": "$id", "hashid": "$hashid", "extrasid" : "${item.id}", '
             '"image" : ${json.encode(item.image)}}';
       }
     }
@@ -469,13 +507,13 @@ class RestaurantsReviewsData {
   RestaurantsReviewsData({this.id, this.updatedAt, this.desc, this.image, this.name, this.rate});
   factory RestaurantsReviewsData.fromJson(Map<String, dynamic> json) {
     return RestaurantsReviewsData(
-              id : json['id'].toString(),
-              updatedAt: json['updated_at'].toString(),
-              desc: json['desc'].toString(),
-              name: json['name'].toString(),
-              image: serverImages + json['image'].toString(),
-              rate: json['rate'].toString(),
-            );
+      id : json['id'].toString(),
+      updatedAt: json['updated_at'].toString(),
+      desc: json['desc'].toString(),
+      name: json['name'].toString(),
+      image: serverImages + json['image'].toString(),
+      rate: json['rate'].toString(),
+    );
   }
 }
 
@@ -511,43 +549,43 @@ class PaymentsMethods {
   // currency code
   String code;
   PaymentsMethods({this.stripeEnable, this.stripeKey, this.stripeSecretKey, this.razEnable, this.razKey, this.razName, this.cacheEnable,
-      this.code, this.payPalClientId, this.payPalEnable, this.payPalSecret, this.payPalSandBoxMode,
-      this.payStackEnable, this.payStackKey, this.yandexKassaEnable, this.instamojoEnable, this.yandexKassaShopId,
-      this.yandexKassaClientAppKey, this.yandexKassaSecretKey, this.instamojoSandBoxMode, this.instamojoApiKey,
-      this.instamojoPrivateToken
+    this.code, this.payPalClientId, this.payPalEnable, this.payPalSecret, this.payPalSandBoxMode,
+    this.payStackEnable, this.payStackKey, this.yandexKassaEnable, this.instamojoEnable, this.yandexKassaShopId,
+    this.yandexKassaClientAppKey, this.yandexKassaSecretKey, this.instamojoSandBoxMode, this.instamojoApiKey,
+    this.instamojoPrivateToken
   });
   factory PaymentsMethods.fromJson(Map<String, dynamic> json) {
     return PaymentsMethods(
-        // stripe
-        stripeEnable : json['StripeEnable'].toString(),
-        stripeKey : json['stripeKey'].toString(),
-        stripeSecretKey : json['stripeSecretKey'].toString(),
-        // razorpay
-        razEnable : json['razEnable'].toString(),
-        razKey : json['razKey'].toString(),
-        razName : json['razName'].toString(),
-        // cache on delivery
-        cacheEnable : json['cashEnable'].toString(),
-        // payPal
-        payPalEnable : json['payPalEnable'].toString(),
-        payPalSandBoxMode : json['payPalSandBox'].toString(),
-        payPalClientId : json['payPalClientId'].toString(),
-        payPalSecret : json['payPalSecret'].toString(),
-        // PayStack (Africa)
-        payStackEnable : json['payStackEnable'].toString(),
-        payStackKey : json['payStackKey'].toString(),
-        // Yandex Kassa
-        yandexKassaEnable : json['yandexKassaEnable'].toString(),
-        yandexKassaShopId : json['yandexKassaShopId'].toString(),
-        yandexKassaClientAppKey : json['yandexKassaClientAppKey'].toString(),
-        yandexKassaSecretKey : json['yandexKassaSecretKey'].toString(),
-        // instamojo
-        instamojoEnable : json['instamojoEnable'].toString(),
-        instamojoSandBoxMode : json['instamojoSandBoxMode'].toString(),
-        instamojoApiKey : json['instamojoApiKey'].toString(),
-        instamojoPrivateToken : json['instamojoPrivateToken'].toString(),
-        // currency code
-        code : json['code'].toString(),
+      // stripe
+      stripeEnable : json['StripeEnable'].toString(),
+      stripeKey : json['stripeKey'].toString(),
+      stripeSecretKey : json['stripeSecretKey'].toString(),
+      // razorpay
+      razEnable : json['razEnable'].toString(),
+      razKey : json['razKey'].toString(),
+      razName : json['razName'].toString(),
+      // cache on delivery
+      cacheEnable : json['cashEnable'].toString(),
+      // payPal
+      payPalEnable : json['payPalEnable'].toString(),
+      payPalSandBoxMode : json['payPalSandBox'].toString(),
+      payPalClientId : json['payPalClientId'].toString(),
+      payPalSecret : json['payPalSecret'].toString(),
+      // PayStack (Africa)
+      payStackEnable : json['payStackEnable'].toString(),
+      payStackKey : json['payStackKey'].toString(),
+      // Yandex Kassa
+      yandexKassaEnable : json['yandexKassaEnable'].toString(),
+      yandexKassaShopId : json['yandexKassaShopId'].toString(),
+      yandexKassaClientAppKey : json['yandexKassaClientAppKey'].toString(),
+      yandexKassaSecretKey : json['yandexKassaSecretKey'].toString(),
+      // instamojo
+      instamojoEnable : json['instamojoEnable'].toString(),
+      instamojoSandBoxMode : json['instamojoSandBoxMode'].toString(),
+      instamojoApiKey : json['instamojoApiKey'].toString(),
+      instamojoPrivateToken : json['instamojoPrivateToken'].toString(),
+      // currency code
+      code : json['code'].toString(),
     );
   }
 }

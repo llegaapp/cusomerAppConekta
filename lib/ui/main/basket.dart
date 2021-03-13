@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/config/api.dart';
@@ -179,10 +181,10 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
   List<Widget> _bottomBar(){
     var list = List<Widget>();
     var t = basket.getSubTotal(false);
-    list.add(_itemText(strings.get(93), basket.makePriceSctring(t), false));  // "Subtotal",
+    list.add(_itemText(strings.get(93), basket.makePriceSctring(basket.getSubTotal(false)), false));  // "Subtotal de productos",
     list.add(SizedBox(height: 5,));
-    list.add(_itemText(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(false)), false));   // "Shopping costs",
-    list.add(SizedBox(height: 5,));
+    //list.add(_itemText(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(false)), false));   // "Shopping costs",
+    //list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(95), basket.makePriceSctring(basket.getTaxes(false)), false));  // "Taxes",
     list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(false)), true));  // "Total",
@@ -230,6 +232,9 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
 
     for (var item in basket.basket)
       if (item.count != 0) {
+        //print('add item');
+       // print(item);
+
         list.add(_item(item));
         list.add(SizedBox(height: 10,));
       }
@@ -256,15 +261,19 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
   }
 
   _item(DishesData item){
+    print('item-------------');
+    print(item.toJSON());
+
+   //var _title = item.precioUnit.toString();
     var _title = item.name;
     var _count = 0;
-    double _total = item.price*item.count;
+    double _total = item.precioUnit*item.count;
     if (item.discountprice != null && item.discountprice != 0)
       _total = item.discountprice*item.count;
     for (var ex in item.extras)
       if (ex.select) {
         _count++;
-        _total += (ex.price*item.count);
+        _total += (ex.precioUnit*item.count);
       }
     if (_count != 0)
       _title = "${item.name} ${strings.get(197)} $_count ${strings.get(198)}"; // name and 3 items
@@ -298,14 +307,14 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
         if (first){
           list.add(SizedBox(height: 10,));
           first = false;
-          var t = basket.makePriceSctring(item.price);
+          var t = basket.makePriceSctring(item.precioUnit);
           list.add(Container(
             margin: EdgeInsets.only(left: windowWidth*0.30),
             child: Text("${item.name} ${item.count} x $t", style: theme.text14bold,)
           ));
         }
         list.add(SizedBox(height: 5,));
-        var t = basket.makePriceSctring(ex.price);
+        var t = basket.makePriceSctring(ex.precioUnit);
         list.add(Container(
             margin: EdgeInsets.only(left: windowWidth*0.30),
             child: Text("+ ${ex.name} ${item.count} x $t", style: theme.text14bold,))

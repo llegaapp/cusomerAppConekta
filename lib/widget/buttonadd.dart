@@ -101,7 +101,7 @@ buttonAddToCart(DishesData item, Function redraw, Function onCancel, var _scaffo
                   ),
                 ),
                 Flexible(
-                    child: FittedBox(child: Text(basket.makePriceSctring(basket.getItemPrice(item)),
+                    child: FittedBox(child: Text(basket.makePriceSctring(basket.getItemPriceTotal(item)),
                       style: theme.text20boldWhite,),
                     )),
                 Container(

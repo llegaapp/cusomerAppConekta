@@ -217,7 +217,7 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
                             children: <Widget>[
                               _button(),
                             Flexible(
-                              child: FittedBox(child: Text(basket.makePriceSctring(basket.getItemPrice(_this)),
+                              child: FittedBox(child: Text(basket.makePriceSctring(basket.getItemPriceTotal(_this)),
                                 style: theme.text20boldWhite,),
                               )),
                               Container(

@@ -20,6 +20,7 @@ getBasket(String uid, Function(OrderData, List<OrderDetailsData>, String, double
     dprint(url);
     dprint('Response status: ${response.statusCode}');
     dprint('Response body: ${response.body}');
+    dprint('Response orderdetails: ${response.body}');
 
     if (response.statusCode == 401)
       return callbackError("401");
@@ -113,17 +114,29 @@ class OrderDetailsData {
   String food;
   int count;
   double foodprice;
+  double foodprecioUnit;
+  double foodtaxFood;
+  double foodtax;
   String extras;
   String extrascount;
   String extrasprice;
+  String extrasprecioUnit;
+  String extrastaxFood;
+  String extrastax;
   String foodid;
   String extrasid;
   String image;
   String category;
 
-  OrderDetailsData({this.id, this.hashid, this.order, this.food, this.count, this.foodprice, this.extras, this.extrascount,
-    this.extrasprice, this.foodid, this.extrasid, this.image, this.category});
+  OrderDetailsData({this.id, this.hashid, this.order, this.food, this.count, this.foodprice, this.foodprecioUnit,this.foodtaxFood,this.foodtax, this.extras, this.extrascount,
+    this.extrasprice,
+    this.extrasprecioUnit,
+    this.extrastaxFood,
+    this.extrastax,
+    this.foodid, this.extrasid, this.image, this.category});
   factory OrderDetailsData.fromJson(Map<String, dynamic> json) {
+    //print('OrderDetailsData json');
+    //print(json);
     return OrderDetailsData(
       id : json['id'].toString(),
       hashid : json['hashid'].toString(),
@@ -131,9 +144,15 @@ class OrderDetailsData {
       food : json['food'].toString(),
       count : toInt(json['count'].toString()),
       foodprice : toDouble(json['foodprice'].toString()),
+      foodprecioUnit : toDouble(json['foodprecioUnit'].toString()),
+      foodtaxFood : toDouble(json['foodtaxFood'].toString()),
+      foodtax : toDouble(json['foodtax'].toString()),
       extras : json['extras'].toString(),
       extrascount : json['extrascount'].toString(),
       extrasprice : json['extrasprice'].toString(),
+      extrasprecioUnit : json['extrasprecioUnit'].toString(),
+      extrastaxFood : json['extrastaxFood'].toString(),
+      extrastax : json['extrastax'].toString(),
       foodid : json['foodid'].toString(),
       extrasid : json['extrasid'].toString(),
       image : json['image'].toString(),

@@ -80,12 +80,17 @@ class OrdersData {
   String send;
   String hint;
   String method;
+  String facturada;
+  String fecha_lim_fac;
+  String businessName;
+  String Rfc;
+  String email;
   double couponTotal;
   List<OrderTimes> ordertimes;
   List<OrderDetailsData> orderdetails;
   
   OrdersData({this.orderid, this.date, this.status, this.total, this.restaurant,this.ticketCode, this.name, this.image, this.statusName,
-    this.ordertimes, this.curbsidePickup, this.arrived, this.tax, this.fee, this.address, this.send, this.hint, this.method, this.couponTotal, this.orderdetails});
+    this.ordertimes, this.curbsidePickup, this.arrived, this.tax, this.fee, this.address, this.send, this.hint, this.method, this.couponTotal, this.facturada, this.fecha_lim_fac,this.businessName,this.Rfc,this.email, this.orderdetails});
   factory OrdersData.fromJson(Map<String, dynamic> json) {
     var _ordertimes;
     var _orderdetails;
@@ -108,7 +113,7 @@ class OrdersData {
         statusName: json['statusName'].toString(),
         total: toDouble(json['total'].toString()),
         restaurant: json['restaurant'].toString(),
-        ticketCode: json['ticketCode'].toString(),
+        ticketCode: json['ticketCode'].toString().toUpperCase(),
         name: json['name'].toString(),
         image: json['image'].toString(),
         ordertimes: _ordertimes,
@@ -121,6 +126,11 @@ class OrdersData {
         send: json['send'].toString(),
         hint: json['hint'].toString(),
         method: json['method'].toString(),
+        facturada: json['facturada'].toString(),
+        fecha_lim_fac: json['fecha_lim_fac'].toString(),
+        businessName: json['businessName'].toString(),
+        Rfc: json['Rfc'].toString(),
+        email: json['email'].toString(),
         couponTotal: toDouble(json['couponTotal'].toString()),
     );
   }
