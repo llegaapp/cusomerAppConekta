@@ -32,10 +32,14 @@ class Basket{
     for (var item in orderdetails){
       if (item.count != 0)
         basket.add(
+           // this.price,  this.precioUnit,  this.taxFood, this.tax,
           DishesData(
             image: item.image,
             name: item.food,
             price: item.foodprice,
+            precioUnit: item.foodprecioUnit,
+            taxFood: item.foodtax,
+            tax: item.foodtax,
             id: item.foodid,
             idDetails: item.id,
             hashid: item.hashid,
@@ -54,7 +58,14 @@ class Basket{
             category: item.category,
         ));
       else{   // extras add
-        var extras = Extras(id: item.id, desc: "", name: item.extras, image: item.image, price: double.parse(item.extrasprice), select: true);
+        var extras = Extras(id: item.id, desc: "", name: item.extras, image: item.image,
+            price: double.parse(item.extrasprice),
+            precioUnit: double.parse(item.extrasprecioUnit),
+            taxFood: double.parse(item.extrastaxFood),
+            tax: double.parse(item.extrastax),
+            select: true);
+
+                   // Extras({this.id, this.name, this.desc, this.price, this.precioUnit, this.taxFood,this.tax, this.image, this.select = false});
         for (var i in basket)
           if (i.id == item.foodid)
             i.extras.add(extras);
@@ -184,8 +195,12 @@ class Basket{
   }*/
 
   getTaxes(bool needCoupons){ 
-    double t = (getShoppingCost(needCoupons) + getSubTotal(needCoupons)) * taxes/100;
-    return t;
+    //double t = (getShoppingCost(needCoupons) + getSubTotal(needCoupons)) * taxes/100;
+    //return t;
+    double _totalTax = 0;
+    for (var item in basket)
+      _totalTax += getItemPriceTaxes(item);
+    return _totalTax;
   }
   
   double getTotal(bool needCoupons){
@@ -222,6 +237,21 @@ class Basket{
   }
 
   getItemPrice(DishesData item){
+    //print('total item');
+    //print(item.toJSON());
+    if (item == null)
+      return 0;
+    var t = item.precioUnit * item.count;
+    if (item.discountprice != null && item.discountprice != 0)
+      t = item.discountprice * item.count;
+    for (var ex in item.extras)
+      if (ex.select)
+        t += (ex.precioUnit * item.count);
+    return t;
+  }
+  getItemPriceTotal(DishesData item){
+    //print('total item');
+    //print(item.toJSON());
     if (item == null)
       return 0;
     var t = item.price * item.count;
@@ -230,6 +260,19 @@ class Basket{
     for (var ex in item.extras)
       if (ex.select)
         t += (ex.price * item.count);
+    return t;
+  }
+  getItemPriceTaxes(DishesData item){
+    //print('total item');
+    //print(item.toJSON());
+    if (item == null)
+      return 0;
+    var t = item.taxFood * item.count;
+    if (item.discountprice != null && item.discountprice != 0)
+      t = item.discountprice * item.count;
+    for (var ex in item.extras)
+      if (ex.select)
+        t += (ex.taxFood * item.count);
     return t;
   }
 

@@ -53,7 +53,11 @@ class ResponseRestaurant {
   ResponseRestaurant({this.error, this.foods, this.currency, this.restaurant, this.categories, this.restaurantsreviews});
   factory ResponseRestaurant.fromJson(Map<String, dynamic> json){
     var m;
+    //print('json_________:');
+    //print(json);
     if (json['foods'] != null) {
+      print('foods:');
+      print(json['foods']);
       var items = json['foods'];
       var t = items.map((f)=> DishesData.fromJson(f)).toList();
       m = t.cast<DishesData>().toList();

@@ -57,6 +57,9 @@ class AppThemeData{
   TextStyle text16Ubold;
   TextStyle text16UIWhite;
   TextStyle text16Companyon;
+  TextStyle text16yellow;
+  TextStyle text16blue;
+  TextStyle text16CompanyonNoBold;
   TextStyle text16bold;
   TextStyle text16boldWhite;
   TextStyle text18boldPrimary;
@@ -236,6 +239,20 @@ class AppThemeData{
     text16Companyon = TextStyle(
       color: colorCompanion,
       fontWeight: FontWeight.w800,
+      fontSize: 16,
+    );
+    text16yellow = TextStyle(
+      color: Colors.yellow,
+      fontWeight: FontWeight.w800,
+      fontSize: 16,
+    );
+    text16blue = TextStyle(
+      color: Colors.lightBlueAccent,
+      fontWeight: FontWeight.w800,
+      fontSize: 16,
+    );
+    text16CompanyonNoBold = TextStyle(
+      color: colorCompanion,
       fontSize: 16,
     );
 

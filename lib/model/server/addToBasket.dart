@@ -38,7 +38,7 @@ addToBasket(List<DishesData> basket, String uid, String tax, String hint, String
     var url = "${serverPath}addToBasket";
     var response = await http.post(url, headers: requestHeaders, body: body).timeout(const Duration(seconds: 30));
 
-    dprint("addToBasket1");
+    dprint("addToBasket1-----------------------------------------------");
     dprint('Response status: ${response.statusCode}');
     dprint('Response body:   ${response.body}');
 

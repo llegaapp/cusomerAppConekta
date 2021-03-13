@@ -202,9 +202,23 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   _list(List<Widget> list){
     var height = windowWidth*0.35;
+    int _status = 1;
+    var curbsidePickupLbl ='';
+    var colorStatus ;
     if (_data == null)
       return;
     for (var item in _data) {
+      //print('curbsidePickup:');
+      //print(item.orderid+': ' +item.curbsidePickup);
+      _status = int.parse(item.status);
+      //print(item.orderid.toString()+'_status: '+_status.toString());
+
+      if( item.curbsidePickup=='true') curbsidePickupLbl = strings.get(247);
+      else curbsidePickupLbl = strings.get(311);
+      colorStatus = theme.text16blue;
+      if(_status==6)  colorStatus =theme.text16Red;
+      else if(_status==5)  colorStatus =theme.text16Companyon;//si está entregado
+
       list.add(Container(
           child: ICard14FileCaching(
             radius: appSettings.radius,
@@ -212,10 +226,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
             color: theme.colorBackground,
             colorProgressBar: theme.colorPrimary,
             ticketCode: item.ticketCode,
-            text: item.name,
+            text: item.restaurant,
             textStyle: theme.text16bold,
-            text2: item.restaurant,
-            textStyle2: theme.text14,
+            text2: curbsidePickupLbl,
+            textStyle2: theme.text16CompanyonNoBold,
             text3: item.date,
             textStyle3: theme.text14,
             text4: (appSettings.rightSymbol == "false") ? "$_currency${item.total.toStringAsFixed(appSettings.symbolDigits)}" :
@@ -226,7 +240,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             image: "$serverImages${item.image}",
             id: item.orderid,
             text6: item.statusName,
-            textStyle6: theme.text16Companyon,
+            textStyle6: colorStatus,
             text5: "${strings.get(195)}${item.orderid}", // Id #
             textStyle5: theme.text16bold,
             callback: _onItemClick,

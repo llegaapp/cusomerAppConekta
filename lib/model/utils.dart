@@ -69,6 +69,13 @@ validators(String _value, String _type)
     if(_type == 'empty')
     {
         return null;
+    }if(_type == 'notempty')
+    {
+      if ( _value.isEmpty ) {
+        return strings.get(298);
+      } else {
+        return null;
+      }
     }
 
     if(_type == 'email')
@@ -94,15 +101,16 @@ validators(String _value, String _type)
     
     if(_type == 'rfc')
     {
-      if(_value.isEmpty)
-      return null;
-
-        if (isRFC(_value) ) {
-          return null;
-          } else {
-          return strings.get(294); 
+      if ( _value.isEmpty ) {
+        return strings.get(298);
+      } else {
+          if (isRFC(_value) ) {
+            return null;
+            } else {
+            return strings.get(294);
+          }
         }
-    } 
+    }
 
     return null;
   }
