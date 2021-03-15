@@ -354,6 +354,7 @@ class Lang {
     310 : "Delivery service invoice: ",
     311 : "Home delivery ",
     312 : "Delivery taxes",
+    313 : "Offer",
   };
 
   //

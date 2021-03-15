@@ -427,8 +427,22 @@ class DishesData {
       category: json['category'].toString(),
       fee: json['fee'].toString(),
       //percent: json['percent'],
-      discount: (toDouble(json['discountprice'].toString()) != 0) ?
-      "-${((toDouble(json['price'].toString())-toDouble(json['discountprice'].toString()))~/(toDouble(json['price'].toString())/100)).toString()}%" : "",
+    //   discount: (toDouble(json['discountprice'].toString()) != 0) ?
+    //   "-${
+    //       (
+    //           (
+    //               (
+    //                 toDouble(json['price'].toString())-toDouble(json['discountprice'].toString())
+    //               )
+    //                /
+    //               (
+    //                 toDouble(json['price'].toString())/100
+    //               )
+    //           ).toStringAsFixed(2)
+    //       ).toString()
+    //       }%" : "",
+    // );
+    discount: "Oferta",
     );
   }
 

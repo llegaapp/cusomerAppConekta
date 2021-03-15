@@ -307,4 +307,5 @@ Map<int, String> langEsp = {
   310 : "Factura de servicio de entrega: ",
   311 : "Entrega a domicilio",
   312 : "Impuestos de envío",
+  313 : "Oferta",
 };

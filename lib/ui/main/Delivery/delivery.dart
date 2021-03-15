@@ -218,7 +218,32 @@ class _DeliveryScreenState extends State<DeliveryScreen>
               child: Container (
                 child: ListView(
                   children: _getList(),
-                ),)
+
+                ),
+
+
+              )
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: EdgeInsets.only(top: 10),
+              decoration: BoxDecoration(
+                color: theme.colorBackground,
+                borderRadius: new BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 3,
+                    blurRadius: 3,
+                    offset: Offset(0, 0),
+                  ),
+                ],
+              ),
+
+
+              child: _addbottomBar(),
+            ),
           ),
 
           Container(
@@ -279,11 +304,11 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     if (stage == 1) {
       _body(list);
       list.add(SizedBox(height: 50,));
-      if (_checkBoxValue)
-        list.add(_button());
-      else
-        if (!_distanceToMax)
-          list.add(_button());
+      // if (_checkBoxValue)
+      //   list.add(_button());
+      // else
+      //   if (!_distanceToMax)
+      //     list.add(_button());
 
       list.add(SizedBox(height: 150,));
     }
@@ -329,7 +354,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
         list.add(SizedBox(height: 10,));
       }
       list.add(SizedBox(height: 20,));
-      list.add(_button());
+      //list.add(_button());
       list.add(SizedBox(height: 150,));
     }
 
@@ -676,7 +701,10 @@ class _DeliveryScreenState extends State<DeliveryScreen>
         margin: EdgeInsets.only(left: 20, right: 20),
         child: _row2(_time, strings.get(220))    //  Arriving in 30-60 min - "Change >",
     ));
-
+    //list.add( Column(
+    //    mainAxisSize: MainAxisSize.min,
+    //    children: _bottomBar()
+   // ));
     list.add(SizedBox(height: 30,));
   }
 
@@ -690,6 +718,21 @@ class _DeliveryScreenState extends State<DeliveryScreen>
         textStyle: theme.text16boldWhite,),
     );
   }
+  // _button(){
+  //   return Scaffold(
+  //     body: Directionality(
+  //       textDirection: strings.direction,
+  //       child:Container(
+  //         alignment: Alignment.center,
+  //         margin: EdgeInsets.only(left: windowWidth*0.15, right: windowWidth*0.15),
+  //         child: IButton3(pressButton: _pressContinueButton,
+  //           text: (stage == 3) ? strings.get(118) : strings.get(18), // Done or Continue
+  //           color: theme.colorPrimary,
+  //           textStyle: theme.text16boldWhite,),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   double _show = 0;
   Widget _dialogBody = Container();
@@ -800,7 +843,49 @@ class _DeliveryScreenState extends State<DeliveryScreen>
       _show = 1;
     });
   }
+  List<Widget> _bottomBar(){
 
+
+
+    var list = List<Widget>();
+    var t = basket.getSubTotal(false);
+    list.add(_itemText(strings.get(93)+'', basket.makePriceSctring(basket.getSubTotal(false)), false));  // "Subtotal de productos",
+    list.add(SizedBox(height: 5,));
+    list.add(_itemText(strings.get(95), basket.makePriceSctring(basket.getTaxes(false)), false));  // "impuestos de productos",
+    list.add(SizedBox(height: 5,));
+    if (!_checkBoxValue) {
+      list.add(_itemText(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(false)), false));   // "Gastos de envío",
+      list.add(SizedBox(height: 5,));
+      list.add(_itemText(strings.get(312), basket.makePriceSctring(basket.getShoppingCost(false)), false));   // "Impuestos de envío",
+      list.add(SizedBox(height: 5,));    }
+
+
+    list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(false)), true));  // "Total",
+
+    list.add(SizedBox(height: 15,));
+    list.add(Container(
+      margin: EdgeInsets.only(left: 30, right: 30),
+      child: IButton3(
+        // text: strings.get(97),
+        text: (stage == 3) ? strings.get(118) : strings.get(18), // Done or Continue
+        textStyle: theme.text14boldWhite,
+        color: theme.colorPrimary, pressButton: _pressContinueButton,             // Checkout
+      ),
+    ));
+    list.add(SizedBox(height: 15,));
+    return list;
+  }
+  _addbottomBar(){
+    if (stage != 3) {
+      return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: _bottomBar()
+      );
+    }else{
+      return Column( mainAxisSize: MainAxisSize.min,);
+
+    }
+  }
   _finishWidget(List<Widget> list){
     //      list.add(UnconstrainedBox(
 //          child: Container(
