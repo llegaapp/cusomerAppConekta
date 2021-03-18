@@ -258,7 +258,7 @@ class Lang {
     215 : "BALANCE",
     216 : "Top Up Now",
     217 : "Enter the amount",
-    218 : "Note!\nThe delivery distance ",
+    218 : "Note!\n The delivery distance ",
     219 : "Arriving in 30-60 min",
     220 : "Change >",
     221 : "Now",
@@ -354,6 +354,10 @@ class Lang {
     310 : "Delivery service invoice: ",
     311 : "Home delivery ",
     312 : "Delivery taxes",
+    313 : "Offer",
+    314 : "Distance: ",
+    315 : "Free shipping",
+    316 : "discount on products",
   };
 
   //

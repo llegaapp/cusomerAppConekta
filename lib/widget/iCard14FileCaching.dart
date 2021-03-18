@@ -27,7 +27,13 @@ class ICard14FileCaching extends StatefulWidget {
   final TextStyle textStyle5;
   final String text6;
   final TextStyle textStyle6;
+  final TextStyle textStyle7;
   final String heroId;
+
+  final String image1;
+  final String image2;
+  final String image3;
+
   final double radius;
   final int shadow;
 
@@ -38,7 +44,8 @@ class ICard14FileCaching extends StatefulWidget {
     this.text3 = "", this.textStyle3,
     this.text4 = "", this.textStyle4,
     this.text5 = "", this.textStyle5,
-    this.text6 = "", this.textStyle6,
+    this.text6 = "", this.textStyle6,this.textStyle7,
+    this.image1, this.image2, this.image3,
     this.heroId, this.colorProgressBar,
     this.radius = 15, this.shadow = 10
   });
@@ -53,8 +60,12 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
   var _textStyle2 = TextStyle(fontSize: 16);
   var _textStyle3 = TextStyle(fontSize: 16);
   var _textStyle4 = TextStyle(fontSize: 16);
-  var _textStyle5 = TextStyle(fontSize: 16);
+  var _textStyle5 = TextStyle(fontSize: 14);
   var _textStyle6 = TextStyle(fontSize: 16);
+  var _textStyle7 = TextStyle(fontSize: 13);
+  var _image1 = '';
+  var _image2 = '';
+  var _image3 = '';
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +82,12 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
       _textStyle5 = widget.textStyle5;
     if (widget.textStyle6 != null)
       _textStyle6 = widget.textStyle6;
+    if (widget.textStyle7 != null)
+      _textStyle7 = widget.textStyle7;
+
+    _image1 = widget.image1;
+    _image2 = widget.image2;
+    _image3 = widget.image3;
 
     return InkWell(
         onTap: () {
@@ -137,16 +154,26 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       SizedBox(height: 5,),
-                      Text('Ticket '+widget.ticketCode, style: _textStyle3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),
-                      Row(children: [ 
-                        Expanded(child: Text(widget.text, style: _textStyle, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),  // name
-                        Text(widget.text5, style: _textStyle5, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)
-                      ],),
-                      Text(widget.text2, style: _textStyle2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),
-                      Text(widget.text3, style: _textStyle3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),
                       Row(children: [
-                        Expanded(child: Text(widget.text6, style: _textStyle6, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),  // name
-                        Text(widget.text4, style: _textStyle4, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,),
+                        Expanded(child: Text('Ticket  '+widget.ticketCode, style: _textStyle5, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),  // name
+                        Text(widget.text5, style: _textStyle7, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)
+                      ],),
+                      SizedBox(height: 5,),
+                      Text(widget.text, style: _textStyle, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),
+
+                      Row(children: [
+                        Expanded(flex: 8 , child: Text(widget.text2, style: _textStyle2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),),
+                        Expanded( flex: 2 , child: _image_2(_image2) ),  // name
+                      ],),
+                      // _image
+
+                      Row(children: [
+                        Expanded( flex: 4 , child: Text(widget.text6, style: _textStyle3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,), ),
+                        Expanded( flex: 6 , child: _image(_image1) ),  // name
+                      ],),  Row(children: [
+                        Expanded(flex: 6, child: Text(widget.text3, style: _textStyle5, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,), ),  // name
+                        Expanded(flex: 1, child: _image_3(_image3)),  // name
+                        Expanded(flex: 3 , child: Text(widget.text4, style: _textStyle4, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,)),  // name
                       ],),
                       SizedBox(height: 5,)
                     ],
@@ -156,5 +183,59 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
             ],
           ),
     ));
+  }
+  Widget _image(String image){
+    print('image '+image);
+    if(image!=''){
+      return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[ Image.asset( image ,
+        // fit: BoxFit.contain,
+        height: 25,
+        width: 25,
+      )]);
+
+    }else{
+      return  Text('');
+
+    }
+  }
+  Widget _image_3(String image){
+    print('image '+image);
+    if(image!=''){
+      return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[ Image.asset( image ,
+        // fit: BoxFit.contain,
+        height: 20,
+        width: 20,
+      )]);
+
+    }else{
+      return  Text('');
+
+    }
+  }
+  Widget _image_2(String image){
+    print('image '+image);
+    if(image!=''){
+      return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[ Image.asset( image ,
+        // fit: BoxFit.contain,
+        height: 42,
+        // width: 35,
+      )]);
+
+    }else{
+      return  Text('');
+
+    }
   }
 }

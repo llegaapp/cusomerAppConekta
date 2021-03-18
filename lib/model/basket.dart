@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
 import 'package:fooddelivery/main.dart';
 import 'package:fooddelivery/model/server/addToBasket.dart';
 import 'package:fooddelivery/model/server/basketReset.dart';
@@ -19,8 +22,25 @@ class Basket{
   String _percentage;
   String defCurrency = "";
   Coupon _coupon;
+  double getShoppingTotal = 0 ;
+  double couponTotal = 0 ;
+  String couponInpercents = '0' ;
+  String couponDiscount = '0' ;
+  String enviogratis_ = '0' ;
+  String subtotalEnvio = '0' ;
+
 
   init(OrderData order, List<OrderDetailsData> orderdetails, String currency, double defaultTax, String _fee, String percentage){
+
+    getShoppingTotal = 0 ;
+    couponTotal = 0 ;
+    couponInpercents = '0' ;
+    couponDiscount = '' ;
+    enviogratis_ = '0' ;
+    subtotalEnvio = '0' ;
+
+    _coupon = null;
+
     fee = double.parse(_fee);
     defCurrency = currency;
     _percentage = percentage;
@@ -38,7 +58,7 @@ class Basket{
             name: item.food,
             price: item.foodprice,
             precioUnit: item.foodprecioUnit,
-            taxFood: item.foodtax,
+            taxFood: item.foodtaxFood,
             tax: item.foodtax,
             id: item.foodid,
             idDetails: item.id,
@@ -148,7 +168,9 @@ class Basket{
     restaurant = t.restaurant;
     String ticketCode = sha1Ticketcode();
     addToBasket(basket, account.token, '10', "hint", restaurant, "Cash on Delivery", "0", "0",
-        "", "",  0.0, "0.0", "0.0", "false", "", "0.0",ticketCode,
+        "", "",  0.0, "0.0", "0.0", "false", "0.0",
+        "", "0.0","0","0.0","0",
+        ticketCode,
         (String id, String _fee, String percent) {
           fee = double.parse(_fee);
           _percentage = percent;
@@ -181,12 +203,25 @@ class Basket{
       }
   }
 
-  double getShoppingCost(bool needCoupons){
-    if (_percentage == '1') {
-      double total = getSubTotal(needCoupons) * fee / 100;
-      return total;
-    }else
-      return fee;
+  double getShoppingCost(bool needCoupons, bool _distanceExtras, int distanceDif){
+    // if (_percentage == '1') {
+    //   double total = getSubTotal(needCoupons) * fee / 100;
+    //   return total;
+    // }else
+    if (_distanceExtras){
+      return appSettings.tarifaEnvio+( appSettings.tarifaKmExtra * distanceDif );
+    }else {
+      return appSettings.tarifaEnvio;
+    }
+
+  }
+  double getShoppingTaxes( double getShoppingCost ){
+    // if (_percentage == '1') {
+      double taxdelivery = getShoppingCost ;
+      taxdelivery = taxdelivery * ( appSettings.taxDelivery /100);
+    //   return total;
+    // }else
+      return taxdelivery;
   }
 
   /*getTaxes(bool needCoupons){
@@ -202,9 +237,15 @@ class Basket{
       _totalTax += getItemPriceTaxes(item);
     return _totalTax;
   }
-  
+
+
   double getTotal(bool needCoupons){
+    // basket.getShoppingTotal = basket.getShoppingTotal;
+    print('basket getShoppingTotal: '+ getShoppingTotal.toStringAsFixed(2).toString());
+    print('_coupon:');
+    inspect(_coupon);
     double _subTotal = getSubTotal(needCoupons);
+
 
     var _fee = 0.0;
     if (_percentage == '1')
@@ -214,14 +255,15 @@ class Basket{
     
     var _taxes = (_fee + _subTotal) * (taxes/100);
     var _total = _subTotal + _fee + _taxes;
-
-    if (!needCoupons)
+    _total += getShoppingTotal;
+    if (!needCoupons) {
       return _total;
+    }
 
     if (_coupon != null){
        return _total- getCoupons();
     }
-     
+
     return _total;
   }
 
@@ -242,8 +284,8 @@ class Basket{
     if (item == null)
       return 0;
     var t = item.precioUnit * item.count;
-    if (item.discountprice != null && item.discountprice != 0)
-      t = item.discountprice * item.count;
+    //if (item.discountprice != null && item.discountprice != 0)
+    //  t = item.discountprice * item.count;
     for (var ex in item.extras)
       if (ex.select)
         t += (ex.precioUnit * item.count);
@@ -263,13 +305,13 @@ class Basket{
     return t;
   }
   getItemPriceTaxes(DishesData item){
-    //print('total item');
+    //print('getItemPriceTaxes');
     //print(item.toJSON());
     if (item == null)
       return 0;
     var t = item.taxFood * item.count;
-    if (item.discountprice != null && item.discountprice != 0)
-      t = item.discountprice * item.count;
+    //if (item.discountprice != null && item.discountprice != 0)
+    //  t = item.discountprice * item.count;
     for (var ex in item.extras)
       if (ex.select)
         t += (ex.taxFood * item.count);
@@ -359,69 +401,84 @@ class Basket{
   getCoupons()
   {
     var _total = _getSubTotal();
-    if (_coupon != null){
-      dprint("getSubTotal coupon present");
-      couponComment = "";
-      if (_total > _coupon.amount){
-        //
-        var total = 0.0;
-        for (var food in basket){
-          var price = getItemPrice(food);
-          var priceCoupon = price;
-
-          if (_coupon.allRestaurants == '1') {
-            priceCoupon = _couponCalculate(price);
-            if (_coupon.allCategory != '1' && !_coupon.categoryList.contains(food.category)) {
-              priceCoupon = price;
-              dprint("getSubTotal not present in category list=${_coupon.categoryList} need=${food.category}");
-            }else
-              dprint("getSubTotal present in category list=${_coupon.categoryList} need=${food.category}");
-
-            if (_coupon.allFoods != '1' && !_coupon.foodsList.contains(food.id)) {
-              priceCoupon = price;
-              dprint("getSubTotal not present in foods list=${_coupon.foodsList} need=${food.id}");
-            }else
-              dprint("getSubTotal present in foods list=${_coupon.foodsList} need=${food.id}");
-
-          }else{
-            if (_coupon.restaurantsList.contains(food.restaurant)) {
-              priceCoupon = _couponCalculate(price);
-              if (_coupon.allCategory != '1' && !_coupon.categoryList.contains(food.category)) {
-                //priceCoupon = price;
-                priceCoupon = 0;
-                dprint("getSubTotal not present in category list=${_coupon.categoryList} need=${food.category}");
-              }else
-                dprint("getSubTotal present in category list=${_coupon.categoryList} need=${food.category}");
-
-              if (_coupon.allFoods != '1' && !_coupon.foodsList.contains(food.id)){
-                //priceCoupon = price;
-                priceCoupon = 0;
-                dprint("getSubTotal not present in foods list=${_coupon.foodsList} need=${food.id}");
-              }else
-                dprint("getSubTotal present in foods list=${_coupon.foodsList} need=${food.id}");
-
-            }else
-              priceCoupon = 0;
-              //priceCoupon = price;
-          }
-          if (priceCoupon != price)
-            dprint("getSubTotal food ${food.id}:${food.name} IN ACTION. ${_getItemPriceDEBUG(food)} WITH COUPON=${_couponCalculateDEBUG(price)}");
-          else{
-            dprint("getSubTotal food ${food.id}:${food.name} NO IN ACTION. ${_getItemPriceDEBUG(food)}");
-            couponComment = "$couponComment${strings.get(262)} ${food.name} ${strings.get(263)}\n"; // Food does not participate in the promotion",
-          }
-          total += priceCoupon;
-        }
-        if (total != _total)
-          if (_coupon.inpercents != '1')
-            total =  _coupon.discount;
-        return total;
-      }else{
-        couponComment = "${strings.get(264)} ${_coupon.amount}\n";  // "The minimum purchase amount must be",
-        return 0; 
-      }
+    double _totaltax =  0;
+    for (var item in basket) {
+      _totaltax += getItemPriceTaxes(item);
     }
-    return 0; 
+    print('_totaltax: '+_totaltax.toString());
+    _total +=_totaltax;
+    print('_total: '+_total.toString());
+    if (_coupon != null){
+        dprint("getSubTotal coupon present");
+        print('_coupon.enviogratis');
+        print(_coupon.enviogratis);
+        if(_coupon.enviogratis.toString()=='0'){
+          couponComment = "";
+          if (_total > _coupon.amount){
+            //
+            var total = 0.0;
+            for (var food in basket){
+              var price = getItemPrice(food);
+              var tax = getItemPriceTaxes(food);
+              price = price + tax;
+              var priceCoupon = price ;
+
+              if (_coupon.allRestaurants == '1') {
+                priceCoupon = _couponCalculate(price);
+                if (_coupon.allCategory != '1' && !_coupon.categoryList.contains(food.category)) {
+                  priceCoupon = price;
+                  dprint("getSubTotal not present in category list=${_coupon.categoryList} need=${food.category}");
+                }else
+                  dprint("getSubTotal present in category list=${_coupon.categoryList} need=${food.category}");
+
+                if (_coupon.allFoods != '1' && !_coupon.foodsList.contains(food.id)) {
+                  priceCoupon = price;
+                  dprint("getSubTotal not present in foods list=${_coupon.foodsList} need=${food.id}");
+                }else
+                  dprint("getSubTotal present in foods list=${_coupon.foodsList} need=${food.id}");
+
+              }else{
+                if (_coupon.restaurantsList.contains(food.restaurant)) {
+                  priceCoupon = _couponCalculate(price);
+                  if (_coupon.allCategory != '1' && !_coupon.categoryList.contains(food.category)) {
+                    //priceCoupon = price;
+                    priceCoupon = 0;
+                    dprint("getSubTotal not present in category list=${_coupon.categoryList} need=${food.category}");
+                  }else
+                    dprint("getSubTotal present in category list=${_coupon.categoryList} need=${food.category}");
+
+                  if (_coupon.allFoods != '1' && !_coupon.foodsList.contains(food.id)){
+                    //priceCoupon = price;
+                    priceCoupon = 0;
+                    dprint("getSubTotal not present in foods list=${_coupon.foodsList} need=${food.id}");
+                  }else
+                    dprint("getSubTotal present in foods list=${_coupon.foodsList} need=${food.id}");
+
+                }else
+                  priceCoupon = 0;
+                  //priceCoupon = price;
+              }
+              if (priceCoupon != price)
+                dprint("getSubTotal food ${food.id}:${food.name} IN ACTION. ${_getItemPriceDEBUG(food)} WITH COUPON=${_couponCalculateDEBUG(price)}");
+              else{
+                dprint("getSubTotal food ${food.id}:${food.name} NO IN ACTION. ${_getItemPriceDEBUG(food)}");
+                couponComment = "$couponComment${strings.get(262)} ${food.name} ${strings.get(263)}\n"; // Food does not participate in the promotion",
+              }
+              total += priceCoupon;
+            }
+            if (total != _total)
+              if (_coupon.inpercents != '1')
+                total =  _coupon.discount;
+            return total;
+          }else{
+            couponComment = "${strings.get(264)} ${_coupon.amount}\n";  // "The minimum purchase amount must be",
+            return 0.0;
+          }
+        }else{
+          return getShoppingTotal;
+        }
+    }
+    return 0.0;
   }
 
   _couponCalculate(var _total){
@@ -458,15 +515,22 @@ class Basket{
 
   String _paymentid = "";
   createOrder(String id, String addr, String phone, String hint, String lat, String lng, String curbsidePickup,
-      String couponName,String couponTotal,String pticketCode,
+      String couponName,String couponTotal,String couponInpercents,String couponDiscount,String enviogratis, String subtotalEnvio,
+      String pticketCode,
       Function() _success, Function(String) _error){
+
+    // (id, addr, phone, hint, lat, lng, curbsidePickup, couponName,couponTotal, ticketCode, _openDialog, _onError)
     _paymentid = id;
     for (var item in basket)
       item.delivered = false;
       basketReset(account.token, (){
       var _total = getTotal(true);
+      print('getTotal:'+_total.toString());
+
       addToBasket(basket, account.token, taxes.toString(), hint, restaurant, _paymentid, "0", "1", addr, phone,
-          _total, lat, lng, curbsidePickup, couponName,couponTotal, pticketCode,
+          _total, lat, lng, curbsidePickup,
+          couponName,couponTotal, couponInpercents, couponDiscount, enviogratis, subtotalEnvio,
+            pticketCode,
               (String id, String _fee, String percent) {
             fee = double.parse(_fee);
             _percentage = percent;
@@ -476,6 +540,7 @@ class Basket{
             basket.clear();
           }, _error);
     }, _error);
+    // basket.setCoupon(null);
   }
 
   getCount(String id){

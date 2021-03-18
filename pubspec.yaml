@@ -99,3 +99,10 @@ flutter:
         - asset: assets/fonts/Raleway-Bold.ttf
           weight: 800
         - asset: assets/fonts/Raleway-Light.ttf
+
+    - family: Avenir
+      fonts:
+          - asset: assets/fonts/Avenir-Black.ttf
+          - asset: assets/fonts/Avenir-Light.ttf
+          - asset: assets/fonts/Avenir-Medium.ttf
+          - asset: assets/fonts/Avenir-Medium-Oblique.ttf

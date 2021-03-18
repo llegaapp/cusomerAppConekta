@@ -46,8 +46,11 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
       return;
     if (!account.isAuth())
       route.push(context, "/login");
-    else
+    else {
+      basket.getShoppingTotal = 0.0;//se vacía el jodido cupón
+      basket.setCoupon(null);//se vacía el jodido cupón
       route.push(context, "/delivery");
+    }
   }
 
   //
@@ -179,13 +182,17 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
   }
 
   List<Widget> _bottomBar(){
+    basket.couponInpercents = '0';
+    basket.couponDiscount = '0';
+    basket.enviogratis_ = '0';
     var list = List<Widget>();
     var t = basket.getSubTotal(false);
-    list.add(_itemText(strings.get(93), basket.makePriceSctring(basket.getSubTotal(false)), false));  // "Subtotal de productos",
+    basket.getShoppingTotal = 0.0;
+    list.add(_itemText(strings.get(93), basket.makePriceSctring(basket.getSubTotal(false)), false));  // subtotal de productos,
     list.add(SizedBox(height: 5,));
-    //list.add(_itemText(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(false)), false));   // "Shopping costs",
-    //list.add(SizedBox(height: 5,));
-    list.add(_itemText(strings.get(95), basket.makePriceSctring(basket.getTaxes(false)), false));  // "Taxes",
+    // list.add(_itemText(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(false)), false));   // gastos de envío,
+    // list.add(SizedBox(height: 5,));
+    list.add(_itemText(strings.get(95), basket.makePriceSctring(basket.getTaxes(false)), false));  // impuestos de productos,
     list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(false)), true));  // "Total",
 
@@ -193,7 +200,8 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
     list.add(Container(
       margin: EdgeInsets.only(left: 30, right: 30),
       child: IButton3(text: strings.get(97), textStyle: theme.text14boldWhite,
-        color: theme.colorPrimary, pressButton: _pressCheckoutButton,             // Checkout
+        color: theme.colorPrimary,
+        pressButton: _pressCheckoutButton,             // Checkout
       ),
     ));
     list.add(SizedBox(height: 15,));

@@ -402,7 +402,7 @@ _avatar2(){
 
 
 saleSticker(double width, String dicount, String discountprice, String price){
-  var size = width*0.3;
+  var size = width*0.35;
   var margin = size*0.05;
   var radius = 5.0;
   var _boxshadow = [
