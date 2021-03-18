@@ -158,7 +158,7 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
                         Expanded(child: Text('Ticket  '+widget.ticketCode, style: _textStyle5, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),  // name
                         Text(widget.text5, style: _textStyle7, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)
                       ],),
-                      SizedBox(height: 5,),
+                      SizedBox(height: 3,),
                       Text(widget.text, style: _textStyle, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),
 
                       Row(children: [
@@ -175,7 +175,7 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
                         Expanded(flex: 1, child: _image_3(_image3)),  // name
                         Expanded(flex: 3 , child: Text(widget.text4, style: _textStyle4, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,)),  // name
                       ],),
-                      SizedBox(height: 5,)
+                      SizedBox(height: 3,)
                     ],
                   ),
                   )),
@@ -229,7 +229,7 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[ Image.asset( image ,
         // fit: BoxFit.contain,
-        height: 42,
+        height: 30,
         // width: 35,
       )]);
 

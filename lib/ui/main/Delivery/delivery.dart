@@ -5,7 +5,7 @@ import 'package:fooddelivery/main.dart';
 import 'package:fooddelivery/model/dprint.dart';
 import 'package:fooddelivery/model/homescreenModel.dart';
 import 'package:fooddelivery/model/server/addressGet.dart';
-import 'package:fooddelivery/model/utils.dart';
+//import 'package:fooddelivery/model/utils.dart';
 import 'package:fooddelivery/ui/main/Delivery/payments.dart';
 import 'address.dart';
 import 'package:fooddelivery/model/pref.dart';

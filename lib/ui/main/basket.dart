@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -186,7 +185,7 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
     basket.couponDiscount = '0';
     basket.enviogratis_ = '0';
     var list = List<Widget>();
-    var t = basket.getSubTotal(false);
+    //var t = basket.getSubTotal(false);
     basket.getShoppingTotal = 0.0;
     list.add(_itemText(strings.get(93), basket.makePriceSctring(basket.getSubTotal(false)), false));  // subtotal de productos,
     list.add(SizedBox(height: 5,));
