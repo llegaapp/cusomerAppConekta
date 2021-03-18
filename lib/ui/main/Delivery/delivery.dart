@@ -5,6 +5,7 @@ import 'package:fooddelivery/main.dart';
 import 'package:fooddelivery/model/dprint.dart';
 import 'package:fooddelivery/model/homescreenModel.dart';
 import 'package:fooddelivery/model/server/addressGet.dart';
+import 'package:fooddelivery/model/utils.dart';
 import 'package:fooddelivery/ui/main/Delivery/payments.dart';
 import 'address.dart';
 import 'package:fooddelivery/model/pref.dart';
@@ -21,7 +22,11 @@ import 'package:fooddelivery/widget/iinkwell.dart';
 import 'package:fooddelivery/widget/iinputField2.dart';
 
 String couponName = "";
+String couponInpercents = "";
+String couponDiscount = "";
+String enviogratis = "";
 String couponTotal = "0.0";
+String subtotalEnvio = "0.0";
 
 var walletId = "";
 
@@ -119,9 +124,16 @@ class _DeliveryScreenState extends State<DeliveryScreen>
   final editControllerAddress = TextEditingController();
   final editControllerCoupon = TextEditingController();
   var _areakm = -1;
+  var _areaMinkm = -1;
   var restLat = 0.0;
   var restLng = 0.0;
   var _distanceToMax = false;
+  var _distanceExtras = false;
+  var distanceDif = 0;
+  double subtotal = 0;
+  double getShoppingCost = 0;
+  double getShoppingTaxes = 0;
+  double getShoppingTotal=0;
   var _vehicleType = "";
 
 
@@ -146,7 +158,9 @@ class _DeliveryScreenState extends State<DeliveryScreen>
           );
           for (var rest in nearYourRestaurants)
             if (rest.id == basket.restaurant) {
-              _areakm = rest.area;
+              // _areakm = rest.area;
+              _areakm = appSettings.distanciaMaxima;
+              _areaMinkm = appSettings.distanciaMinima;
               restLat = rest.lat;
               restLng = rest.lng;
             }
@@ -184,10 +198,23 @@ class _DeliveryScreenState extends State<DeliveryScreen>
       else
         distance = distance/1609.34;
 
-      if (distance > _areakm)
+      if (distance > _areakm) {
         _distanceToMax = true;
-      else
+        _distanceExtras = false;
+
+        distanceDif = 0;
+      }
+      else {
+        // _areaMinkm;
+
+        // distance.toInt()
+        distanceDif = distance.round() - _areaMinkm;
+        print('distance: '+distance.toString());
+        print('_areaMinkm: '+_areaMinkm.toString());
+        print('distanceDif: '+distanceDif.toString());
+        if(distanceDif>0)_distanceExtras = true;
         _distanceToMax = false;
+      }
       setState(() {
       });
     }
@@ -302,6 +329,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     list.add(SizedBox(height: 30,));
 
     if (stage == 1) {
+      // basket.setCoupon(null);
       _body(list);
       list.add(SizedBox(height: 50,));
       // if (_checkBoxValue)
@@ -465,6 +493,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
   bool _checkBoxValue2 = false;
 
   _body(List<Widget> list){
+    //_onCouponEnter( '');
     for (var rest in nearYourRestaurants)
       if (rest.id == basket.restaurant) {
         list.add(Container(
@@ -522,6 +551,21 @@ class _DeliveryScreenState extends State<DeliveryScreen>
       );
 
       if (_deliveryAddressInit){
+        // if( distanceDif>0 ){//si hay km extra
+        //   list.add(Container(
+        //       margin: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+        //       child: Text("${strings.get(314)} "+distance.toStringAsFixed(4)+" ${appSettings.distanceUnit}, ${appSettings.distanceUnit} ${strings.get(89)}: ${distanceDif}", style: theme.text14,) // "Distancia",
+        //   )
+        //   );
+        // }else{
+          list.add(Container(
+              margin: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+              child: Text("${strings.get(314)} "+distance.toStringAsFixed(4)+" ${appSettings.distanceUnit}", style: theme.text14,) // "Distancia",
+          )
+          );
+
+        // }
+
         list.add(Container(
           margin: const EdgeInsets.fromLTRB(20, 0, 20, 15),
           child: IInputField2(hint : strings.get(48),  // "Address",
@@ -535,12 +579,13 @@ class _DeliveryScreenState extends State<DeliveryScreen>
       }
 
       if (_deliveryAddressInit){
+        // _distanceToMax = true;
         if (_distanceToMax){
-          list.add(Container(
-              margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-              child: Text("${strings.get(218)} $distance${appSettings.distanceUnit} ${strings.get(261)}", style: theme.text16Red,) // ""Note!\тThe delivery distance is very long."",
-          )
-          );
+          // list.add(Container(
+          //     margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+          //     child: Text("${strings.get(218)} "+distance.toStringAsFixed(4)+" ${appSettings.distanceUnit} ${strings.get(261)}", style: theme.text16Red,) // ""Note!\тThe delivery distance is very long."",
+          // )
+          // );
           for (var item in nearYourRestaurants)
             if (item.id == basket.restaurant) {
               list.add(Container(
@@ -694,7 +739,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
       ),
     ));
 
-    list.add(_drawCoupon());
+    // list.add(_drawCoupon());
 
     list.add(SizedBox(height: 20,));
     list.add(Container(
@@ -849,29 +894,109 @@ class _DeliveryScreenState extends State<DeliveryScreen>
 
     var list = List<Widget>();
     var t = basket.getSubTotal(false);
-    list.add(_itemText(strings.get(93)+'', basket.makePriceSctring(basket.getSubTotal(false)), false));  // "Subtotal de productos",
+    subtotal = 0.0;
+    subtotal = basket.getSubTotal(false) ;
+
+    basket.couponInpercents = '0';
+    basket.couponDiscount = '0';
+    basket.enviogratis_ = '0';
+    list.add(_itemText(strings.get(93)+'', basket.makePriceSctring( subtotal ), false));  // "Subtotal de productos",
     list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(95), basket.makePriceSctring(basket.getTaxes(false)), false));  // "impuestos de productos",
     list.add(SizedBox(height: 5,));
+    basket.getShoppingTotal = 0.0;
+    basket.subtotalEnvio = '0.0';
+
+    basket.couponTotal = 0.0;
+    getShoppingCost = 0.0;
+    getShoppingTaxes = 0.0;
+    getShoppingTotal = 0.0;
     if (!_checkBoxValue) {
-      list.add(_itemText(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(false)), false));   // "Gastos de envío",
+      print('tarifaEnvio');
+      print(appSettings.tarifaEnvio);
+
+      getShoppingCost = basket.getShoppingCost( false, _distanceExtras, distanceDif );
+      getShoppingTaxes = basket.getShoppingTaxes( getShoppingCost );
+      getShoppingTotal = getShoppingCost + getShoppingTaxes ;
+      basket.getShoppingTotal = getShoppingTotal;
+      basket.subtotalEnvio = getShoppingCost.toString();
+
+      if(_distanceToMax){// si se pasa los costos se resetean
+        basket.getShoppingTotal = 0.0;
+        basket.couponTotal = 0.0;
+        getShoppingCost = 0.0;
+        getShoppingTaxes = 0.0;
+        getShoppingTotal = 0.0;
+        // couponTotal = '0.0';
+
+      }
+      // basket.getShoppingTotales( basket.getShoppingTotal );
+      // print('basket getShoppingTotal: '+getShoppingTotal.toStringAsFixed(2).toString());
+
+    }
+    if (_couponEnable && subtotal>_amountCoupon_){
+      if(_enviogratis){
+        list.add(_itemTextLine(strings.get(94), basket.makePriceSctring( getShoppingCost ), '' ));   // "Gastos de envío",
+        list.add(SizedBox(height: 5,));
+        list.add(_itemTextLine(strings.get(312), basket.makePriceSctring( getShoppingTaxes ), '' ));   // "Impuestos de envío",
+        list.add(SizedBox(height: 5,));
+
+      }else{
+
+        list.add(_itemText(strings.get(94), basket.makePriceSctring( getShoppingCost ), false));   // "Gastos de envío",
+        list.add(SizedBox(height: 5,));
+        list.add(_itemText(strings.get(312), basket.makePriceSctring( getShoppingTaxes ), false));   // "Impuestos de envío",
+        list.add(SizedBox(height: 5,));
+      }
+      var couponMsg='';
+      if(_enviogratis)couponMsg=strings.get(315);
+      else{
+
+        if(_inpercents)couponMsg=_discountCoupon_.toString()+'% '+strings.get(316);
+        else couponMsg=basket.defCurrency+' '+_discountCoupon_.toString()+' '+strings.get(316);
+      }
+      list.add(_itemTextLineCoupon(strings.get(258)+' '+couponMsg,'','-' + basket.makePriceSctring( basket.getCoupons() )));  // "Cupon",
+      basket.couponTotal = basket.getCoupons();
+      if(_inpercents)couponMsg= basket.couponInpercents = '1';else basket.couponInpercents = '0';
+      basket.couponDiscount=_discountCoupon_.toString();
+      if(_enviogratis)couponMsg= basket.enviogratis_ = '1';else basket.enviogratis_ = '0';
       list.add(SizedBox(height: 5,));
-      list.add(_itemText(strings.get(312), basket.makePriceSctring(basket.getShoppingCost(false)), false));   // "Impuestos de envío",
-      list.add(SizedBox(height: 5,));    }
+
+      list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(true)), true));  // "Total",
+    }else{
+      couponName = '';
+      list.add(_itemText(strings.get(94), basket.makePriceSctring( getShoppingCost ), false));   // "Gastos de envío",
+      list.add(SizedBox(height: 5,));
+      list.add(_itemText(strings.get(312), basket.makePriceSctring( getShoppingTaxes ), false));   // "Impuestos de envío",
+      list.add(SizedBox(height: 5,));
+
+      list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(false)), true));  // "Total",
+
+    }
 
 
-    list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(false)), true));  // "Total",
 
     list.add(SizedBox(height: 15,));
-    list.add(Container(
-      margin: EdgeInsets.only(left: 30, right: 30),
-      child: IButton3(
-        // text: strings.get(97),
-        text: (stage == 3) ? strings.get(118) : strings.get(18), // Done or Continue
-        textStyle: theme.text14boldWhite,
-        color: theme.colorPrimary, pressButton: _pressContinueButton,             // Checkout
-      ),
-    ));
+    if (!_distanceToMax) {
+      list.add(Container(
+        margin: EdgeInsets.only(left: 30, right: 30),
+        child: IButton3(
+          // text: strings.get(97),
+          text: (stage == 3) ? strings.get(118) : strings.get(97),
+          // Done or Continue
+          textStyle: theme.text14boldWhite,
+          color: theme.colorPrimary,
+          pressButton: _pressContinueButton, // Checkout
+        ),
+      ));
+    }else{
+
+      list.add(Container(
+        margin: EdgeInsets.only(left: 20, right: 20),
+          child: Text("${strings.get(218)} \n "+distance.toStringAsFixed(4)+" ${appSettings.distanceUnit} ${strings.get(261)}", style: theme.text16Red,) // ""Note!\тThe delivery distance is very long."",
+      ));
+
+    }
     list.add(SizedBox(height: 15,));
     return list;
   }
@@ -953,10 +1078,15 @@ class _DeliveryScreenState extends State<DeliveryScreen>
   }
 
   bool _couponEnable = false;
+  bool _enviogratis = false;
+  bool _inpercents = false;
+  double _discountCoupon_ = 0.0;
+  double _amountCoupon_ = 0.0;
 
 
   _onCouponEnter(String value){
     _couponEnable = false;
+    _enviogratis = false;
     for (var coupon in homeScreen.mainWindowData.coupons)
       if (value.toUpperCase() == coupon.name.toUpperCase()) {
         var dateStart = DateTime.parse(coupon.dateStart);
@@ -966,12 +1096,18 @@ class _DeliveryScreenState extends State<DeliveryScreen>
         if (t && m) {
           _couponEnable = true;
           couponName = value;
+          _discountCoupon_ = coupon.discount;
+          _amountCoupon_ = coupon.amount;
+          // print('_discountCoupon: '+_discountCoupon_.toString());
+          print('_enviogratis: '+_enviogratis.toString());
+          if(coupon.enviogratis=='1')_enviogratis=true;
+          if(coupon.inpercents=='1')_inpercents=true;
           basket.setCoupon(coupon);
         }
       }
     if (!_couponEnable)
       basket.setCoupon(null);
-    setState(() {
+      setState(() {
     });
   }
 
@@ -990,40 +1126,55 @@ class _DeliveryScreenState extends State<DeliveryScreen>
       ),
     );
   }
-
-  _drawCoupon(){
-    if (!_couponEnable)
-      return Container();
-
-    var list = List<Widget>();
-    var t2 = basket.getSubTotal(true);
-    //var t = basket.getSubTotal(false);
-
-    list.add(SizedBox(height: 5,));
-    if (basket.couponComment.isNotEmpty)
-      list.add(Container(
-        margin: EdgeInsets.only(left: 15, right: 15),
-        child: Text(basket.couponComment, style: theme.text14R, textAlign: TextAlign.center,),
-        )
-      );
-
-    list.add(_itemText(strings.get(93), basket.makePriceSctring(t2),false));  // "Subtotal",
-    list.add(SizedBox(height: 5,));
-    list.add(_itemText(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(true)),false));                            // "Shopping costs",
-    list.add(SizedBox(height: 5,));
-    list.add(_itemText(strings.get(95),basket.makePriceSctring(basket.getTaxes(true)),false));  // "Taxes",
-    list.add(SizedBox(height: 5,));
-    couponTotal =  basket.getCoupons().toString();
-    list.add(_itemTextLine('Cupón','','-' + basket.makePriceSctring(basket.getCoupons())));  // "Cupon",
-    list.add(SizedBox(height: 5,));
-    list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(true)),true));  // "Total",
-
-    list.add(SizedBox(height: 15,));
-
+  _itemTextLineCoupon(String leftText, String rightText, String rightText2){
     return Container(
-        color: Colors.black.withAlpha(40),
-        child: Column(children: list,));
+      margin: EdgeInsets.only(left: 20, right: 20),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(leftText, style: theme.text14Companyon,),
+          ),
+          Text(rightText, style: theme.text14l,),
+          SizedBox(width: 5,),
+          Text(rightText2, style: theme.text16Companyon,),
+        ],
+      ),
+    );
   }
+
+  // _drawCoupon(){
+  //   if (!_couponEnable)
+  //     return Container();
+  //
+  //   var list = List<Widget>();
+  //   var t2 = basket.getSubTotal(true);
+  //
+  //   list.add(SizedBox(height: 5,));
+  //   if (basket.couponComment.isNotEmpty)
+  //     list.add(Container(
+  //       margin: EdgeInsets.only(left: 15, right: 15),
+  //       child: Text(basket.couponComment, style: theme.text14R, textAlign: TextAlign.center,),
+  //       )
+  //     );
+  //
+  //   list.add(_itemText(strings.get(93)+'master', basket.makePriceSctring(t2),false));  // "Subtotal",
+  //   list.add(SizedBox(height: 5,));
+  //   list.add(_itemText(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(true,_distanceExtras, distanceDif )),false));                            // "Shopping costs",
+  //   list.add(SizedBox(height: 5,));
+  //   list.add(_itemText(strings.get(95),basket.makePriceSctring(basket.getTaxes(true)),false));  // "Taxes",
+  //   if (_couponEnable){
+  //     list.add(SizedBox(height: 5,));
+  //     list.add(_itemTextLineCoupon('Cupón','','-' + basket.makePriceSctring(basket.getCoupons())));  // "Cupon",
+  //   }
+  //   list.add(SizedBox(height: 5,));
+  //   list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(true)),true));  // "Total",
+  //
+  //   list.add(SizedBox(height: 15,));
+  //
+  //   return Container(
+  //       color: Colors.black.withAlpha(40),
+  //       child: Column(children: list,));
+  // }
 
    _itemText(String leftText, String rightText, bool bold){
     var _style = theme.text14;

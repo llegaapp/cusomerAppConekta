@@ -155,7 +155,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   _body(){
     var list = List<Widget>();
-    var height = windowWidth*0.35;
+    var height = windowWidth*0.40;
 
     list.add(SizedBox(height: 20,));
     int _status = 1;
@@ -163,14 +163,29 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     for (var item in _data)
       if (item.orderid == idOrder) {
         var curbsidePickupLbl ='';
-        colorStatus = theme.text16blue;
+        var colorStatus ;
+        var imageStatus ;
+        var imagePickup ;
+        var imageEntregado ;
         if( item.curbsidePickup=='true') curbsidePickupLbl = strings.get(247);
         else curbsidePickupLbl = strings.get(311);
-        _status = int.parse(item.status);
-        print(item.orderid.toString()+'_status: '+_status.toString());
 
-        if(_status==6)  colorStatus =theme.text16Red;
-       else if(_status==5)  colorStatus =theme.text16Companyon;//si está entregado
+        imagePickup='';
+        if( item.curbsidePickup=='true') imagePickup = 'assets/pickup.png';
+        else imagePickup = 'assets/domicilio.png';
+        colorStatus = theme.text14Status;
+        if(_status==6)  colorStatus =theme.text14StatusCancelado;
+        else if(_status==5)  colorStatus =theme.text14StatusEntregado;//si está entregado
+
+        imageEntregado = '';
+        if(_status==6)  imageEntregado = 'assets/cancelado.png';
+        else if(_status==5)  imageEntregado = 'assets/Palomita.png';//si está entregado
+
+        imageStatus = '';
+        if(_status==1)  imageStatus ='assets/recibido.png';
+        if(_status==2)  imageStatus ='assets/preparando.png';
+        if(_status==3)  imageStatus ='assets/listo.png';
+        if(_status==4)  imageStatus ='assets/encamino.png';
 
         list.add(Container(
             child: ICard14FileCaching(
@@ -196,7 +211,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               text6: item.statusName,
               textStyle6: colorStatus,
               text5: "${strings.get(195)}${item.orderid}", // Id #
-              textStyle5: theme.text16bold,
+              textStyle5: theme.text13avenir,
+              textStyle7: theme.text13avenirItalic,
+              image1: imageStatus,
+              image2: imagePickup,
+              image3: imageEntregado,
 
             )));
 
@@ -441,23 +460,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         ),
                       ),
 
-              child: Column(
-                children: [
-                  //if(  int.parse( order.fee )==0 ){
-                  _textLineExpandedZero(strings.get(93), subTotal(order).toString()),//subtotal de productos
-                  _textLineExpandedZero(strings.get(94), order.fee.toString()),//gastos de envío
-                  _textLineExpandedZero(strings.get(95),  getTax(order)),//impuestos de productos
-                  _textLineExpandedZero(strings.get(312),  getTax(order)),//impuestos de productos
-                  _textLineExpandedZero(strings.get(258),order.couponTotal.toString(),pcolor2: Colors.red),//cupones
-                  _textLineExpandedZero('Total', getTotal(order),pfontWeight:FontWeight.bold),
-                 // }
-                ],
-              ),
+              child: _bottomBar( order ),
 
         ),
 
         SizedBox(height: 25,),
-        facturarBottons(order),
+        _facturarBottons(order),
 
       ],
     );
@@ -466,7 +474,48 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       _show = 1;
     });
   }
-  facturarBottons(order) {
+  _bottomBar( order ){
+    if(order.couponName!=''){
+      var couponMsg='';
+      // print('order.enviogratis': + order.enviogratis );
+      if(order.enviogratis=='1')couponMsg=strings.get(315);
+      else{
+
+        if(order.couponInpercents=='1')couponMsg=order.couponDiscount+'% '+strings.get(316);
+        else couponMsg=appSettings.currency+' '+order.couponDiscount+' '+strings.get(316);
+      }
+
+
+      return Column(
+        children: [
+          _textLineExpandedZero(strings.get(93), subTotal(order).toStringAsFixed(2)),//subtotal de productos
+          _textLineExpandedZero(strings.get(95),  getTax(order).toStringAsFixed(2)),//impuestos de productos
+          _textLineExpandedZero(strings.get(94), double.parse(order.fee).toStringAsFixed(2) ),//gastos de envío
+
+          _textLineExpandedZero(strings.get(312),  getShoppingTaxes(order).toStringAsFixed(2)),//"Impuestos de envío",
+          _textLineExpandedZero(strings.get(258)+' '+couponMsg,order.couponTotal.toString(), pcolor2: Colors.red),//cupones
+          _textLineExpandedZero('Total', getTotal(order),pfontWeight:FontWeight.bold),
+          // }
+        ],
+      );
+
+    }else{
+      return Column(
+        children: [
+          _textLineExpandedZero(strings.get(93), subTotal(order).toString()),//subtotal de productos
+          _textLineExpandedZero(strings.get(95),  getTax(order).toStringAsFixed(2)),//impuestos de productos
+          _textLineExpandedZero(strings.get(94), double.parse(order.fee).toStringAsFixed(2) ),//gastos de envío
+          _textLineExpandedZero(strings.get(312),  getShoppingTaxes(order).toStringAsFixed(2)),//"Impuestos de envío",
+          _textLineExpandedZero('Total', getTotal(order),pfontWeight:FontWeight.bold),
+          // }
+        ],
+      );
+
+    }
+
+  }
+
+  _facturarBottons(order) {
     int _status = int.parse(order.status);
     if( _status==5 ){//si está entregado se factura
       return Container(
@@ -992,10 +1041,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
       for (var item  in order.orderdetails) 
         {
-            double price = item.foodprice;
+            double price = item.foodprecioUnit;
             int count = item.count; 
             if(item.foodprice  == 0.0){
-              price = double.parse(item.extrasprice);
+              price = double.parse(item.extrasprecioUnit);
               count = int.parse(item.extrascount); 
             } 
            
@@ -1006,12 +1055,32 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       return subtotal;
   }
 
-  String getTax(order)
+  double getTax(order)
   {
-    int tax = int.parse(order.tax);
-    double ptotal = subTotal(order) + double.parse(order.fee);
-    double total = ptotal * (tax/100); 
-    return  total.toStringAsFixed(appSettings.symbolDigits);
+    double subtotaltax = 0.0;
+
+    for (var item  in order.orderdetails)
+    {
+      double price = item.foodtaxFood;
+      int count = item.count;
+      if(item.foodprice  == 0.0){
+        price = double.parse(item.extrastaxFood);
+        count = int.parse(item.extrascount);
+      }
+
+      double total = count * price;
+      subtotaltax = subtotaltax + total;
+    }
+
+    return subtotaltax;
+  }
+  double getShoppingTaxes( order ){
+    // if (_percentage == '1') {
+    double taxdelivery = double.parse(order.taxDelivery) ;
+    taxdelivery = double.parse(order.fee) * ( taxdelivery /100);
+    //   return total;
+    // }else
+    return taxdelivery;
   }
 
   String getTotal(order)
@@ -1079,7 +1148,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         ],
       ),
     );
-  }Widget _textLineExpandedZero(text1,text2,{pfontWeight = FontWeight.normal, pcolor1 = Colors.black,pcolor2 = Colors.black}){
+  }
+  Widget _textLineExpandedZero(
+                              text1,
+                                text2 ,{pfontWeight = FontWeight.normal, pcolor1 = Colors.black,pcolor2 = Colors.black}){
 
   //  if(text2.toString().isEmpty || double.parse( text2 )==0)
  //     text2 = '-';

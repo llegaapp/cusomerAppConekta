@@ -132,7 +132,22 @@ _onSuccess(String id,String ticketCode){
   var hint = pref.get(Pref.deliveryHint);
   var lat = pref.get(Pref.deliveryLatitude);
   var lng = pref.get(Pref.deliveryLongitude);
-  basket.createOrder(id, addr, phone, hint, lat, lng, curbsidePickup, couponName,couponTotal, ticketCode, _openDialog, _onError);
+
+  couponTotal = basket.couponTotal.toString();
+  couponInpercents = basket.couponInpercents;
+  couponDiscount = basket.couponDiscount;
+  enviogratis = basket.enviogratis_;
+  subtotalEnvio = basket.subtotalEnvio;
+
+  // basket.couponName ='';
+
+
+  print( 'couponName: '+ couponName+ ' couponTotal: '+ couponTotal+ ' couponInpercents: ' +couponInpercents+ ' couponDiscount'+ couponDiscount + ' enviogratis:'+ enviogratis);
+  // couponTotal = 55.8.toString();
+  basket.createOrder(id, addr, phone, hint, lat, lng, curbsidePickup,
+                        couponName,couponTotal, couponInpercents, couponDiscount, enviogratis, subtotalEnvio,
+                    ticketCode, _openDialog, _onError);
+  // basket.setCoupon(null);
 }
 
 _onSuccessWallet(String id,String ticketCode){
@@ -144,7 +159,16 @@ _onSuccessWallet(String id,String ticketCode){
   var hint = pref.get(Pref.deliveryHint);
   var lat = pref.get(Pref.deliveryLatitude);
   var lng = pref.get(Pref.deliveryLongitude);
-  basket.createOrder("wallet#$id", addr, phone, hint, lat, lng, curbsidePickup, couponName,couponTotal,ticketCode, _openDialog, _onError);
+
+  couponTotal = basket.couponTotal.toString();
+  couponInpercents = basket.couponInpercents;
+  couponDiscount = basket.couponDiscount;
+  enviogratis = basket.enviogratis_;
+  subtotalEnvio = basket.subtotalEnvio;
+
+  basket.createOrder("wallet#$id", addr, phone, hint, lat, lng, curbsidePickup,
+      couponName,couponTotal, couponInpercents, couponDiscount, enviogratis, subtotalEnvio,
+      ticketCode, _openDialog, _onError);
 }
 
 _onError(String err){

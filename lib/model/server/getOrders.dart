@@ -75,6 +75,7 @@ class OrdersData {
   String curbsidePickup;
   String arrived;
   String tax;
+  String taxDelivery;
   String fee;
   String address;
   String send;
@@ -86,11 +87,17 @@ class OrdersData {
   String Rfc;
   String email;
   double couponTotal;
+  String couponName;
+  String couponInpercents;
+  String couponDiscount;
+  String enviogratis;
   List<OrderTimes> ordertimes;
   List<OrderDetailsData> orderdetails;
   
   OrdersData({this.orderid, this.date, this.status, this.total, this.restaurant,this.ticketCode, this.name, this.image, this.statusName,
-    this.ordertimes, this.curbsidePickup, this.arrived, this.tax, this.fee, this.address, this.send, this.hint, this.method, this.couponTotal, this.facturada, this.fecha_lim_fac,this.businessName,this.Rfc,this.email, this.orderdetails});
+    this.ordertimes, this.curbsidePickup, this.arrived, this.tax, this.fee, this.taxDelivery, this.address, this.send, this.hint, this.method,
+    this.couponTotal,this.couponName,this.couponInpercents,this.couponDiscount,this.enviogratis,
+    this.facturada, this.fecha_lim_fac,this.businessName,this.Rfc,this.email, this.orderdetails});
   factory OrdersData.fromJson(Map<String, dynamic> json) {
     var _ordertimes;
     var _orderdetails;
@@ -122,6 +129,7 @@ class OrdersData {
         arrived: (json['arrived'] != null) ? json['arrived'].toString() : "false",
         tax: json['tax'].toString(),
         fee: json['fee'].toString(),
+        taxDelivery: json['taxDelivery'].toString(),
         address: json['address'].toString(),
         send: json['send'].toString(),
         hint: json['hint'].toString(),
@@ -132,6 +140,12 @@ class OrdersData {
         Rfc: json['Rfc'].toString(),
         email: json['email'].toString(),
         couponTotal: toDouble(json['couponTotal'].toString()),
+        couponName: json['couponName'].toString(),
+        couponInpercents: json['couponInpercents'].toString(),
+        couponDiscount: json['couponDiscount'].toString(),
+        enviogratis: json['enviogratis'].toString(),
+
+
     );
   }
 }

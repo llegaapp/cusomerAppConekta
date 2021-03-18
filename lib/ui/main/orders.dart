@@ -201,10 +201,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 
   _list(List<Widget> list){
-    var height = windowWidth*0.35;
+    var height = windowWidth*0.40;
     int _status = 1;
     var curbsidePickupLbl ='';
     var colorStatus ;
+    var imageStatus ;
+    var imagePickup ;
+    var imageEntregado ;
     if (_data == null)
       return;
     for (var item in _data) {
@@ -215,9 +218,24 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
       if( item.curbsidePickup=='true') curbsidePickupLbl = strings.get(247);
       else curbsidePickupLbl = strings.get(311);
-      colorStatus = theme.text16blue;
-      if(_status==6)  colorStatus =theme.text16Red;
-      else if(_status==5)  colorStatus =theme.text16Companyon;//si está entregado
+
+      imagePickup='';
+      if( item.curbsidePickup=='true') imagePickup = 'assets/pickup.png';
+      else imagePickup = 'assets/domicilio.png';
+      colorStatus = theme.text14Status;
+      if(_status==6)  colorStatus =theme.text14StatusCancelado;
+      else if(_status==5)  colorStatus =theme.text14StatusEntregado;//si está entregado
+
+      imageEntregado = '';
+      if(_status==6)  imageEntregado = 'assets/cancelado.png';
+      else if(_status==5)  imageEntregado = 'assets/Palomita.png';//si está entregado
+
+      imageStatus = '';
+      if(_status==1)  imageStatus ='assets/recibido.png';
+      if(_status==2)  imageStatus ='assets/preparando.png';
+      if(_status==3)  imageStatus ='assets/listo.png';
+      if(_status==4)  imageStatus ='assets/encamino.png';
+
 
       list.add(Container(
           child: ICard14FileCaching(
@@ -226,15 +244,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
             color: theme.colorBackground,
             colorProgressBar: theme.colorPrimary,
             ticketCode: item.ticketCode,
-            text: item.restaurant,
-            textStyle: theme.text16bold,
+            text: item.restaurant+ _status.toString(),
+            textStyle: theme.text14Restaurante,
             text2: curbsidePickupLbl,
-            textStyle2: theme.text16CompanyonNoBold,
+            textStyle2: theme.text14TipServ,
             text3: item.date,
-            textStyle3: theme.text14,
+            textStyle3: colorStatus,
             text4: (appSettings.rightSymbol == "false") ? "$_currency${item.total.toStringAsFixed(appSettings.symbolDigits)}" :
             "${item.total.toStringAsFixed(appSettings.symbolDigits)}$_currency",
-            textStyle4: theme.text18boldPrimary,
+            textStyle4: theme.text18total,
             width: windowWidth,
             height: height,
             image: "$serverImages${item.image}",
@@ -242,7 +260,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
             text6: item.statusName,
             textStyle6: colorStatus,
             text5: "${strings.get(195)}${item.orderid}", // Id #
-            textStyle5: theme.text16bold,
+            textStyle5: theme.text13avenir,
+            textStyle7: theme.text13avenirItalic,
+            image1: imageStatus,
+            image2: imagePickup,
+            image3: imageEntregado,
             callback: _onItemClick,
         )));
       list.add(SizedBox(height: 10,));

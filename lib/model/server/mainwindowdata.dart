@@ -131,12 +131,14 @@ class Coupon{
   String allRestaurants;
   String allCategory;
   String allFoods;
+  String enviogratis;
+
   List<String> restaurantsList;
   List<String> categoryList;
   List<String> foodsList;
 
   Coupon({this.id, this.name, this.discount, this.inpercents, this.amount,
-    this.allRestaurants, this.allCategory, this.allFoods,
+    this.allRestaurants, this.allCategory, this.allFoods, this.enviogratis,
     this.restaurantsList, this.categoryList, this.foodsList, this.dateStart, this.dateEnd});
   factory Coupon.fromJson(Map<String, dynamic> jsons) {
 
@@ -160,6 +162,7 @@ class Coupon{
       allRestaurants : jsons['allRestaurants'].toString(),
       allCategory : jsons['allCategory'].toString(),
       allFoods : jsons['allFoods'].toString(),
+      enviogratis : jsons['enviogratis'].toString(),
       restaurantsList : jsons['restaurantsList'].toString().split(","),
       categoryList : jsons['categoryList'].toString().split(","),
       foodsList : jsons['foodsList'].toString().split(","),
@@ -671,6 +674,12 @@ class AppSettings {
   String instagramText;
   String twitterText;
   String websiteText;
+  //costos delivery
+  double taxDelivery;
+  double tarifaEnvio;
+  int distanciaMaxima;
+  int distanciaMinima;
+  double tarifaKmExtra;
 
   AppSettings({
     this.currency,
@@ -751,6 +760,13 @@ class AppSettings {
     this.instagramText,
     this.twitterText,
     this.websiteText,
+
+    //Social Media
+    this.taxDelivery,
+    this.tarifaEnvio,
+    this.distanciaMaxima,
+    this.distanciaMinima,
+    this.tarifaKmExtra,
   });
 
   factory AppSettings.fromJson(Map<String, dynamic> json) {
@@ -846,6 +862,16 @@ class AppSettings {
       instagramText : (json['instagram_text'] == null) ? "true" : json['instagram_text'].toString(),
       twitterText : (json['twitter_text'] == null) ? "true" : json['twitter_text'].toString(),
       websiteText : (json['website_text'] == null) ? "true" : json['website_text'].toString(),
+
+
+
+
+      // taeifas de envío
+      taxDelivery  : (json['taxDelivery'] == null) ? 0 : toDouble(json['taxDelivery'].toString()),
+      tarifaEnvio  : (json['tarifaEnvio'] == null) ? 0 : toDouble(json['tarifaEnvio'].toString()),
+      distanciaMaxima : (json['distanciaMaxima'] == null) ? 0 : toInt(json['distanciaMaxima'].toString()),
+      distanciaMinima : (json['distanciaMinima'] == null) ? 0 : toInt(json['distanciaMinima'].toString()),
+      tarifaKmExtra : (json['tarifaKmExtra'] == null) ? 0 : toDouble(json['tarifaKmExtra'].toString()),
 
       // Paris  48.836010 2.331359
       // London 51.511680332118786, -0.12748138132489592
