@@ -162,6 +162,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     var colorStatus ;
     for (var item in _data)
       if (item.orderid == idOrder) {
+        _status = int.parse(item.status);
+
         var curbsidePickupLbl ='';
         var colorStatus ;
         var imageStatus ;
@@ -196,11 +198,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               color: theme.colorBackground,
               ticketCode: item.ticketCode,
               text: item.restaurant,
-              textStyle: theme.text16bold,
+              textStyle: theme.text14Restaurante,
               text2: curbsidePickupLbl,
-              textStyle2: theme.text16CompanyonNoBold,
+              textStyle2: theme.text14TipServ,
               text3: item.date,
-              textStyle3: theme.text14,
+              textStyle3: colorStatus,
               text4: (appSettings.rightSymbol == "false") ? "$_currency${item.total.toStringAsFixed(appSettings.symbolDigits)}" :
               "${item.total.toStringAsFixed(appSettings.symbolDigits)}$_currency",
               textStyle4: theme.text18boldPrimary,
