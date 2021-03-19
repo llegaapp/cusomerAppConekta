@@ -333,7 +333,7 @@ class AppThemeData{
     text18boldPrimary = TextStyle(
       color: colorPrimary,
       fontWeight: FontWeight.w800,
-      fontSize: 18,
+      fontSize: 16,
     );
 
     text18boldPrimaryUI = TextStyle(

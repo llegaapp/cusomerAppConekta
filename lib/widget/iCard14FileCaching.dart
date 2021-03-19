@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/main.dart';
 
 //
 // v2.0 08.10.2020
@@ -60,7 +61,7 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
   var _textStyle2 = TextStyle(fontSize: 16);
   var _textStyle3 = TextStyle(fontSize: 16);
   var _textStyle4 = TextStyle(fontSize: 16);
-  var _textStyle5 = TextStyle(fontSize: 14);
+  var _textStyle5 = TextStyle(fontSize: 10);
   var _textStyle6 = TextStyle(fontSize: 16);
   var _textStyle7 = TextStyle(fontSize: 13);
   var _image1 = '';
@@ -156,7 +157,7 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
                     children: <Widget>[
                       SizedBox(height: 5,),
                       Row(children: [
-                        Expanded(child: Text('Ticket  '+widget.ticketCode, style: _textStyle5, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),  // name
+                        Expanded(child: Text('Ticket  '+ widget.ticketCode, style: _textStyle5, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),  // name
                         Text(widget.text5, style: _textStyle7, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)
                       ],),
                       SizedBox(height: 3,),
@@ -173,9 +174,14 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
                         Expanded( flex: 6 , child: _image(_image1) ),  // name
                       ],),  
                       Row(children: [
-                        Expanded(flex: 6, child: Text(widget.text3, style: _textStyle5, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,), ),  // name
+                        Expanded(flex: 6, child: Text(widget.text3, style: TextStyle(
+      color: theme.colorHeaderPedidos,
+      fontSize: 10,
+      fontFamily: 'Avenir Light',
+      fontStyle: FontStyle.normal
+    ), overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,), ),  // name
                         Expanded(flex: 1, child: _image_3(_image3)),  // name
-                        Expanded(flex: 3 , child: Text(widget.text4, style: _textStyle4, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,)),  // name
+                        Expanded(flex: 4 , child: Text(widget.text4, style: _textStyle4, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,)),  // name
                       ],),
                       SizedBox(height: 3,)
                     ],
