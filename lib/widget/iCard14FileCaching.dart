@@ -174,12 +174,12 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
                         Expanded( flex: 6 , child: _image(_image1) ),  // name
                       ],),  
                       Row(children: [
-                        Expanded(flex: 6, child: Text(widget.text3, style: TextStyle(
-      color: theme.colorHeaderPedidos,
-      fontSize: 10,
-      fontFamily: 'Avenir Light',
-      fontStyle: FontStyle.normal
-    ), overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,), ),  // name
+                        Expanded(flex: 5, child: Text(widget.text3, style: TextStyle(
+                          color: theme.colorHeaderPedidos,
+                          fontSize: 10,
+                          fontFamily: 'Avenir Light',
+                          fontStyle: FontStyle.normal
+                        ), overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,), ),  // name
                         Expanded(flex: 1, child: _image_3(_image3)),  // name
                         Expanded(flex: 4 , child: Text(widget.text4, style: _textStyle4, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,)),  // name
                       ],),
