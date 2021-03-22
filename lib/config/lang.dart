@@ -358,6 +358,7 @@ class Lang {
     314 : "Distance: ",
     315 : "Free shipping",
     316 : "discount on products",
+    317 : "Service charges",
   };
 
   //

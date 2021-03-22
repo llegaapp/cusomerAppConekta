@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -186,13 +185,15 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
     basket.couponDiscount = '0';
     basket.enviogratis_ = '0';
     var list = List<Widget>();
-    var t = basket.getSubTotal(false);
+    //var t = basket.getSubTotal(false);
     basket.getShoppingTotal = 0.0;
     list.add(_itemText(strings.get(93), basket.makePriceSctring(basket.getSubTotal(false)), false));  // subtotal de productos,
     list.add(SizedBox(height: 5,));
     // list.add(_itemText(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(false)), false));   // gastos de envío,
     // list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(95), basket.makePriceSctring(basket.getTaxes(false)), false));  // impuestos de productos,
+    list.add(SizedBox(height: 5,));
+    list.add(_itemText(strings.get(317), basket.makePriceSctring(basket.getcharge(true)), false));  // "Cargos por servicio",
     list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(false)), true));  // "Total",
 

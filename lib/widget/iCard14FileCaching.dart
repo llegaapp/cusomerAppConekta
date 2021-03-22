@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/main.dart';
 
 //
 // v2.0 08.10.2020
@@ -60,7 +61,7 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
   var _textStyle2 = TextStyle(fontSize: 16);
   var _textStyle3 = TextStyle(fontSize: 16);
   var _textStyle4 = TextStyle(fontSize: 16);
-  var _textStyle5 = TextStyle(fontSize: 14);
+  var _textStyle5 = TextStyle(fontSize: 10);
   var _textStyle6 = TextStyle(fontSize: 16);
   var _textStyle7 = TextStyle(fontSize: 13);
   var _image1 = '';
@@ -96,7 +97,7 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
     }, // needed
     child: Container(
           width: widget.width-10,
-          height: widget.height-20,
+          height: widget.height,
           decoration: BoxDecoration(
               color: widget.color,
               borderRadius: new BorderRadius.circular(widget.radius),
@@ -114,6 +115,7 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
             Hero(
             tag: _id,
             child: Container(
+               
                   width: widget.width*0.3,
                   height: widget.height,
                   child: ClipRRect(
@@ -155,10 +157,10 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
                     children: <Widget>[
                       SizedBox(height: 5,),
                       Row(children: [
-                        Expanded(child: Text('Ticket  '+widget.ticketCode, style: _textStyle5, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),  // name
+                        Expanded(child: Text('Ticket  '+ widget.ticketCode, style: _textStyle5, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),  // name
                         Text(widget.text5, style: _textStyle7, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)
                       ],),
-                      SizedBox(height: 5,),
+                      SizedBox(height: 3,),
                       Text(widget.text, style: _textStyle, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,),
 
                       Row(children: [
@@ -170,12 +172,18 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
                       Row(children: [
                         Expanded( flex: 4 , child: Text(widget.text6, style: _textStyle3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,), ),
                         Expanded( flex: 6 , child: _image(_image1) ),  // name
-                      ],),  Row(children: [
-                        Expanded(flex: 6, child: Text(widget.text3, style: _textStyle5, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,), ),  // name
+                      ],),  
+                      Row(children: [
+                        Expanded(flex: 5, child: Text(widget.text3, style: TextStyle(
+                          color: theme.colorHeaderPedidos,
+                          fontSize: 10,
+                          fontFamily: 'Avenir Light',
+                          fontStyle: FontStyle.normal
+                        ), overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,), ),  // name
                         Expanded(flex: 1, child: _image_3(_image3)),  // name
-                        Expanded(flex: 3 , child: Text(widget.text4, style: _textStyle4, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,)),  // name
+                        Expanded(flex: 4 , child: Text(widget.text4, style: _textStyle4, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,)),  // name
                       ],),
-                      SizedBox(height: 5,)
+                      SizedBox(height: 3,)
                     ],
                   ),
                   )),
@@ -211,8 +219,8 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[ Image.asset( image ,
         // fit: BoxFit.contain,
-        height: 20,
-        width: 20,
+        height: 15,
+        width: 15,
       )]);
 
     }else{
@@ -229,7 +237,7 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[ Image.asset( image ,
         // fit: BoxFit.contain,
-        height: 42,
+        height: 25,
         // width: 35,
       )]);
 
