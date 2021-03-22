@@ -29,6 +29,10 @@ class Basket{
   String enviogratis_ = '0' ;
   String subtotalEnvio = '0' ;
 
+  double tasa;
+  double tarifa;
+  double iva;
+
 
   init(OrderData order, List<OrderDetailsData> orderdetails, String currency, double defaultTax, String _fee, String percentage){
 
@@ -239,7 +243,54 @@ class Basket{
   }
 
 
-  double getTotal(bool needCoupons){
+  double getcharge(bool needCoupons){
+
+    // print('appSettings.cargoTasa: '+appSettings.cargoTasa.toString());
+    // print('appSettings.cargoTarifa: '+appSettings.cargoTarifa.toString());
+    // print('appSettings.cargoTasaImpuesto: '+appSettings.cargoTasaImpuesto.toString());
+
+    tasa = appSettings.cargoTasa;
+    tarifa = appSettings.cargoTarifa;
+    iva = appSettings.cargoTasaImpuesto ;
+
+    // print('tasa: '+tasa.toString());
+    // print('tarifa: '+tarifa.toString());
+    // print('iva: '+iva.toString());
+
+
+    double transferencia = getTotalNoCharge(needCoupons).toDouble();
+    // transferencia = num.parse(transferencia.toStringAsFixed(2));
+    print('transferencia: '+transferencia.toString());
+
+    double pasarela = 0 ;
+    pasarela = ( ( transferencia * ( tasa /100))  + tarifa )*( 1 + (iva/100));
+    // pasarela =  pasarela.round();
+    print('pasarela:' +pasarela.toString());
+
+
+    double cuota = 0.0;
+    cuota = calculateCharges( transferencia  , pasarela);
+    return cuota;
+
+  }
+  double calculateCharges( double total, double couta){
+
+    var transferencia = total + couta;
+
+    double pasarela = 0 ;
+    pasarela = ( ( transferencia * ( tasa /100))  + tarifa )*( 1 + (iva/100));
+    double pasarelaRegresa =  0;
+    pasarelaRegresa =  transferencia - pasarela;
+
+    if( pasarelaRegresa <= total ){
+      couta = couta+0.001;
+      //~ echo $cuota." $pasarelaRegresa <br>";
+      return  calculateCharges( total, couta ) ;
+    }
+    return couta;
+
+  }
+  double getTotalNoCharge(bool needCoupons){
     // basket.getShoppingTotal = basket.getShoppingTotal;
     print('basket getShoppingTotal: '+ getShoppingTotal.toStringAsFixed(2).toString());
     print('_coupon:');
@@ -265,6 +316,37 @@ class Basket{
     }
 
     return _total;
+  }
+  double getTotal(bool needCoupons){
+    // basket.getShoppingTotal = basket.getShoppingTotal;
+    print('basket getShoppingTotal: '+ getShoppingTotal.toStringAsFixed(2).toString());
+    print('_coupon:');
+    inspect(_coupon);
+    double charge = getcharge( needCoupons );
+    double _subTotal = getSubTotal(needCoupons);
+
+
+    var _fee = 0.0;
+    if (_percentage == '1')
+      _fee = _subTotal * fee/100;
+    else
+      _fee = fee;
+
+    var _taxes = (_fee + _subTotal) * (taxes/100);
+    var _total = _subTotal + _fee + _taxes;
+    _total += getShoppingTotal;
+    if (!needCoupons) {
+      return _total + charge;
+      // return _total ;
+    }
+
+    if (_coupon != null){
+       return (_total- getCoupons()) +charge ;
+       // return _total- getCoupons() ;
+    }
+
+    return _total + charge;
+    // return _total;
   }
 
   setCoupon(Coupon coupon) {

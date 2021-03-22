@@ -311,4 +311,5 @@ Map<int, String> langEsp = {
   314 : "Distancia: ",
   315 : "ENVÍO GRATIS",
   316 : "descuento en productos",
+  317 : "Cargos por servicio",
 };

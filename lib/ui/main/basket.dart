@@ -193,6 +193,8 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
     // list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(95), basket.makePriceSctring(basket.getTaxes(false)), false));  // impuestos de productos,
     list.add(SizedBox(height: 5,));
+    list.add(_itemText(strings.get(317), basket.makePriceSctring(basket.getcharge(true)), false));  // "Cargos por servicio",
+    list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(false)), true));  // "Total",
 
     list.add(SizedBox(height: 15,));

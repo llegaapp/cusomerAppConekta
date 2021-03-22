@@ -961,15 +961,19 @@ class _DeliveryScreenState extends State<DeliveryScreen>
       basket.couponDiscount=_discountCoupon_.toString();
       if(_enviogratis)couponMsg= basket.enviogratis_ = '1';else basket.enviogratis_ = '0';
       list.add(SizedBox(height: 5,));
-
+      list.add(_itemText(strings.get(317), basket.makePriceSctring(basket.getcharge(true)), false));  // "Cargos por servicio",
+      list.add(SizedBox(height: 5,));
       list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(true)), true));  // "Total",
+
     }else{
       couponName = '';
       list.add(_itemText(strings.get(94), basket.makePriceSctring( getShoppingCost ), false));   // "Gastos de envío",
       list.add(SizedBox(height: 5,));
       list.add(_itemText(strings.get(312), basket.makePriceSctring( getShoppingTaxes ), false));   // "Impuestos de envío",
-      list.add(SizedBox(height: 5,));
 
+      list.add(SizedBox(height: 5,));
+      list.add(_itemText(strings.get(317), basket.makePriceSctring(basket.getcharge(true)), false));  // "Cargos por servicio",
+      list.add(SizedBox(height: 5,));
       list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(false)), true));  // "Total",
 
     }

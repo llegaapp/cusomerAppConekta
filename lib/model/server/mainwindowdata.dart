@@ -681,6 +681,11 @@ class AppSettings {
   int distanciaMinima;
   double tarifaKmExtra;
 
+  //cargos por servicio
+  double cargoTasa;
+  double cargoTarifa;
+  double cargoTasaImpuesto;
+
   AppSettings({
     this.currency,
     this.darkMode = "false",
@@ -767,6 +772,11 @@ class AppSettings {
     this.distanciaMaxima,
     this.distanciaMinima,
     this.tarifaKmExtra,
+
+    //cargo por servicios
+    this.cargoTasa,
+    this.cargoTarifa,
+    this.cargoTasaImpuesto,
   });
 
   factory AppSettings.fromJson(Map<String, dynamic> json) {
@@ -872,6 +882,11 @@ class AppSettings {
       distanciaMaxima : (json['distanciaMaxima'] == null) ? 0 : toInt(json['distanciaMaxima'].toString()),
       distanciaMinima : (json['distanciaMinima'] == null) ? 0 : toInt(json['distanciaMinima'].toString()),
       tarifaKmExtra : (json['tarifaKmExtra'] == null) ? 0 : toDouble(json['tarifaKmExtra'].toString()),
+      //cargos por servicios
+
+      cargoTasa : (json['cargoTasa'] == null) ? 0.0 : toDouble(json['cargoTasa'].toString()),
+      cargoTarifa : (json['cargoTarifa'] == null) ? 0.0 : toDouble(json['cargoTarifa'].toString()),
+      cargoTasaImpuesto : (json['cargoTasaImpuesto'] == null) ? 0.0 : toDouble(json['cargoTasaImpuesto'].toString()),
 
       // Paris  48.836010 2.331359
       // London 51.511680332118786, -0.12748138132489592
