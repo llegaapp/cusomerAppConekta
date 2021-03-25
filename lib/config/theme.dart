@@ -16,8 +16,9 @@ class AppThemeData{
   // colors
   //
   Color colorGrey = Color.fromARGB(255, 209, 210, 205);
-  Color colorPrimary = Color(0xffee1d23); // foods 0xff668798 // restaurants 0xff668798
+  Color colorPrimary = Color(0xffce0e2d); // foods 0xff668798 // restaurants 0xff668798
   Color colorCompanion = Color(0xff7dc244); // foods 0xff009688 // restaurants 0xff009688
+  Color colorCompanionYellow = Color(0xfffab702); // foods 0xff009688 // restaurants 0xff009688
   Color colorHeaderPedidos = Color(0xFF616161); // foods 0xff009688 // restaurants 0xff009688
   Color colorHeaderRestaurante = Color(0xFF010101); // foods 0xff009688 // restaurants 0xff009688
   Color colorHeaderTipServ = Color(0xFFc70f33); // foods 0xff009688 // restaurants 0xff009688
@@ -41,9 +42,11 @@ class AppThemeData{
   // Nombre del restaurante: Avenir Medium
   // Servicio a domicilio o pick up: Avenir Black
   // Estados entregado, cancelado, en camino, etc.: Avenir medium
+  TextStyle text10UYellow;
   TextStyle text12grey;
   TextStyle text12bold;
   TextStyle text12Ubold;
+  TextStyle text12YellowUbold;
   TextStyle text10white;
   TextStyle text13avenir;
   TextStyle text13avenirItalic;
@@ -56,6 +59,8 @@ class AppThemeData{
   TextStyle text14bold;
   TextStyle text14boldPimary;
   TextStyle text14Companyon;
+  TextStyle text14boldWhite2;
+  TextStyle text14White2;
   TextStyle text14boldWhite;
   TextStyle text14boldWhiteShadow;
   TextStyle text14Restaurante;
@@ -71,6 +76,8 @@ class AppThemeData{
   );
   TextStyle text15link;
   TextStyle text16;
+  TextStyle text162;
+  TextStyle text142;
   TextStyle text16Red;
   TextStyle text16UI;
   TextStyle text16Ubold;
@@ -80,7 +87,10 @@ class AppThemeData{
   TextStyle text16blue;
   TextStyle text16CompanyonNoBold;
   TextStyle text16bold;
+  TextStyle text16Yellow;
+  TextStyle text16White;
 
+  TextStyle text16boldYellow;
   TextStyle text16boldWhite;
   TextStyle text18boldPrimary;
   TextStyle text18total;
@@ -92,6 +102,7 @@ class AppThemeData{
   TextStyle text20boldPrimary;
   TextStyle text20boldWhite;
   TextStyle text20negative;
+  TextStyle text40boldWhiteShadow;
 
 
   TextStyle text22primaryShadow;
@@ -140,6 +151,18 @@ class AppThemeData{
 
     text12Ubold = TextStyle(
       color: colorDefaultText,
+      fontWeight: FontWeight.w800,
+      decoration: TextDecoration.lineThrough,
+      fontSize: 12,
+    );
+    text10UYellow = TextStyle(
+      color: colorCompanionYellow,
+      decoration: TextDecoration.lineThrough,
+      fontFamily: 'Avenir Medium',
+      fontSize: 10,
+    );
+    text12YellowUbold = TextStyle(
+      color: colorCompanionYellow,
       fontWeight: FontWeight.w800,
       decoration: TextDecoration.lineThrough,
       fontSize: 12,
@@ -203,6 +226,18 @@ class AppThemeData{
       fontWeight: FontWeight.w800,
       fontSize: 14,
     );
+    text14boldWhite2 = TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w800,
+      fontSize: 14,
+      fontFamily: 'Avenir Medium Oblique',
+        fontStyle: FontStyle.italic
+    );
+    text14White2 = TextStyle(
+      color: Colors.white,
+      fontSize: 14,
+      fontFamily: 'Avenir Medium',
+    );
 
     text14boldWhiteShadow = TextStyle(
       color: Colors.white,
@@ -216,11 +251,39 @@ class AppThemeData{
           ),
         ]
     );
+    text40boldWhiteShadow = TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.w800,
+      fontSize: 40,
+        fontFamily: 'Avenir Medium',
+        fontStyle: FontStyle.italic,
+        shadows: [
+          Shadow(
+              offset: Offset(1, 1),
+              color: colorPrimary,
+              blurRadius: 2
+          ),
+        ]
+    );
 
     text16bold = TextStyle(
       color: colorDefaultText,
       fontWeight: FontWeight.w800,
       fontSize: 16,
+    );
+    text162 = TextStyle(
+      color: white,
+      // fontWeight: FontWeight.w200,
+      fontFamily: 'Avenir Medium',
+      fontSize: 16,
+        fontStyle: FontStyle.normal
+    );
+    text142 = TextStyle(
+      color: white,
+      // fontWeight: FontWeight.w200,
+      fontFamily: 'Avenir Light',
+      fontSize: 14,
+        fontStyle: FontStyle.normal
     );
     text13avenir = TextStyle(
       color: colorHeaderPedidos,
@@ -279,6 +342,19 @@ class AppThemeData{
     text16boldWhite = TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w800,
+      fontSize: 16,
+    );
+    text16boldYellow = TextStyle(
+      color: theme.colorCompanionYellow,
+      fontWeight: FontWeight.w800,
+      fontSize: 16,
+    );
+    text16Yellow = TextStyle(
+      color: theme.colorCompanionYellow,
+      fontSize: 16,
+    );
+    text16White = TextStyle(
+      color: Colors.white,
       fontSize: 16,
     );
 

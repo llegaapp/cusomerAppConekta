@@ -45,8 +45,8 @@ class _ICard12FileCachingState extends State<ICard12FileCaching>{
           width: widget.width-10,
           height: widget.height-20,
           decoration: BoxDecoration(
-              color: widget.color,
-              border: Border.all(color: Colors.black.withAlpha(100)),
+              // color: widget.color,
+              border: Border.all(color: Colors.grey.withAlpha(100)),
               borderRadius: new BorderRadius.circular(widget.radius),
               boxShadow: [
                 BoxShadow(
@@ -67,7 +67,12 @@ class _ICard12FileCachingState extends State<ICard12FileCaching>{
                 width: widget.width-10,
                   //height: widget.height*0.8,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(widget.radius), topRight: Radius.circular(widget.radius)),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(widget.radius),
+                        topRight: Radius.circular(widget.radius),
+                        bottomLeft: Radius.circular(widget.radius),
+                        bottomRight: Radius.circular(widget.radius)
+                    ),
                     child: Container(
                       child: CachedNetworkImage(
                         placeholder: (context, url) =>
@@ -92,18 +97,19 @@ class _ICard12FileCachingState extends State<ICard12FileCaching>{
                     ),                  )
                 ))),
 
-                InkWell(
-                onTap: () {
-                  if (widget.callback != null)
-                    widget.callback(widget.id, _id, widget.image);
-                }, // needed
-                child: Container(
-                  width: widget.width,
-                  padding: EdgeInsets.all(3),
-                  //height: widget.height*0.2,
-                  //margin: EdgeInsets.only(left: 5, right: 5, top: widget.height*0.8+5),
-                  child: Text(widget.text, style: _textStyle, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,),
-                  )),
+                // InkWell(
+                // onTap: () {
+                //   if (widget.callback != null)
+                //     widget.callback(widget.id, _id, widget.image);
+                // }, // needed
+                // child: Container(
+                //   width: widget.width,
+                //   padding: EdgeInsets.all(3),
+                //   //height: widget.height*0.2,
+                //   //margin: EdgeInsets.only(left: 5, right: 5, top: widget.height*0.8+5),
+                //   child: Text(widget.text, style: _textStyle, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,),
+                //   )
+                // ),
 
             ],
           ),

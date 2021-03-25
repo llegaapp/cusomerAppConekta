@@ -369,6 +369,10 @@ class _DeliveryScreenState extends State<DeliveryScreen>
         list.add(_item("assets/payment2.png", 4, strings.get(192))); // "Visa, Mastercard",
         list.add(SizedBox(height: 10,));
       }
+      if (homeScreen.mainWindowData.payments.conektaEnable == "true") {
+        list.add(_item("assets/payment2.png", 10, strings.get(192))); // "Conekta Visa, Mastercard",
+        list.add(SizedBox(height: 10,));
+      }
       if (homeScreen.mainWindowData.payments.razEnable == "true") {
         list.add(_item("assets/payment4.png", 3, strings.get(191))); // razorpay
         list.add(SizedBox(height: 10,));

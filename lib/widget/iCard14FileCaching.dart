@@ -27,6 +27,7 @@ class ICard14FileCaching extends StatefulWidget {
   final String text5;
   final TextStyle textStyle5;
   final String text6;
+  final String text6Cancelado;
   final TextStyle textStyle6;
   final TextStyle textStyle7;
   final String heroId;
@@ -45,7 +46,7 @@ class ICard14FileCaching extends StatefulWidget {
     this.text3 = "", this.textStyle3,
     this.text4 = "", this.textStyle4,
     this.text5 = "", this.textStyle5,
-    this.text6 = "", this.textStyle6,this.textStyle7,
+    this.text6 = "", this.text6Cancelado = "", this.textStyle6,this.textStyle7,
     this.image1, this.image2, this.image3,
     this.heroId, this.colorProgressBar,
     this.radius = 15, this.shadow = 10
@@ -90,6 +91,13 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
     _image2 = widget.image2;
     _image3 = widget.image3;
 
+    var flex61 = 4;
+    var flex62 = 6;
+    if ( widget.text6Cancelado =='6'){ // si es cancelado
+      flex61 = 10;
+      flex62 = 0;
+    }
+    print('widget.text6Cancelado: '+widget.text6Cancelado);
     return InkWell(
         onTap: () {
       if (widget.callback != null)
@@ -170,8 +178,8 @@ class _ICard14FileCachingState extends State<ICard14FileCaching>{
                       // _image
 
                       Row(children: [
-                        Expanded( flex: 4 , child: Text(widget.text6, style: _textStyle3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,), ),
-                        Expanded( flex: 6 , child: _image(_image1) ),  // name
+                        Expanded( flex: flex61 , child: Text(widget.text6, style: _textStyle3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,), ),
+                        Expanded( flex: flex62 , child: _image(_image1) ),  // name
                       ],),  
                       Row(children: [
                         Expanded(flex: 5, child: Text(widget.text3, style: TextStyle(

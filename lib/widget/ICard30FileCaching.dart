@@ -53,7 +53,7 @@ class _ICard30FileCachingState extends State<ICard30FileCaching>{
                 width: widget.width-10,
                     decoration: BoxDecoration(
                         color: widget.color,
-                        border: Border.all(color: Colors.black.withAlpha(100)),
+                        // border: Border.all(color: Colors.black.withAlpha(100)),
                         borderRadius: new BorderRadius.circular(widget.width/2),
                         boxShadow: [
                           BoxShadow(
@@ -91,18 +91,18 @@ class _ICard30FileCachingState extends State<ICard30FileCaching>{
                     ),                  )
                 ))),
 
-                InkWell(
-                onTap: () {
-                  if (widget.callback != null)
-                    widget.callback(widget.id, _id, widget.image);
-                }, // needed
-                child: Container(
-                  width: widget.width,
-                  padding: EdgeInsets.all(3),
-                  //height: widget.height*0.2,
-                  //margin: EdgeInsets.only(left: 5, right: 5, top: widget.height*0.8+5),
-                  child: Text(widget.text, style: _textStyle, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,),
-                  )),
+                // InkWell(
+                // onTap: () {
+                //   if (widget.callback != null)
+                //     widget.callback(widget.id, _id, widget.image);
+                // }, // needed
+                // child: Container(
+                //   width: widget.width,
+                //   padding: EdgeInsets.all(3),
+                //   //height: widget.height*0.2,
+                //   //margin: EdgeInsets.only(left: 5, right: 5, top: widget.height*0.8+5),
+                //   child: Text(widget.text, style: _textStyle, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,),
+                //   )),
 
             ],
           ),

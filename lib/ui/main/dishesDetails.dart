@@ -275,7 +275,7 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
         children: [
           Expanded(
             child: IList1(imageAsset: "assets/orders.png", text: _this.name,                          // dish name
-              textStyle: theme.text16bold, imageColor: theme.colorDefaultText, ),
+              textStyle: theme.text18boldPrimary, imageColor: theme.colorDefaultText, ),
           ),
           if (_dPrice.isNotEmpty)
             Text(_dPrice, style: theme.text16Ubold,),
@@ -412,8 +412,8 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
               if (_this.discountprice != 0)
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10, top: MediaQuery.of(context).padding.top+50),
-                  child: saleSticker(windowWidth*0.5, _this.discount, basket.makePriceSctring(_this.discountprice), basket.makePriceSctring(_this.price)),
-                ), 
+                  child: saleSticker(windowWidth*0.7, _this.discount, basket.makePriceSctring(_this.discountprice), basket.makePriceSctring(_this.price)),
+                ),
 
               if(_this.active == false || _this.restaurantActive == false)(
                 

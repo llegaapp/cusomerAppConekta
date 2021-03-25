@@ -117,7 +117,7 @@ _card32item(DishesData item, double windowWidth, double _height, Function(String
     text: item.name,
     text3: (theme.multiple) ? item.restaurantName : getCategoryName(item.category),
     enableFavorites: account.isAuth(),
-    width: windowWidth * 0.5 - 20,
+    width: windowWidth * 0.75 - 20,
     height: _height,
     image: "$serverImages${item.image}",
     dicount: item.discount,
@@ -233,6 +233,7 @@ dishListOneInLine(List<Widget> list, List<DishesData> productItems, Function (St
       continue;
     if (categoriesSearchValue != "0" && item.category != categoriesSearchValue)
       continue;
+    print('height::::::::::::::'+height.toString());
     var t2 = ICard21FileCaching(
       radius: appSettings.radius,
       shadow: appSettings.shadow,
@@ -242,7 +243,7 @@ dishListOneInLine(List<Widget> list, List<DishesData> productItems, Function (St
       revertFavoriteState: account.revertFavoriteState,
       text: item.name,
       enableFavorites: account.isAuth(),
-      width: windowWidth,
+      width: windowWidth*0.7,
       height: height,
       image: "$serverImages${item.image}",
       id: item.id,

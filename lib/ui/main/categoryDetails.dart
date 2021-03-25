@@ -355,41 +355,56 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> with Sing
     );
   }
 
-  _imageBuild() {
-    dprint("Category show -> idHeroes=$idHeroes");
-    return Stack(
-      children: [
-        if (_categoryImage != null)
-          Container(
-              child: Hero(
-                  tag: idHeroes,
-                  child: ClipRRect(
-                    // borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-                      child: Container(
-                        child: CachedNetworkImage(
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(),
-                          imageUrl: _categoryImage,
-                          imageBuilder: (context, imageProvider) =>
-                              Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                          errorWidget: (context, url, error) =>
-                          new Icon(Icons.error),
-                        ),
-                      )
-                  )
-              )
-          ),
+  _imageBuild(){
+    // dprint("Food -> idHeroes=$idHeroes");
+    // print(_this.restaurantActive);
+    return Container(
+        child: Hero(
+            tag: idHeroes,
+            child: Stack(
+              children: [
+                CachedNetworkImage(
+                  placeholder: (context, url) =>
+                      CircularProgressIndicator(),
+                  imageUrl: _categoryImage,
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context,url,error) => new Icon(Icons.error),
+                ),
 
-      ],
+                // if(_this.active == false || _this.restaurantActive == false)(
+
+                    Container(
+                      width: windowWidth,
+                      color: Color(0x77a7a7a7),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            //Icon(Icons.visibility_off_rounded, color: Colors.white, size: 60,),
+                            Text(_categoryName.toUpperCase(), style: theme.text40boldWhiteShadow),
+                          ],
+                        ),
+                      ),
+                    )
+
+                // ),
+
+
+
+              ],
+            )
+        )
     );
   }
+
 
   openDialog(String _text) {
     mainCurrentDialogBody = Column(

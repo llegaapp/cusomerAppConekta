@@ -64,7 +64,7 @@ class AppFoodDelivery  extends StatelessWidget {
   Widget build(BuildContext context) {
 
     var _theme = ThemeData(
-      fontFamily: 'Raleway',
+      fontFamily: 'Avenir',
       primarySwatch: theme.primarySwatch,
       accentColor: theme.colorPrimary,
       textTheme: TextTheme(
@@ -74,7 +74,7 @@ class AppFoodDelivery  extends StatelessWidget {
 
     if (theme.darkMode){
       _theme = ThemeData(
-        fontFamily: 'Raleway',
+        fontFamily: 'Avenir',
         brightness: Brightness.dark,
         unselectedWidgetColor:Colors.white,
         primarySwatch: theme.primarySwatch,

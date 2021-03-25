@@ -186,6 +186,8 @@ class Account {
   //
 
   int notifyCount = 0;
+  bool realoadOrders = false;
+  bool realoadOrder = false;
 
   setFcbToken(String token){
     _fcbToken = token;
@@ -198,6 +200,12 @@ class Account {
     _callAll(_initUser);
     if (callbackNotifyReload != null)
       callbackNotifyReload();
+  }
+  isrealoadOrders(){
+    realoadOrders = true;
+  }
+  isrealoadOrder(){
+    realoadOrder = true;
   }
 
   notifyRefresh(){

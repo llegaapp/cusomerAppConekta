@@ -252,7 +252,7 @@ class _LoginScreenState extends State<LoginScreen>
         Container(
             margin: EdgeInsets.only(left: 10, right: 10),
             child: IButton3(
-                color: theme.colorCompanion, text: strings.get(22), textStyle: theme.text14boldWhite,  // LOGIN
+                color: theme.colorCompanionYellow, text: strings.get(22), textStyle: theme.text14boldWhite,  // LOGIN
                 pressButton: (){
                   _pressLoginButton();
                 })),
@@ -299,19 +299,51 @@ class _LoginScreenState extends State<LoginScreen>
               child: Text(strings.get(19),                    // ""Don't have an account? Create",",
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.center,
-                  style: theme.text16boldWhite
+                  style: theme.text16White,
+
               ),
+            )),
+        InkWell(
+            onTap: () {
+              _pressDontHaveAccountButton();
+            }, // needed
+            child:Container(
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 0, top: 0),
+              child:   Row(children: [
+                Expanded( flex: 7 , child:
+                                        Text(strings.get(19),                    // ""Don't have an account? Create",",
+                                          overflow: TextOverflow.clip,
+                                          textAlign: TextAlign.right,
+                                          style: theme.text16White,
+
+                                        )
+
+                  , ),
+                Expanded( flex: 3 ,
+                  child:
+                                        Text(' '+strings.get(318),                    // ""Don't have an account? Create",",
+                                          overflow: TextOverflow.clip,
+                                          textAlign: TextAlign.left,
+                                          style: theme.text16Yellow,
+
+
+                                        )
+
+                  , ),
+
+              ],),
+
             )),
         InkWell(
             onTap: () {
               _pressForgotPasswordButton();
             }, // needed
             child:Container(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(10),
               child: Text(strings.get(17),                    // "Forgot password",
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.center,
-                  style: theme.text16boldWhite
+                  style: theme.text16White
               ),
             ))
 

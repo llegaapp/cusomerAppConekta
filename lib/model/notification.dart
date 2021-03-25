@@ -17,6 +17,8 @@ firebaseGetToken() async {
         return;
       }
       account.addNotify();
+      account.isrealoadOrders();
+      account.isrealoadOrder();
     },
     onLaunch: (Map<String, dynamic> message) async {
       dprint("Firebase messaging:onLaunch: $message");

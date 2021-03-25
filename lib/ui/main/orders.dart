@@ -29,7 +29,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
   //
   //
   //
-
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
   _onItemClick(String id, String heroId){
     print("User pressed item with id: $id");
     idOrder = id;
@@ -57,13 +57,22 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   void initState() {
     if (account.isAuth()) {
-      _waits(true);
+      // _waits(true);
       ordersData.init(_success, _onError);
+    }else{
+      _waits(false);
+      _data = [];
     }
     account.addCallback(this.hashCode.toString(), callback);
+    account.realoadOrders = false;
     super.initState();
+    _startLoading();
   }
-
+  _startLoading() async {
+    Future.delayed(const Duration(milliseconds: 1), () {
+      _refreshIndicatorKey.currentState.show();
+    });
+  }
   List<OrdersData> _data;
   String _currency;
 
@@ -135,23 +144,46 @@ class _OrdersScreenState extends State<OrdersScreen> {
             )
         );
       else
+
+        if(account.realoadOrders){
+          print('account.realoadOrders: '+account.realoadOrders.toString());
+          _data = [];
+          ordersData.init(_success, _onError);
+          // Future.delayed(Duration(seconds: 2));
+          account.realoadOrders = false;
+
+        }
+        print('account.realoadOrders: '+account.realoadOrders.toString());
         _body = Container(
             margin: EdgeInsets.only(top: MediaQuery
                 .of(context)
                 .padding
                 .top + 50),
             child: RefreshIndicator(
-                  displacement: 200, 
-                 onRefresh: () async { 
+                  key: _refreshIndicatorKey,
+                  displacement: 200,
+                 onRefresh: () async {
                    _data = [];
+                   print('RefreshIndicator');
                    await ordersData.init(_success, _onError);
-                   await Future.delayed(Duration(seconds: 1));
-                     setState(() { }); 
+                   await Future.delayed(Duration(seconds: 2));
+
+
+                     setState(() { });
                   },
+                    // onRefresh: () async {
+                    //   _data = [];
+                    //   await Future.delayed(Duration(seconds: 2), () {
+                    //      ordersData.init(_success, _onError);
+                    //     // do something
+                    //     //getData();
+                    //   });
+                    //   setState(() { });
+                    // },
                           child: ListView(
                   padding: EdgeInsets.only(top: 0, left: 10, right: 10),
                   shrinkWrap: true,
-                  children: _children()
+                  children: _children(),
               ),
             )
         );
@@ -169,7 +201,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             height: windowHeight,
             child: Center(
               child: ColorLoader2(
-                color1: theme.colorPrimary,
+                // color1: theme.colorPrimary,
                 color2: theme.colorCompanion,
                 color3: theme.colorPrimary,
               ),
@@ -203,17 +235,20 @@ class _OrdersScreenState extends State<OrdersScreen> {
   _list(List<Widget> list){
     var height = windowWidth*0.40;
     int _status = 1;
+    int _userrolUpdate = 0;
     var curbsidePickupLbl ='';
     var colorStatus ;
     var imageStatus ;
     var imagePickup ;
     var imageEntregado ;
+    var porEl ;
     if (_data == null)
       return;
     for (var item in _data) {
       //print('curbsidePickup:');
       //print(item.orderid+': ' +item.curbsidePickup);
       _status = int.parse(item.status);
+      _userrolUpdate = int.parse(item.userrolUpdate);
       //print(item.orderid.toString()+'_status: '+_status.toString());
 
       if( item.curbsidePickup=='true') curbsidePickupLbl = strings.get(247);
@@ -225,6 +260,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
       colorStatus = theme.text14Status;
       if(_status==6)  colorStatus =theme.text14StatusCancelado;
       else if(_status==5)  colorStatus =theme.text14StatusEntregado;//si está entregado
+
+      porEl='';
+      if(_status==6){
+        if(_userrolUpdate==4)porEl= strings.get(326);
+        if(_userrolUpdate==2)porEl= strings.get(327);
+      }
 
       imageEntregado = '';
       if(_status==6)  imageEntregado = 'assets/cancelado.png';
@@ -244,7 +285,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             color: theme.colorBackground,
             colorProgressBar: theme.colorPrimary,
             ticketCode: item.ticketCode,
-            text: item.restaurant+ _status.toString(),
+            text: item.restaurant,
             textStyle: theme.text14Restaurante,
             text2: curbsidePickupLbl,
             textStyle2: theme.text14TipServ,
@@ -257,7 +298,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
             height: height,
             image: "$serverImages${item.image}",
             id: item.orderid,
-            text6: item.statusName,
+            text6: item.statusName + porEl ,
+            text6Cancelado: item.status ,
             textStyle6: colorStatus,
             text5: "${strings.get(195)}${item.orderid}", // Id #
             textStyle5: theme.text13avenir,

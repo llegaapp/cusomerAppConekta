@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:fooddelivery/main.dart';
 import 'package:fooddelivery/widget/iAvatarWithPhotoFileCaching.dart';
 import 'package:fooddelivery/widget/ibutton3.dart';
@@ -294,16 +295,30 @@ class _AccountScreenState extends State<AccountScreen> {
             child: Icon(Icons.exit_to_app, color: theme.colorDefaultText..withOpacity(0.1), size: 30),
           ),
           Positioned.fill(
-            child: Material(
+            child: RaisedButton(
                 color: Colors.transparent,
                 shape: CircleBorder(),
                 clipBehavior: Clip.hardEdge,
-                child: InkWell(
-                  splashColor: Colors.grey[400],
-                  onTap: (){
+                onPressed: () async {
+                  if (await confirm(
+                    context,
+                    title: Text(strings.get(324)),
+                    content: Text(strings.get(325)),
+                    textOK: Text(strings.get(321)),
+                    textCancel: Text(strings.get(322)),
+                  )) {
                     _pressLogOutButton();
-                  }, // needed
-                )),
+                  }
+                  return print('pressedCancel');
+                },
+                // child: InkWell(
+                //   splashColor: Colors.grey[400],
+                //   onTap: (){
+                //     _pressLogOutButton();
+                //
+                //   }, // needed
+                // )
+              ),
           )
         ],
       ),);

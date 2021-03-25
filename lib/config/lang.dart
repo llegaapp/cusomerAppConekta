@@ -58,7 +58,7 @@ class Lang {
     16 : "Password",
     17 : "Forgot password",
     18 : "Continue",
-    19 : "Don't have an account? Create",
+    19 : "Don't have an account?",
     20 : "Forgot password",
     21 : "E-mail address",
     22 : "LOGIN",
@@ -359,6 +359,16 @@ class Lang {
     315 : "Free shipping",
     316 : "discount on products",
     317 : "Service charges",
+    318 : "Create",
+    319 : "BEFORE",
+    320 : "Cancel this order",
+    321 : "Yes",
+    322 : "No",
+    323 : "Do you want to cancel your order?",
+    324 : "Sign off",
+    325 : "Do you want to log out?",
+    326 : " for the client",
+    327 : " for the business",
   };
 
   //

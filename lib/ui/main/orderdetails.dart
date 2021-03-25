@@ -1,7 +1,10 @@
 //import 'dart:convert';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:timer_builder/timer_builder.dart';
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:fooddelivery/config/api.dart';
+import 'package:fooddelivery/model/server/changeStatus.dart';
 import 'package:fooddelivery/main.dart';
 import 'package:fooddelivery/model/homescreenModel.dart';
 import 'package:fooddelivery/model/server/arrived.dart';
@@ -27,7 +30,9 @@ class OrderDetailsScreen extends StatefulWidget {
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   final formKey  = GlobalKey<FormState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
 
+  DateTime alert;
 
   final editControllerRfc = TextEditingController();
   final editControllerBusinessName = TextEditingController();
@@ -93,7 +98,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   void initState() {
     ordersData.init(_success, _onError);
     account.addCallback(this.hashCode.toString(), callback);
+
+    account.realoadOrder = false;
     super.initState();
+    // _startLoading();
+  }
+  _startLoading() async {
+    Future.delayed(const Duration(milliseconds: 200), () {
+      _refreshIndicatorKey.currentState.show();
+    });
   }
 
   callback(bool reg){
@@ -108,6 +121,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   Widget build(BuildContext context) {
     windowWidth = MediaQuery.of(context).size.width;
     windowHeight = MediaQuery.of(context).size.height;
+
+
+
     return Scaffold(
         backgroundColor: theme.colorBackground,
         body: Directionality(
@@ -121,13 +137,19 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               margin: EdgeInsets.only(left: 10, right: 10, top: MediaQuery.of(context).padding.top+40),
               child: Container(
                 child: RefreshIndicator(
-                  displacement: 200, 
-                 onRefresh: () async { 
-                   _data = [];
-                   await ordersData.init(_success, _onError);
-                   await Future.delayed(Duration(seconds: 1));
-                     setState(() { }); 
+                  displacement: 200,
+                  key: _refreshIndicatorKey,
+                  onRefresh: () async {
+                    _data = [];
+                    print('RefreshIndicator');
+                    // _success(null, null);
+                    await ordersData.init(_success, _onError);
+                    await Future.delayed(Duration(seconds: 2));
+
+
+                    setState(() { });
                   },
+
                   child: ListView(
                     padding: EdgeInsets.only(top: 0),
                     children: _body(),
@@ -139,7 +161,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             if (_wait)
                 Center(
                   child: ColorLoader2(
-                    color1: theme.colorPrimary,
+                    color1: Colors.yellow,
                     color2: theme.colorCompanion,
                     color3: theme.colorPrimary,
                   ),
@@ -159,16 +181,30 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
     list.add(SizedBox(height: 20,));
     int _status = 1;
+    int _userrolUpdate = 0;
+    print('account.realoadOrders ordersdetail: '+account.realoadOrder.toString());
+    if(account.realoadOrder){
+      print('realoadOrder now');
+      print('account.realoadOrders: '+account.realoadOrder.toString());
+      _data = [];
+      ordersData.init(_success, _onError);
+      // Future.delayed(Duration(seconds: 2));
+      account.realoadOrder = false;
+
+    }
+
     var colorStatus ;
     for (var item in _data)
       if (item.orderid == idOrder) {
         _status = int.parse(item.status);
+        _userrolUpdate = int.parse(item.userrolUpdate);
 
         var curbsidePickupLbl ='';
         var colorStatus ;
         var imageStatus ;
         var imagePickup ;
         var imageEntregado ;
+        var porEl ;
         if( item.curbsidePickup=='true') curbsidePickupLbl = strings.get(247);
         else curbsidePickupLbl = strings.get(311);
 
@@ -183,6 +219,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         if(_status==6)  imageEntregado = 'assets/cancelado.png';
         else if(_status==5)  imageEntregado = 'assets/Palomita.png';//si está entregado
 
+        porEl='';
+        if(_status==6){
+          if(_userrolUpdate==4)porEl= strings.get(326);
+          if(_userrolUpdate==2)porEl= strings.get(327);
+        }
+        
         imageStatus = '';
         if(_status==1)  imageStatus ='assets/recibido.png';
         if(_status==2)  imageStatus ='assets/preparando.png';
@@ -210,7 +252,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               height: height,
               image: "$serverImages${item.image}",
               id: item.orderid,
-              text6: item.statusName,
+              text6: item.statusName + porEl,
+              text6Cancelado: item.status ,
               textStyle6: colorStatus,
               text5: "${strings.get(195)}${item.orderid}", // Id #
               textStyle5: theme.text13avenir,
@@ -226,6 +269,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         list.add(SizedBox(height: 35,));
 
         list.add(_itemTextPastOrder("${strings.get(120)}", _getStatusTime(item.ordertimes, 1), (maxStatus >= 1))); //  "Order received",
+        list.add(_timer( item ));
         list.add(_divider());
         list.add(_itemTextPastOrder(
             "${strings.get(121)}", _getStatusTime(item.ordertimes, 2), (maxStatus >= 2))); // Order preparing",
@@ -291,7 +335,180 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
     return list;
   }
+  _timer( item ){
+    var _status = item.status;
+    DateTime dateTimeCreatedAt = DateTime.parse(item.date);
+    DateTime dateTimeNow = DateTime.now();
+    DateTime dateTimeLimiteCancela = dateTimeCreatedAt.add(Duration( seconds: appSettings.tiempoConfirmaPedido));
+    final differenceInSeconds = dateTimeLimiteCancela.difference(dateTimeNow).inSeconds;
+    print('_status: $_status');
+    print('date: $item.date');
+    print('dateTimeLimiteCancela: $dateTimeLimiteCancela');
+    print('differenceInSeconds: $differenceInSeconds');
 
+    var today =  DateTime.now();
+    if( _status== '1' ){
+      if( !dateTimeLimiteCancela.isAfter(today)){
+        print('Ya pasó la fecha o status no es 1 ');
+        return Container();
+
+      }else{
+        print('Dentro de la fecha');
+        alert = DateTime.now().add(Duration(seconds: differenceInSeconds));
+        return Container(
+          alignment: Alignment.center,
+          child:     TimerBuilder.scheduled([alert],
+              builder: (context) {
+                // This function will be called once the alert time is reached
+                var now = DateTime.now();
+                var reached = now.compareTo(alert) >= 0;
+                final textStyle = Theme.of(context).textTheme.title;
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      !reached ?
+                      TimerBuilder.periodic(
+                          Duration(seconds: 1),
+                          alignment: Duration.zero,
+                          builder: (context) {
+                            var now = DateTime.now();
+                            var remaining = alert.difference(now);
+                            return Container(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          RaisedButton(
+                                            elevation: 0,
+                                            color: theme.colorPrimary,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10.0),
+                                            ),
+
+                                            onPressed: () async {
+                                              if (await confirm(
+                                                context,
+                                                title: Text(strings.get(320)),
+                                                content: Text(strings.get(323)),
+                                                textOK: Text(strings.get(321)),
+                                                textCancel: Text(strings.get(322)),
+                                              )) {
+                                                _changeStatus( item, '6' );
+                                              }
+                                              return print('pressedCancel');
+                                            },
+                                            child: Row(
+                                              children: <Widget>[
+                                                Icon(Icons.cancel, color: Colors.white,),
+                                                Text(' '+strings.get(320), style: theme.text14White2, ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Text(  formatDuration(remaining), style: textStyle,),
+                                    ],
+                                  ),
+                                ));
+                            // return Text(  formatDuration(remaining), style: textStyle,);
+                          }
+                      )
+                          :
+                      Column(),
+                    ],
+                  ),
+                );
+              }
+          ),
+
+        );
+
+      }
+    }else{
+      return Container();
+    }
+
+
+    return Container(
+      alignment: Alignment.center,
+      child:     TimerBuilder.scheduled([alert],
+          builder: (context) {
+            // This function will be called once the alert time is reached
+            var now = DateTime.now();
+            var reached = now.compareTo(alert) >= 0;
+            final textStyle = Theme.of(context).textTheme.title;
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                 !reached ?
+                  TimerBuilder.periodic(
+                      Duration(seconds: 1),
+                      alignment: Duration.zero,
+                      builder: (context) {
+                        var now = DateTime.now();
+                        var remaining = alert.difference(now);
+                        return Container(
+                            alignment: Alignment.center,
+                            child: Container(
+                              child: Column(
+                               children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      RaisedButton(
+                                        elevation: 0,
+                                        color: theme.colorPrimary,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10.0),
+                                        ),
+                                        onPressed: ()  {
+                                          // _moreDetails(orderDetails);
+                                        },
+                                        child: Row(
+                                          children: <Widget>[
+                                            Icon(Icons.cancel, color: Colors.white,),
+                                            Text(' '+strings.get(320), style: theme.text14White2, ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(  formatDuration(remaining), style: textStyle,),
+                                ],
+                              ),
+                            ));
+                        // return Text(  formatDuration(remaining), style: textStyle,);
+                      }
+                  )
+                      :
+                  Column(),
+                ],
+              ),
+            );
+          }
+      ),
+
+    );
+  }
+  _changeStatus(OrdersData _data, String status){
+    changeStatus(_data.orderid, status.toString(),
+            (){
+          setState(() {
+            _data.status = status;
+          });
+        },
+        _openDialogError
+    );
+  }
   _buttonIveArrived(){
     return Container(
         alignment: Alignment.center,
@@ -327,8 +544,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             ),
             onPressed: ()  {
               _moreDetails(orderDetails);
+              // _refreshIndicatorKey.currentState.show();
             },
-            child: Text(strings.get(302),    // "I've arrived",
+            child: Text(strings.get(302),    // "Ver más",
               overflow: TextOverflow.clip,
               style: theme.text14boldWhite,
             ),
@@ -1179,6 +1397,14 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         ),
       );
     }
+  }
+  String formatDuration(Duration d) {
+    String f(int n) {
+      return n.toString().padLeft(2, '0');
+    }
+    // We want to round up the remaining time to the nearest second
+    d += Duration(microseconds: 999999);
+    return "${f(d.inMinutes)}:${f(d.inSeconds%60)}";
   }
 
 }

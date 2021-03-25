@@ -415,42 +415,50 @@ saleSticker(double width, String dicount, String discountprice, String price){
   ];
   return Container(
     margin: EdgeInsets.only(left: 10, top: 10, right: 10),
-    // height: size,
     width: size,
-    child: Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(left: margin, right: margin),
-          height: size*0.25,
-          decoration: BoxDecoration(
-            color: Colors.yellow,
-            borderRadius: new BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-            boxShadow: _boxshadow,
-          ),
-          child: Center(child: Text(dicount, style: theme.text12bold)),
-        ),
-        Container(
-          height: size*0.5,
-          width: size,
-          decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.circular(radius),
-            boxShadow: _boxshadow,
-          ),
-          child: Center(child: Text(discountprice, style: theme.text14boldWhite)),
-        ),
-        Container(
-          margin: EdgeInsets.only(left: margin, right: margin),
-          height: size*0.25,
-          width: size,
-          decoration: BoxDecoration(
-            color: Colors.yellow,
-            borderRadius: new BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
-            boxShadow: _boxshadow,
-          ),
-          child: Center(child: Text(price, style: theme.text12Ubold)),
+    height: size,
+    padding: EdgeInsets.all(2.0),
+    decoration: BoxDecoration(
+        border: Border.all(color: theme.colorCompanionYellow, width: 1.5),
+        shape: BoxShape.circle,
+    ),
+    child: Container(
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: theme.colorPrimary,
+      ),
+        child:   Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: margin, right: margin, top : margin+5,),
+              width: size - 30,
+              height: size*0.25,
+              decoration: BoxDecoration(
+                  border: Border(
+                    // width: 60,
+                    bottom: BorderSide(width: 1, color: Colors.white, ),
+                  ),
+              ),
+              child: Center(child: Text(dicount.toUpperCase(), style: theme.text14White2)),
+            ),
+            Container(
+              width: size-30,
+              margin: EdgeInsets.only(top : margin),
+              child: Center(child: Text(discountprice, style: theme.text14boldWhite2)),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(width: 1, color: Colors.white),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: margin, right: margin , ),
+              height: size*0.25,
+              width: size,
+              child: Center(child: Text( strings.get(319)+' '+ price, style: theme.text10UYellow)),
+            ),
+          ],
         )
-      ],
     ),
   );
 }

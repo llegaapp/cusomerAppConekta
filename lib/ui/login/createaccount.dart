@@ -140,7 +140,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
                 child: Center(
                   child: ColorLoader2(
                     color1: theme.colorPrimary,
-                    color2: theme.colorCompanion,
+                    color2: theme.colorCompanionYellow,
                     color3: theme.colorPrimary,
                   ),
                 ),
@@ -174,7 +174,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
           width: windowWidth,
           margin: EdgeInsets.only(left: 20, right: 20, top: 20),
           child: Text(strings.get(24),                        // "Create an Account!"
-            style: theme.text20boldWhite, textAlign: TextAlign.start,
+            style: theme.text20boldWhite, textAlign: TextAlign.center,
           ),
         ),
 
@@ -252,7 +252,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
         Container(
             margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
             child: IButton3(
-                color: theme.colorCompanion, text: strings.get(26), textStyle: theme.text14boldWhite,  // CREATE ACCOUNT
+                color: theme.colorCompanionYellow, text: strings.get(26), textStyle: theme.text14boldWhite,  // CREATE ACCOUNT
                 pressButton: (){
                   _pressCreateAccountButton();
                 })),

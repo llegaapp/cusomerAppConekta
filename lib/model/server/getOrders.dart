@@ -67,8 +67,9 @@ class OrdersData {
   String date;
   String status;
   String statusName;
+  String userrolUpdate;
   double total;
-  String restaurant; 
+  String restaurant;
   String ticketCode;
   String name;
   String image;
@@ -94,7 +95,7 @@ class OrdersData {
   List<OrderTimes> ordertimes;
   List<OrderDetailsData> orderdetails;
   
-  OrdersData({this.orderid, this.date, this.status, this.total, this.restaurant,this.ticketCode, this.name, this.image, this.statusName,
+  OrdersData({this.orderid, this.date, this.status, this.total, this.restaurant,this.ticketCode, this.name, this.image, this.statusName, this.userrolUpdate,
     this.ordertimes, this.curbsidePickup, this.arrived, this.tax, this.fee, this.taxDelivery, this.address, this.send, this.hint, this.method,
     this.couponTotal,this.couponName,this.couponInpercents,this.couponDiscount,this.enviogratis,
     this.facturada, this.fecha_lim_fac,this.businessName,this.Rfc,this.email, this.orderdetails});
@@ -118,6 +119,7 @@ class OrdersData {
         date: json['date'].toString(),
         status: json['status'].toString(),
         statusName: json['statusName'].toString(),
+        userrolUpdate: json['userrol_update'].toString(),
         total: toDouble(json['total'].toString()),
         restaurant: json['restaurant'].toString(),
         ticketCode: json['ticketCode'].toString().toUpperCase(),
@@ -153,13 +155,15 @@ class OrdersData {
 class OrderTimes {
   String createdAt;
   int status;
+  int userrole;
   String driver;
   String comment;
-  OrderTimes({this.createdAt, this.status, this.driver, this.comment});
+  OrderTimes({this.createdAt, this.status, this.userrole, this.driver, this.comment});
   factory OrderTimes.fromJson(Map<String, dynamic> json) {
     return OrderTimes(
       createdAt : json['created_at'].toString(),
       status: toInt(json['status'].toString()),
+      userrole: toInt(json['userrole'].toString()),
       driver: json['driver'].toString(),
       comment: json['comment'].toString(),
     );

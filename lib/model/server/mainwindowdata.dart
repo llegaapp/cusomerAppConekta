@@ -535,6 +535,11 @@ class RestaurantsReviewsData {
 }
 
 class PaymentsMethods {
+  // conekta
+  String conektaEnable;
+  String conektaKey;
+  String conektaSecretKey;
+
   // stripe
   String stripeEnable;
   String stripeKey;
@@ -565,7 +570,8 @@ class PaymentsMethods {
   String instamojoPrivateToken;
   // currency code
   String code;
-  PaymentsMethods({this.stripeEnable, this.stripeKey, this.stripeSecretKey, this.razEnable, this.razKey, this.razName, this.cacheEnable,
+
+  PaymentsMethods({this.stripeEnable, this.stripeKey, this.stripeSecretKey, this.conektaEnable,this.conektaKey,this.conektaSecretKey, this.razEnable, this.razKey, this.razName, this.cacheEnable,
     this.code, this.payPalClientId, this.payPalEnable, this.payPalSecret, this.payPalSandBoxMode,
     this.payStackEnable, this.payStackKey, this.yandexKassaEnable, this.instamojoEnable, this.yandexKassaShopId,
     this.yandexKassaClientAppKey, this.yandexKassaSecretKey, this.instamojoSandBoxMode, this.instamojoApiKey,
@@ -573,7 +579,12 @@ class PaymentsMethods {
   });
   factory PaymentsMethods.fromJson(Map<String, dynamic> json) {
     return PaymentsMethods(
-      // stripe
+      // conekta
+
+      conektaEnable : json['conektaEnable'].toString(),
+      conektaKey : json['conektaKey'].toString(),
+      conektaSecretKey : json['conektaSecretKey'].toString(),
+     // stripe
       stripeEnable : json['StripeEnable'].toString(),
       stripeKey : json['stripeKey'].toString(),
       stripeSecretKey : json['stripeSecretKey'].toString(),
@@ -685,6 +696,10 @@ class AppSettings {
   double cargoTasa;
   double cargoTarifa;
   double cargoTasaImpuesto;
+  //tiempos de la app
+  int tiempoConfirmaPedido;
+  int tiempoInvitaDriver;
+  int tiempoConfirmaDriver;
 
   AppSettings({
     this.currency,
@@ -777,6 +792,10 @@ class AppSettings {
     this.cargoTasa,
     this.cargoTarifa,
     this.cargoTasaImpuesto,
+    //tiempos de la app
+    this.tiempoConfirmaPedido,
+    this.tiempoInvitaDriver,
+    this.tiempoConfirmaDriver,
   });
 
   factory AppSettings.fromJson(Map<String, dynamic> json) {
@@ -887,11 +906,16 @@ class AppSettings {
       cargoTasa : (json['cargoTasa'] == null) ? 0.0 : toDouble(json['cargoTasa'].toString()),
       cargoTarifa : (json['cargoTarifa'] == null) ? 0.0 : toDouble(json['cargoTarifa'].toString()),
       cargoTasaImpuesto : (json['cargoTasaImpuesto'] == null) ? 0.0 : toDouble(json['cargoTasaImpuesto'].toString()),
+      //tiempos de la ah perro
 
-      // Paris  48.836010 2.331359
-      // London 51.511680332118786, -0.12748138132489592
-      defaultLat  : (json['defaultLat'] == null) ? 48.836010 : toDouble(json['defaultLat'].toString()),
-      defaultLng  : (json['defaultLng'] == null) ? 2.331359 : toDouble(json['defaultLng'].toString()),
+      tiempoConfirmaPedido : (json['tiempoConfirmaPedido'] == null) ? 0.0 : toInt(json['tiempoConfirmaPedido'].toString()),
+      tiempoInvitaDriver : (json['tiempoInvitaDriver'] == null) ? 0.0 : toInt(json['tiempoInvitaDriver'].toString()),
+      tiempoConfirmaDriver : (json['tiempoConfirmaDriver'] == null) ? 0.0 : toInt(json['tiempoConfirmaDriver'].toString()),
+
+
+      // Puebla MX
+      defaultLat  : (json['defaultLat'] == null) ? 19.040034 : toDouble(json['defaultLat'].toString()),
+      defaultLng  : (json['defaultLng'] == null) ? -98.2630051 : toDouble(json['defaultLng'].toString()),
       defaultZoom : (json['defaultZoom'] == null) ? 12 : toDouble(json['defaultZoom'].toString()),
 
     );

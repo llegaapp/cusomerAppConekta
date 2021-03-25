@@ -146,7 +146,8 @@ class _ICard32FileCachingState extends State<ICard32FileCaching>{
               if(widget.active == false)(
                 
                 ClipRRect(
-                          borderRadius: new BorderRadius.only(bottomLeft: Radius.circular(widget.radius-2), bottomRight: Radius.circular(widget.radius-2)),
+                          // borderRadius: new BorderRadius.only(bottomLeft: Radius.circular(widget.radius-2), bottomRight: Radius.circular(widget.radius-2)),
+                borderRadius: BorderRadius.all(Radius.circular(widget.radius)),
                           
                 child:Container( 
                   color: Color(0x77a7a7a7),
@@ -158,7 +159,7 @@ class _ICard32FileCachingState extends State<ICard32FileCaching>{
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image(image: AssetImage("assets/officon.png"), height: 50,),
+                        Image(image: AssetImage("assets/officon.png"), height: 50,  fit: BoxFit.cover,),
                         //Icon(Icons.visibility_off_rounded, color: Colors.white, size: 30,),
                         Text('No disponible', style: theme.text14boldWhiteShadow),
                       ],
@@ -205,17 +206,17 @@ class _ICard32FileCachingState extends State<ICard32FileCaching>{
                           borderRadius: new BorderRadius.only(bottomLeft: Radius.circular(widget.radius-2), bottomRight: Radius.circular(widget.radius-2)),
                           child: Container(
                         width: widget.width+10,
-                        color: Colors.black.withAlpha(100),
+                        color: Colors.black.withAlpha(200),
                         padding: EdgeInsets.only(left: 5, right: 5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Text(widget.text, style: _textStyle, overflow: TextOverflow.ellipsis, textAlign: TextAlign.left,),
+                            Text(widget.text, style: theme.text162 , overflow: TextOverflow.ellipsis, textAlign: TextAlign.left,),
                             Row(
                               children: [
-                                Expanded(child: Text(widget.text3, style: _textStyle3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),
-                                Text((widget.discountprice.isNotEmpty) ? widget.discountprice : widget.price, style: _textStyle2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,),
+                                Expanded(child: Text(widget.text3, style: theme.text142, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),
+                                Text((widget.discountprice.isNotEmpty) ? widget.discountprice : widget.price, style: theme.text16boldYellow, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,),
                               ],
                             ),
                             SizedBox(height: 5,)

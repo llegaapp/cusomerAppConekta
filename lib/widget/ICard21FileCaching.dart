@@ -107,7 +107,8 @@ class _ICard21FileCachingState extends State<ICard21FileCaching>{
           width: widget.width,
           height: widget.height-20,
           decoration: BoxDecoration(
-              color: widget.color,
+              // color: widget.color,
+              color: Colors.black.withAlpha(200),
               border: Border.all(color: Colors.black.withAlpha(100)),
               borderRadius: new BorderRadius.circular(widget.radius),
               boxShadow: [
@@ -198,11 +199,11 @@ class _ICard21FileCachingState extends State<ICard21FileCaching>{
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Text(widget.text, style: _textStyle, overflow: TextOverflow.ellipsis, textAlign: TextAlign.left,),
+                            Text(widget.text, style: theme.text162, overflow: TextOverflow.ellipsis, textAlign: TextAlign.left,),
                             Row(
                               children: [
-                                Expanded(child: Text(widget.text3, style: _textStyle3, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),
-                                Text(widget.price, style: _textStyle2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,),
+                                Expanded(child: Text(widget.text3, style: theme.text142, overflow: TextOverflow.ellipsis, textAlign: TextAlign.start,)),
+                                Text(widget.price, style: theme.text16boldYellow, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,),
                               ],
                             ),
                             SizedBox(height: 5,)

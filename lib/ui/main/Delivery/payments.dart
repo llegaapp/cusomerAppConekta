@@ -70,7 +70,22 @@ pay(int _currVal, BuildContext context, Function(bool) waits, String phone,
       ),
     );
   }
-  if (_currVal == 4) { // mastercard
+  if (_currVal == 4) { // stripe mastercard
+    _waits(true);
+    Stripe _stripe = Stripe();
+    _stripe.init();
+    double _total = basket.getTotal(true) * 100;
+    var t = _total.toInt();
+    var phone = pref.get(Pref.deliveryPhone);
+    try {
+      await _stripe.openCheckoutCard(
+          t, basket.getDesc(), phone, razorpayCompanyName, code,
+          _onSuccess, _onError
+      );
+    }catch(ex){
+    }
+  }
+  if (_currVal == 10) { // conekta mastercard
     _waits(true);
     Stripe _stripe = Stripe();
     _stripe.init();
