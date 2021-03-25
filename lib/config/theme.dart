@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fooddelivery/main.dart';
 import 'package:fooddelivery/model/homescreenModel.dart';
 import 'package:fooddelivery/model/pref.dart';
+import 'dart:io' show Platform;
 
 class AppThemeData{
   //
@@ -226,18 +227,35 @@ class AppThemeData{
       fontWeight: FontWeight.w800,
       fontSize: 14,
     );
-    text14boldWhite2 = TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w800,
-      fontSize: 14,
-      fontFamily: 'Avenir Medium Oblique',
-        fontStyle: FontStyle.italic
-    );
-    text14White2 = TextStyle(
-      color: Colors.white,
-      fontSize: 14,
-      fontFamily: 'Avenir Medium',
-    );
+    if (Platform.isAndroid) {
+      text14boldWhite2 = TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w700,
+          fontSize: 14,
+          fontFamily: 'Avenir Medium Oblique',
+          fontStyle: FontStyle.italic
+      );
+      text14White2 = TextStyle(
+        color: Colors.white,
+        fontSize: 14,
+        fontFamily: 'Avenir Medium',
+      );
+    } else if (Platform.isIOS) {
+      text14boldWhite2 = TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w700,
+          fontSize: 12,
+          fontFamily: 'Avenir Medium Oblique',
+          fontStyle: FontStyle.italic
+      );
+      text14White2 = TextStyle(
+        color: Colors.white,
+        fontSize: 12,
+        fontFamily: 'Avenir Medium',
+      );
+    }
+
+
 
     text14boldWhiteShadow = TextStyle(
       color: Colors.white,

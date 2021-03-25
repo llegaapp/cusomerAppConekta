@@ -72,54 +72,54 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
 
     return Scaffold(
         body: Directionality(
-        textDirection: strings.direction,
-        child: Container(
-        color: theme.colorBackground,
-        child: Stack(
-        children: <Widget>[
-
-        if (basket.inBasket() != 0)
-          Container(
-            margin: EdgeInsets.only(left: 10, right: 10, top: MediaQuery.of(context).padding.top+40),
-            child: ListView(
-              children: _getDataActive(),
-            ),
-          ),
-
-          headerWidget(context, widget.onBack, Colors.black, strings.get(98)), // Basket
-
-          if (basket.inBasket() != 0)
-          Align(
-            alignment: Alignment.bottomCenter,
+            textDirection: strings.direction,
             child: Container(
-              padding: EdgeInsets.only(top: 10),
-              decoration: BoxDecoration(
-                color: theme.colorBackground,
-                borderRadius: new BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 3,
-                    blurRadius: 3,
-                    offset: Offset(0, 0),
-                  ),
+              color: theme.colorBackground,
+              child: Stack(
+                children: <Widget>[
+
+                  if (basket.inBasket() != 0)
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, top: MediaQuery.of(context).padding.top+40),
+                      child: ListView(
+                        children: _getDataActive(),
+                      ),
+                    ),
+
+                  headerWidget(context, widget.onBack, Colors.black, strings.get(98)), // Basket
+
+                  if (basket.inBasket() != 0)
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        padding: EdgeInsets.only(top: 10),
+                        decoration: BoxDecoration(
+                          color: theme.colorBackground,
+                          borderRadius: new BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 3,
+                              blurRadius: 3,
+                              offset: Offset(0, 0),
+                            ),
+                          ],
+                        ),
+
+
+                        child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: _bottomBar()
+                        ),
+                      ),
+                    ),
+
+                  if (basket.inBasket() == 0)
+                    _noItems(),
                 ],
               ),
 
-
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: _bottomBar()
-              ),
-            ),
-          ),
-
-          if (basket.inBasket() == 0)
-              _noItems(),
-        ],
-      ),
-
-    )));
+            )));
   }
 
   Column _noItems(){
@@ -162,22 +162,22 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
     return Container(
         alignment: Alignment.center,
         child: Container(
-              height: 40,
-              child: RaisedButton(
-                elevation: 0,
-                color: theme.colorPrimary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                onPressed: ()  {
-                  widget.onBack("home");
-                },
-                child: Text(strings.get(88),    // "Continue Shopping",
-                  overflow: TextOverflow.clip,
-                  style: theme.text14boldWhite,
-                ),
-              ),
-            ));
+          height: 40,
+          child: RaisedButton(
+            elevation: 0,
+            color: theme.colorPrimary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            onPressed: ()  {
+              widget.onBack("home");
+            },
+            child: Text(strings.get(88),    // "Continue Shopping",
+              overflow: TextOverflow.clip,
+              style: theme.text14boldWhite,
+            ),
+          ),
+        ));
   }
 
   List<Widget> _bottomBar(){
@@ -191,8 +191,8 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
     list.add(SizedBox(height: 5,));
     // list.add(_itemText(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(false)), false));   // gastos de envío,
     // list.add(SizedBox(height: 5,));
-    list.add(_itemText(strings.get(95), basket.makePriceSctring(basket.getTaxes(false)), false));  // impuestos de productos,
-    list.add(SizedBox(height: 5,));
+    // list.add(_itemText(strings.get(95), basket.makePriceSctring(basket.getTaxes(false)), false));  // impuestos de productos,
+    // list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(317), basket.makePriceSctring(basket.getcharge(true)), false));  // "Cargos por servicio",
     list.add(SizedBox(height: 5,));
     list.add(_itemText(strings.get(96), basket.makePriceSctring(basket.getTotal(false)), true));  // "Total",
@@ -226,14 +226,14 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
       list.add(Container(height: 0.5, color: theme.colorDefaultText.withAlpha(100),));
       list.add(SizedBox(height: 10,));
       if (theme.multiple)
-      list.add(Container(
-          margin: EdgeInsets.only(left: 5, right: 5),
-          child: Row(
-            children: [
-              Text("${strings.get(267)}: ", style: theme.text14bold,), // Restaurant
-              Text(restaurant.name, style: theme.text14,),
-            ],
-          )
+        list.add(Container(
+            margin: EdgeInsets.only(left: 5, right: 5),
+            child: Row(
+              children: [
+                Text("${strings.get(267)}: ", style: theme.text14bold,), // Restaurant
+                Text(restaurant.name, style: theme.text14,),
+              ],
+            )
         ));
     }
 
@@ -242,7 +242,7 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
     for (var item in basket.basket)
       if (item.count != 0) {
         //print('add item');
-       // print(item);
+        // print(item);
 
         list.add(_item(item));
         list.add(SizedBox(height: 10,));
@@ -273,7 +273,7 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
     print('item-------------');
     print(item.toJSON());
 
-   //var _title = item.precioUnit.toString();
+    //var _title = item.precioUnit.toString();
     var _title = item.name;
     var _count = 0;
     double _total = item.precioUnit*item.count;
@@ -304,8 +304,8 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
       image: "$serverImages${item.image}",
       incDec: _onItemChangeCount,
       delete: _onItemDelete,
-      id: item.id, 
-      hashid: item.hashid, 
+      id: item.id,
+      hashid: item.hashid,
       count: item.count,
       getCount: basket.getCount,
     ));
@@ -318,8 +318,8 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
           first = false;
           var t = basket.makePriceSctring(item.precioUnit);
           list.add(Container(
-            margin: EdgeInsets.only(left: windowWidth*0.30),
-            child: Text("${item.name} ${item.count} x $t", style: theme.text14bold,)
+              margin: EdgeInsets.only(left: windowWidth*0.30),
+              child: Text("${item.name} ${item.count} x $t", style: theme.text14bold,)
           ));
         }
         list.add(SizedBox(height: 5,));
@@ -333,23 +333,23 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
     if (!first)
       list.add(SizedBox(height: 10,));
     return Container(
-      decoration: BoxDecoration(
-          color: theme.colorBackground,
-          border: Border.all(color: Colors.black.withAlpha(100)),
-          borderRadius: new BorderRadius.circular(appSettings.radius),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withAlpha(appSettings.shadow),
-              spreadRadius: 2,
-              blurRadius: 2,
-              offset: Offset(2, 2), // changes position of shadow
-            ),
-          ]
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: list,
-      )
+        decoration: BoxDecoration(
+            color: theme.colorBackground,
+            border: Border.all(color: Colors.black.withAlpha(100)),
+            borderRadius: new BorderRadius.circular(appSettings.radius),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withAlpha(appSettings.shadow),
+                spreadRadius: 2,
+                blurRadius: 2,
+                offset: Offset(2, 2), // changes position of shadow
+              ),
+            ]
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: list,
+        )
     );
   }
 

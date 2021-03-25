@@ -323,17 +323,20 @@ class Basket{
     print('_coupon:');
     inspect(_coupon);
     double charge = getcharge( needCoupons );
+    print('charge _subTotal: $charge');
     double _subTotal = getSubTotal(needCoupons);
 
+    print('getTotal _subTotal: $_subTotal');
 
     var _fee = 0.0;
     if (_percentage == '1')
       _fee = _subTotal * fee/100;
     else
       _fee = fee;
-
+    print('getTotal _fee: $_fee');
     var _taxes = (_fee + _subTotal) * (taxes/100);
     var _total = _subTotal + _fee + _taxes;
+    print('_total = _subTotal + fee + _taxes: $_total = $_subTotal +$_fee + $_taxes');
     _total += getShoppingTotal;
     if (!needCoupons) {
       return _total + charge;
@@ -344,7 +347,7 @@ class Basket{
        return (_total- getCoupons()) +charge ;
        // return _total- getCoupons() ;
     }
-
+    print('_total + charge: $_total + $charge');
     return _total + charge;
     // return _total;
   }

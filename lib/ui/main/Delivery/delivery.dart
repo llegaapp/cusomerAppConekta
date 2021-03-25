@@ -235,70 +235,70 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     windowWidth = MediaQuery.of(context).size.width;
     windowHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: theme.colorBackground,
-      body: Directionality(
-        textDirection: strings.direction,
-        child: Stack(
-        children: <Widget>[
+        backgroundColor: theme.colorBackground,
+        body: Directionality(
+          textDirection: strings.direction,
+          child: Stack(
+            children: <Widget>[
 
-          Align(
-              child: Container (
-                child: ListView(
-                  children: _getList(),
+              Align(
+                  child: Container (
+                    child: ListView(
+                      children: _getList(),
 
-                ),
+                    ),
 
 
-              )
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: EdgeInsets.only(top: 10),
-              decoration: BoxDecoration(
-                color: theme.colorBackground,
-                borderRadius: new BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 3,
-                    blurRadius: 3,
-                    offset: Offset(0, 0),
+                  )
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  padding: EdgeInsets.only(top: 10),
+                  decoration: BoxDecoration(
+                    color: theme.colorBackground,
+                    borderRadius: new BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 3,
+                        blurRadius: 3,
+                        offset: Offset(0, 0),
+                      ),
+                    ],
                   ),
-                ],
+
+
+                  child: _addbottomBar(),
+                ),
               ),
 
-
-              child: _addbottomBar(),
-            ),
-          ),
-
-          Container(
-            alignment: Alignment.topLeft,
-              margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top+10),
-              child: IInkWell(child: _iconBackWidget(), onPress: _onBackClick,)
-          ),
-
-          if (_wait)
               Container(
-                color: Color(0x80000000),
-                width: windowWidth,
-                height: windowHeight,
-                child: Center(
-                  child: ColorLoader2(
-                    color1: theme.colorPrimary,
-                    color2: theme.colorCompanion,
-                    color3: theme.colorPrimary,
-                  ),
-                ),
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top+10),
+                  child: IInkWell(child: _iconBackWidget(), onPress: _onBackClick,)
               ),
 
-          IEasyDialog2(setPosition: (double value){_show = value;}, getPosition: () {return _show;}, color: theme.colorGrey,
-            body: _dialogBody, backgroundColor: theme.colorBackground,),
+              if (_wait)
+                Container(
+                  color: Color(0x80000000),
+                  width: windowWidth,
+                  height: windowHeight,
+                  child: Center(
+                    child: ColorLoader2(
+                      color1: theme.colorPrimary,
+                      color2: theme.colorCompanion,
+                      color3: theme.colorPrimary,
+                    ),
+                  ),
+                ),
 
-        ],
-      ),
-    ));
+              IEasyDialog2(setPosition: (double value){_show = value;}, getPosition: () {return _show;}, color: theme.colorGrey,
+                body: _dialogBody, backgroundColor: theme.colorBackground,),
+
+            ],
+          ),
+        ));
   }
 
   _iconBackWidget(){
@@ -344,8 +344,8 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     if (stage == 2) {
       list.add(SizedBox(height: 20,));
       list.add(Container(
-        margin: EdgeInsets.only(left: 10, right: 10),
-        child: _row(strings.get(188), strings.get(194))    //  "Payment" - "All transactions are secure and encrypted.",
+          margin: EdgeInsets.only(left: 10, right: 10),
+          child: _row(strings.get(188), strings.get(194))    //  "Payment" - "All transactions are secure and encrypted.",
       ));
       list.add(SizedBox(height: 20,));
 
@@ -408,8 +408,8 @@ class _DeliveryScreenState extends State<DeliveryScreen>
                 Text(text1, style: theme.text14bold,),
                 SizedBox(height: 5,),
                 Container(
-                  width: windowWidth -100,
-                  child: Text(text2, style: theme.text14,))
+                    width: windowWidth -100,
+                    child: Text(text2, style: theme.text14,))
               ],
             )
           ],
@@ -421,17 +421,17 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     return InkWell(
         onTap: () {
           openDialogTime();
-    },
-    child: Container(
-        child: Row(
-          children: [
-            Icon(Icons.done, color: Colors.green, size: 20,),
-            SizedBox(width: 20,),
-            Expanded(child: Text(text1, style: theme.text14bold,)),
-            Text(text2, style: theme.text14,)
-          ],
-        )
-    ));
+        },
+        child: Container(
+            child: Row(
+              children: [
+                Icon(Icons.done, color: Colors.green, size: 20,),
+                SizedBox(width: 20,),
+                Expanded(child: Text(text1, style: theme.text14bold,)),
+                Text(text2, style: theme.text14,)
+              ],
+            )
+        ));
   }
 
   var _currVal = 1;
@@ -456,15 +456,15 @@ class _DeliveryScreenState extends State<DeliveryScreen>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(
-                            child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                              child: Text(text, style: theme.text14,),
-                          )),
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(text, style: theme.text14,),
+                              )),
                           Container(
                               alignment: _align,
                               child: UnconstrainedBox(
                                   child: Container(
-                                      //height: windowWidth*0.1,
+                                    //height: windowWidth*0.1,
                                       width: windowWidth*0.2,
                                       child: Container(
                                         child: Image.asset(image,
@@ -503,9 +503,9 @@ class _DeliveryScreenState extends State<DeliveryScreen>
         list.add(Container(
             margin: EdgeInsets.only(left: 20, right: 20),
             child: Row(children: [
-          Text("${strings.get(267)}: ", style: theme.text14bold),       // "Restaurant", name
-          Expanded(child: Text("${rest.name}", style: theme.text14, overflow: TextOverflow.clip,)),
-        ],)));
+              Text("${strings.get(267)}: ", style: theme.text14bold),       // "Restaurant", name
+              Expanded(child: Text("${rest.name}", style: theme.text14, overflow: TextOverflow.clip,)),
+            ],)));
         list.add(Container(
             margin: EdgeInsets.only(left: 20, right: 20, top: 8),
             child: Row(children: [
@@ -562,11 +562,11 @@ class _DeliveryScreenState extends State<DeliveryScreen>
         //   )
         //   );
         // }else{
-          list.add(Container(
-              margin: const EdgeInsets.fromLTRB(20, 0, 0, 10),
-              child: Text("${strings.get(314)} "+distance.toStringAsFixed(4)+" ${appSettings.distanceUnit}", style: theme.text14,) // "Distancia",
-          )
-          );
+        list.add(Container(
+            margin: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+            child: Text("${strings.get(314)} "+distance.toStringAsFixed(4)+" ${appSettings.distanceUnit}", style: theme.text14,) // "Distancia",
+        )
+        );
 
         // }
 
@@ -673,23 +673,23 @@ class _DeliveryScreenState extends State<DeliveryScreen>
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                width: windowWidth*0.7,
-                child: IButton3(
-                  color: theme.colorPrimary,
-                  text: strings.get(225), // "Enter Vehicle Information",
-                  textStyle: theme.text14boldWhite,
-                  pressButton: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                VehicleScreen(callback: (String text) {
-                                  _vehicleType = text;
-                                  setState(() {});
-                                })
-                        ));
-                  }
-              )),
+                  width: windowWidth*0.7,
+                  child: IButton3(
+                      color: theme.colorPrimary,
+                      text: strings.get(225), // "Enter Vehicle Information",
+                      textStyle: theme.text14boldWhite,
+                      pressButton: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    VehicleScreen(callback: (String text) {
+                                      _vehicleType = text;
+                                      setState(() {});
+                                    })
+                            ));
+                      }
+                  )),
             ],
           ),
         ));
@@ -753,7 +753,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     //list.add( Column(
     //    mainAxisSize: MainAxisSize.min,
     //    children: _bottomBar()
-   // ));
+    // ));
     list.add(SizedBox(height: 30,));
   }
 
@@ -828,8 +828,8 @@ class _DeliveryScreenState extends State<DeliveryScreen>
       use24hFormat: true,
       initialDateTime: DateTime(0, 0, 0, hour, 0),
       //minimumDate: DateTime.now().subtract(Duration(days: 1)),
-        minuteInterval: 10,
-     // maximumDate: DateTime(2018, 12, 30, 13, 0),
+      minuteInterval: 10,
+      // maximumDate: DateTime(2018, 12, 30, 13, 0),
       minimumDate: DateTime(0, 0, 0, hour, 0),
 //      minimumYear: 2010,
 //      maximumYear: 2022,
@@ -870,8 +870,8 @@ class _DeliveryScreenState extends State<DeliveryScreen>
         SizedBox(height: 30,),
         Container(
           width: windowWidth,
-            height: 200,
-            child: widget,
+          height: 200,
+          child: widget,
         ),
         SizedBox(height: 30,),
         IButton3(
@@ -904,10 +904,11 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     basket.couponInpercents = '0';
     basket.couponDiscount = '0';
     basket.enviogratis_ = '0';
-    list.add(_itemText(strings.get(93)+'', basket.makePriceSctring( subtotal ), false));  // "Subtotal de productos",
+    list.add(_itemText(strings.get(93)+'', basket.makePriceSctring( subtotal +basket.getTaxes(false) ), false));  // "Subtotal de productos",
+    // list.add(_itemText(strings.get(93)+'', basket.makePriceSctring( subtotal ), false));  // "Subtotal de productos",
     list.add(SizedBox(height: 5,));
-    list.add(_itemText(strings.get(95), basket.makePriceSctring(basket.getTaxes(false)), false));  // "impuestos de productos",
-    list.add(SizedBox(height: 5,));
+    // list.add(_itemText(strings.get(95), basket.makePriceSctring(basket.getTaxes(false)), false));  // "impuestos de productos",
+    // list.add(SizedBox(height: 5,));
     basket.getShoppingTotal = 0.0;
     basket.subtotalEnvio = '0.0';
 
@@ -940,17 +941,19 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     }
     if (_couponEnable && subtotal>_amountCoupon_){
       if(_enviogratis){
-        list.add(_itemTextLine(strings.get(94), basket.makePriceSctring( getShoppingCost ), '' ));   // "Gastos de envío",
+        // list.add(_itemTextLine(strings.get(94), basket.makePriceSctring( getShoppingCost ), '' ));   // "Gastos de envío",
+        list.add(_itemTextLine(strings.get(94), basket.makePriceSctring( getShoppingTotal ), '' ));   // "Gastos de envío",
         list.add(SizedBox(height: 5,));
-        list.add(_itemTextLine(strings.get(312), basket.makePriceSctring( getShoppingTaxes ), '' ));   // "Impuestos de envío",
-        list.add(SizedBox(height: 5,));
+        // list.add(_itemTextLine(strings.get(312), basket.makePriceSctring( getShoppingTaxes ), '' ));   // "Impuestos de envío",
+        // list.add(SizedBox(height: 5,));
 
       }else{
 
-        list.add(_itemText(strings.get(94), basket.makePriceSctring( getShoppingCost ), false));   // "Gastos de envío",
+        // list.add(_itemText(strings.get(94), basket.makePriceSctring( getShoppingCost ), false));   // "Gastos de envío",
+        list.add(_itemText(strings.get(94), basket.makePriceSctring( getShoppingTotal ), false));   // "Gastos de envío",
         list.add(SizedBox(height: 5,));
-        list.add(_itemText(strings.get(312), basket.makePriceSctring( getShoppingTaxes ), false));   // "Impuestos de envío",
-        list.add(SizedBox(height: 5,));
+        // list.add(_itemText(strings.get(312), basket.makePriceSctring( getShoppingTaxes ), false));   // "Impuestos de envío",
+        // list.add(SizedBox(height: 5,));
       }
       var couponMsg='';
       if(_enviogratis)couponMsg=strings.get(315);
@@ -971,9 +974,10 @@ class _DeliveryScreenState extends State<DeliveryScreen>
 
     }else{
       couponName = '';
-      list.add(_itemText(strings.get(94), basket.makePriceSctring( getShoppingCost ), false));   // "Gastos de envío",
-      list.add(SizedBox(height: 5,));
-      list.add(_itemText(strings.get(312), basket.makePriceSctring( getShoppingTaxes ), false));   // "Impuestos de envío",
+      // list.add(_itemText(strings.get(94), basket.makePriceSctring( getShoppingCost ), false));   // "Gastos de envío",
+      list.add(_itemText(strings.get(94), basket.makePriceSctring( getShoppingTotal ), false));   // "Gastos de envío",
+      // list.add(SizedBox(height: 5,));
+      // list.add(_itemText(strings.get(312), basket.makePriceSctring( getShoppingTaxes ), false));   // "Impuestos de envío",
 
       list.add(SizedBox(height: 5,));
       list.add(_itemText(strings.get(317), basket.makePriceSctring(basket.getcharge(true)), false));  // "Cargos por servicio",
@@ -1000,7 +1004,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     }else{
 
       list.add(Container(
-        margin: EdgeInsets.only(left: 20, right: 20),
+          margin: EdgeInsets.only(left: 20, right: 20),
           child: Text("${strings.get(218)} \n "+distance.toStringAsFixed(4)+" ${appSettings.distanceUnit} ${strings.get(261)}", style: theme.text16Red,) // ""Note!\тThe delivery distance is very long."",
       ));
 
@@ -1065,7 +1069,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     ));
     list.add(SizedBox(height: windowHeight*0.2,));
     list.add(IButton3(
-      color: theme.colorPrimary, text: strings.get(256).toUpperCase(), textStyle: theme.text14boldWhite,
+        color: theme.colorPrimary, text: strings.get(256).toUpperCase(), textStyle: theme.text14boldWhite,
         pressButton: (){
           mainScreenState.onBack("orders");
           // route.mainScreen.route("orders");
@@ -1075,14 +1079,14 @@ class _DeliveryScreenState extends State<DeliveryScreen>
     // pressButton: _pressContinueButton
     list.add(SizedBox(height: 10,));
     list.add(IButton3(
-        color: theme.colorPrimary, text: strings.get(257).toUpperCase(), textStyle: theme.text14bold, onlyBorder: true,
-    pressButton: (){          // "Back to shop",
-      mainScreenState.onBack("home");
-      // route.mainScreen.route("home");
-      // route.popToMain(context);
-    },)
+      color: theme.colorPrimary, text: strings.get(257).toUpperCase(), textStyle: theme.text14bold, onlyBorder: true,
+      pressButton: (){          // "Back to shop",
+        mainScreenState.onBack("home");
+        // route.mainScreen.route("home");
+        // route.popToMain(context);
+      },)
     );
-  //  list.add(_button());
+    //  list.add(_button());
   }
 
   bool _couponEnable = false;
@@ -1115,7 +1119,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
       }
     if (!_couponEnable)
       basket.setCoupon(null);
-      setState(() {
+    setState(() {
     });
   }
 
@@ -1184,7 +1188,7 @@ class _DeliveryScreenState extends State<DeliveryScreen>
   //       child: Column(children: list,));
   // }
 
-   _itemText(String leftText, String rightText, bool bold){
+  _itemText(String leftText, String rightText, bool bold){
     var _style = theme.text14;
     if (bold)
       _style = theme.text14bold;
