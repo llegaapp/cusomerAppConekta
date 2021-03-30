@@ -28,12 +28,13 @@ class ICard21FileCaching extends StatefulWidget {
   final int shadow;
   final String dicount;
   final Function(String) onAddToCartClick;
+  final bool type2;
 
   ICard21FileCaching({this.color = Colors.white, this.width = 100, this.height = 100,
     this.text = "", this.image = "", this.textStyle2, this.price = "", this.getFavoriteState, this.revertFavoriteState,
     this.id = "", this.textStyle, this.callback, this.colorProgressBar = Colors.black, this.enableFavorites = true,
     this.text3 = "", this.textStyle3, this.onAddToCartClick,
-    this.radius, this.shadow, this.discountprice, this.dicount
+    this.radius, this.shadow, this.discountprice, this.dicount, this.type2
   });
 
   @override
@@ -94,7 +95,7 @@ class _ICard21FileCachingState extends State<ICard21FileCaching>{
       var t = widget.width;
       if (t == MediaQuery.of(context).size.width)
         t /= 2;
-      _sale = saleSticker(t, widget.dicount, widget.discountprice, widget.price);
+      _sale = saleSticker(t, widget.dicount, widget.discountprice, widget.price, widget.type2);
     }
 
     return InkWell(

@@ -10,6 +10,7 @@ import 'ICard12FileCaching.dart';
 import 'ICard21FileCaching.dart';
 import 'ICard30FileCaching.dart';
 import 'ICard32FileCaching.dart';
+import 'dart:io' show Platform;
 
 dishList2(List<Widget> list, List<DishesData> _mostPopular, BuildContext context,
     Function(String id, String heroId)  _onMostPopularClick, double windowWidth,
@@ -34,6 +35,11 @@ dishList2(List<Widget> list, List<DishesData> _mostPopular, BuildContext context
   bool first = true;
 
   var constHeight = windowWidth*0.7;
+  if (Platform.isIOS) {
+    constHeight = windowWidth*0.95;
+  }
+
+
   var _height = constHeight;
   var y1Start = 10.0;
   var y2Start = 10.0;
@@ -134,7 +140,8 @@ _card32item(DishesData item, double windowWidth, double _height, Function(String
 }
 
 dishList(List<Widget> list, List<DishesData> _mostPopular, BuildContext context,
-    Function(String id, String heroId)  _onMostPopularClick, double windowWidth, Function(String) onAddToCartClick){
+    Function(String id, String heroId)  _onMostPopularClick, double windowWidth, Function(String) onAddToCartClick,
+    bool type2){
   if (_mostPopular == null)
     return;
   var height = windowWidth*appSettings.dishesCardHeight/100;
@@ -193,6 +200,7 @@ dishList(List<Widget> list, List<DishesData> _mostPopular, BuildContext context,
         textStyle3: theme.text16UI,
         callback: _onMostPopularClick,
         onAddToCartClick: onAddToCartClick,
+        type2:type2
       );
       list.add(Container(
         color: appSettings.dishesBackgroundColor,

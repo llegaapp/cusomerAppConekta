@@ -1,5 +1,6 @@
 //import 'dart:convert';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
@@ -641,7 +642,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         Container(
               padding: EdgeInsets.only(left: 10,right: 10, bottom: 10,top: 10),
               width:  MediaQuery.of(context).size.width - 35,
-              height: (MediaQuery.of(context).size.height / 2) - 50,
+              height: (MediaQuery.of(context).size.height / 2) - 90,
 
               decoration: BoxDecoration(
                 border: Border(
@@ -837,7 +838,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     width: windowWidth/2-45,
                     child: IButton3(
                         color: theme.colorPrimary,
-                        text: strings.get(295),                  // detalles de pago
+                        text: strings.get(295)+'s',                  // detalles de pago
                         textStyle: theme.text14boldWhite,
                         pressButton: (){
                           openDialogOrderDetails( order );
@@ -1320,7 +1321,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       children: [
         Text(text1,style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
         SizedBox(width:10),
-        Text(text2),
+        Text(text2 ),
+        // AutoSizeText(
+        //   text2,
+        // ),
       ],
     );
   }

@@ -149,7 +149,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       if (appSettings.typeFoods == "type2")
         dishList2(list, userFavorites, context, _onItemClick, windowWidth, "", _onAddToCartClick);
       else
-        dishList(list, userFavorites, context, _onItemClick, windowWidth, _onAddToCartClick);
+        dishList(list, userFavorites, context, _onItemClick, windowWidth, _onAddToCartClick, true);
     }else
       dishListOneInLine(list, userFavorites, _onItemClick, windowWidth, _onAddToCartClick);
 

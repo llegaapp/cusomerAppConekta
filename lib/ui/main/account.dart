@@ -295,7 +295,7 @@ class _AccountScreenState extends State<AccountScreen> {
             child: Icon(Icons.exit_to_app, color: theme.colorDefaultText..withOpacity(0.1), size: 30),
           ),
           Positioned.fill(
-            child: RaisedButton(
+            child: FlatButton(
                 color: Colors.transparent,
                 shape: CircleBorder(),
                 clipBehavior: Clip.hardEdge,

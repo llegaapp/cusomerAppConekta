@@ -215,8 +215,8 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> with 
                   )
           ),
 
-        headerBackButton(context, Colors.white)
-
+        // headerBackButton(context, Colors.white)
+            headerBackButtonWithBasket(context, mainScreenState.onBack, Colors.white),
           ],
         ))
     );
@@ -303,7 +303,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> with 
       dishList2(list, dishDataRestaurant, context, _onDishesClick, windowWidth, _currentCategoryId, _onAddToCartClick);
     else {
       if (appSettings.oneInLine == "false")
-        dishList(list, dishDataRestaurant, context, _onDishesClick, windowWidth, _onAddToCartClick);
+        dishList(list, dishDataRestaurant, context, _onDishesClick, windowWidth, _onAddToCartClick, true);
       else
         dishListOneInLine(list, dishDataRestaurant, _onDishesClick, windowWidth, _onAddToCartClick);
     }

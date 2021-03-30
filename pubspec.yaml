@@ -50,6 +50,8 @@ dependencies:
   image_picker: ^0.6.7+4
   google_maps_flutter: ^0.5.28+1
   flutter_phoenix: ^0.1.0
+  auto_size_text: ^2.1.0
+  device_info: ^1.0.0
   
   flutter:
     sdk: flutter

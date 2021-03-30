@@ -230,7 +230,7 @@ class _ICard32FileCachingState extends State<ICard32FileCaching>{
               _favorites,
 
               if (widget.discountprice.isNotEmpty)
-                saleSticker(widget.width, widget.dicount, widget.discountprice, widget.price)
+                saleSticker(widget.width, widget.dicount, widget.discountprice, widget.price, false )
             ],
           ),
     ));

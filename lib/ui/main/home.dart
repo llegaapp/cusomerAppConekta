@@ -22,6 +22,10 @@ import 'package:fooddelivery/widget/wsearch.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'mainscreen.dart';
 
+import 'dart:convert';
+import 'dart:io' show Platform;
+import 'package:device_info/device_info.dart';
+
 class HomeScreen extends StatefulWidget {
   final Function(String) callback;
   final Function(String) onErrorDialogOpen;
@@ -169,7 +173,20 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     account.addCallback(this.hashCode.toString(), callback);
     _wait = true;
+    initPlatformState();
     homeScreen.load(_dataLoad, _error);
+  }
+  Future<void> initPlatformState() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+
+      print('AndroidInfo id ${androidInfo.id}');
+      print('AndroidInfo unning on ${androidInfo.model}');
+    } else if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      print('iosInfo Running on ${iosInfo.utsname.machine}');  // e.g. "iPod7,1"
+    }
   }
 
   bool _homeScreenLoad = true;
@@ -209,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   });
                   //mainScreenState.onBack("main");
-
+                    initPlatformState();
                   },
                   child: ListView(
                     padding: EdgeInsets.only(top: 0),
@@ -388,9 +405,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
         if (appSettings.typeFoods == "type2")
           dishList2(list, mostPopular, context, _onProductClick, windowWidth, "", _onAddToCartClick);
+          // dishList(list, mostPopular, context, _onProductClick, windowWidth, _onAddToCartClick, true );
         else {
           if (appSettings.oneInLine == "false")
-            dishList(list, mostPopular, context, _onProductClick, windowWidth, _onAddToCartClick);
+            dishList(list, mostPopular, context, _onProductClick, windowWidth, _onAddToCartClick, true);
           else
             dishListOneInLine(list, mostPopular, _onProductClick, windowWidth, _onAddToCartClick);
         }
@@ -406,7 +424,7 @@ class _HomeScreenState extends State<HomeScreen> {
           dishList2(list, topFoods, context, _onProductClick, windowWidth, "", _onAddToCartClick);
         else {
           if (appSettings.oneInLine == "false")
-            dishList(list, topFoods, context, _onProductClick, windowWidth, _onAddToCartClick);
+            dishList(list, topFoods, context, _onProductClick, windowWidth, _onAddToCartClick, true);
           else
             dishListOneInLine(list, topFoods, _onProductClick, windowWidth, _onAddToCartClick);
         }
@@ -460,7 +478,7 @@ class _HomeScreenState extends State<HomeScreen> {
         dishList2(list, searchData, context, _onProductClick, windowWidth, "", _onAddToCartClick);
       else {
         if (appSettings.oneInLine == "false")
-          dishList(list, searchData, context, _onProductClick, windowWidth, _onAddToCartClick);
+          dishList(list, searchData, context, _onProductClick, windowWidth, _onAddToCartClick, true);
         else
           dishListOneInLine(list, searchData, _onProductClick, windowWidth, _onAddToCartClick);
       }

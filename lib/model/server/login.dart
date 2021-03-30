@@ -4,10 +4,26 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:fooddelivery/model/utils.dart';
+import 'dart:io' show Platform;
+import 'package:device_info/device_info.dart';
 
 login(String email, String password,
     Function(String name, String password, String avatar, String email, String token, String phone,String rfc,String businessName, int unreadNotify, String) callback,
     Function(String) callbackError) async {
+
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+   String device;
+  if (Platform.isAndroid) {
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    device = androidInfo.id.toString()+ ' '+ androidInfo.model.toString();
+    print('AndroidInfo id ${androidInfo.id}');
+    print('AndroidInfo unning on ${androidInfo.model}');
+  } else if (Platform.isIOS) {
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    device = iosInfo.identifierForVendor.toString()+ ' '+ iosInfo.utsname.machine;
+    print('iosInfo Running on ${iosInfo.utsname.machine}');  // e.g. "iPod7,1"
+  }
 
   try {
 
@@ -20,6 +36,7 @@ login(String email, String password,
         {
           'email': '$email',
           'password': '$password',
+          'device': '$device',
         }
     );
     var url = "${serverPath}login";

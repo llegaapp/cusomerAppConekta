@@ -4,6 +4,7 @@ import 'package:fooddelivery/main.dart';
 import 'package:fooddelivery/model/homescreenModel.dart';
 import 'package:fooddelivery/widget/ibackground4.dart';
 import 'package:fooddelivery/widget/iline.dart';
+import 'package:confirm_dialog/confirm_dialog.dart';
 
 class Menu extends StatelessWidget {
   @required final BuildContext context;
@@ -174,7 +175,7 @@ class Menu extends StatelessWidget {
               if (account.isAuth())
                 ILine(),
               if (account.isAuth())
-                _item(11, strings.get(132), "assets/signout.png"), // "Sign Out",
+                _closeSession(11, strings.get(132), "assets/signout.png"), // "Sign Out",
 
             ],
           ),
@@ -243,6 +244,47 @@ class Menu extends StatelessWidget {
                   _onMenuClickItem(id);
                 }, // needed
               )),
+        )
+      ],
+    );
+  }
+  _closeSession(int id, String name, String imageAsset){
+    return Stack(
+      children: <Widget>[
+        ListTile(
+          title: Text(name, style: theme.text16bold,),
+          leading:  UnconstrainedBox(
+              child: Container(
+                  height: 35,
+                  width: 35,
+                  child: Image.asset(imageAsset,
+                      fit: BoxFit.contain,
+                      color: theme.colorPrimary,
+                  )
+
+              )),
+        ),
+        Positioned.fill(
+          child: Material(
+              color: Colors.transparent,
+              child:  FlatButton(
+
+                color: Colors.transparent,
+                clipBehavior: Clip.hardEdge,
+                onPressed: () async {
+                  if (await confirm(
+                    context,
+                    title: Text(strings.get(324)),
+                    content: Text(strings.get(325)),
+                    textOK: Text(strings.get(321)),
+                    textCancel: Text(strings.get(322)),
+                  )) {
+                    Navigator.pop(context);
+                    _onMenuClickItem(id);
+                  }
+                  return print('pressedCancel');
+                },
+              ),),
         )
       ],
     );

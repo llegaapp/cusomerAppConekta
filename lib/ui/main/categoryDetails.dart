@@ -271,7 +271,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> with Sing
       dishList2(list, dishData, context, _onDishesClick, windowWidth, "", _onAddToCartClick);
     else {
       if (appSettings.oneInLine == "false")
-        dishList(list, dishData, context, _onDishesClick, windowWidth, _onAddToCartClick);
+        dishList(list, dishData, context, _onDishesClick, windowWidth, _onAddToCartClick, true);
       else
         dishListOneInLine(list, dishData, _onDishesClick, windowWidth, _onAddToCartClick);
     }

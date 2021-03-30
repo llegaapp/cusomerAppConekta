@@ -235,9 +235,7 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
               ],
             )
         ),
-
-        headerBackButtonWithBasket(context, mainScreenState.onBack, Colors.white),
-
+              headerBackButtonWithBasket(context, mainScreenState.onBack, Colors.white),
         ]),
       ));
   }
@@ -412,7 +410,7 @@ class _DishesDetailsScreenState extends State<DishesDetailsScreen> with SingleTi
               if (_this.discountprice != 0)
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10, top: MediaQuery.of(context).padding.top+50),
-                  child: saleSticker(windowWidth*0.7, _this.discount, basket.makePriceSctring(_this.discountprice), basket.makePriceSctring(_this.price)),
+                  child: saleSticker(windowWidth*0.7, _this.discount, basket.makePriceSctring(_this.discountprice), basket.makePriceSctring(_this.price), false ),
                 ),
 
               if(_this.active == false || _this.restaurantActive == false)(

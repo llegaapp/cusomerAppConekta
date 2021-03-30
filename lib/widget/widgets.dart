@@ -10,6 +10,7 @@ import 'package:fooddelivery/widget/wsearch.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../main.dart';
 import 'ICard21FileCaching.dart';
+import 'dart:io' show Platform;
 
 headerMenuWidget(var context, Function(String) callback, Color _color, String title){
   return _headerWidget2(context, callback, _color, title, _buttonMenu(callback, _color));
@@ -401,10 +402,17 @@ _avatar2(){
 
 
 
-saleSticker(double width, String dicount, String discountprice, String price){
-  var size = width*0.35;
+saleSticker(double width, String dicount, String discountprice, String price, bool type2){
+  var size = width*0.37;
+  // if(type2) size = width*0.55;
   var margin = size*0.05;
   var radius = 5.0;
+  String antes = strings.get(319)+' '+ price;
+
+  if (Platform.isIOS) {
+     antes = strings.get(319)+' '+ price;
+  }
+
   var _boxshadow = [
     BoxShadow(
       color: Colors.black.withOpacity(0.4),
@@ -455,7 +463,7 @@ saleSticker(double width, String dicount, String discountprice, String price){
               margin: EdgeInsets.only(left: margin, right: margin , ),
               height: size*0.25,
               width: size,
-              child: Center(child: Text( strings.get(319)+' '+ price, style: theme.text10UYellow)),
+              child: Center(child: Text( antes , style: theme.text10UYellow)),
             ),
           ],
         )

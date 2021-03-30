@@ -187,7 +187,7 @@ class _BasketScreenState extends State<BasketScreen> with TickerProviderStateMix
     var list = List<Widget>();
     //var t = basket.getSubTotal(false);
     basket.getShoppingTotal = 0.0;
-    list.add(_itemText(strings.get(93), basket.makePriceSctring(basket.getSubTotal(false)), false));  // subtotal de productos,
+    list.add(_itemText(strings.get(93), basket.makePriceSctring(basket.getSubTotal(false) + basket.getTaxes(false) ), false));  // subtotal de productos,
     list.add(SizedBox(height: 5,));
     // list.add(_itemText(strings.get(94), basket.makePriceSctring(basket.getShoppingCost(false)), false));   // gastos de envío,
     // list.add(SizedBox(height: 5,));
