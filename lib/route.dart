@@ -9,6 +9,8 @@ import 'package:fooddelivery/ui/main/dishesDetails.dart';
 import 'package:fooddelivery/ui/main/mainscreen.dart';
 import 'package:fooddelivery/ui/main/restaurantDetails.dart';
 
+import 'widget/conekta/CardForm.dart';
+
 class AppFoodRoute{
 
   Map<String, StatefulWidget> routes = {
@@ -21,6 +23,7 @@ class AppFoodRoute{
     "/categorydetails" : CategoryDetailsScreen(),
     "/basket" : BasketScreen(),
     "/delivery" : DeliveryScreen(),
+	'/conekta-card-form': CardForm()
   };
 
   //MainScreen mainScreen;

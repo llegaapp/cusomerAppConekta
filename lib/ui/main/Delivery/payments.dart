@@ -87,18 +87,11 @@ pay(int _currVal, BuildContext context, Function(bool) waits, String phone,
   }
   if (_currVal == 10) { // conekta mastercard
     _waits(true);
-    Stripe _stripe = Stripe();
-    _stripe.init();
-    double _total = basket.getTotal(true) * 100;
-    var t = _total.toInt();
-    var phone = pref.get(Pref.deliveryPhone);
-    try {
-      await _stripe.openCheckoutCard(
-          t, basket.getDesc(), phone, razorpayCompanyName, code,
-          _onSuccess, _onError
-      );
-    }catch(ex){
-    }
+	//Navigator.pushNamed(context, '/conekta-card-form');
+	route.setDuration(1);
+	String ticketcode = sha1Ticketcode();
+	var res = route.push(context, '/conekta-card-form');
+	print('CONEKTA PAYMENT RESPONSE: $res');
   }
   if (_currVal == 6){       // wallet
     payOnWallet(account.token, basket.getTotal(true).toString(), _onSuccessWallet, _onError2);
