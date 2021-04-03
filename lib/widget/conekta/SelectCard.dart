@@ -9,7 +9,7 @@ class SelectCard extends StatelessWidget
 {
 	String customerId;
 	
-	SelectCard({this.customerId);
+	SelectCard({this.customerId});
 	
 	@override
 	Widget build(BuildContext context)
