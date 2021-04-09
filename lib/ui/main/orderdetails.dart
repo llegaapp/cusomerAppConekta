@@ -47,8 +47,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   _moreDetails(String orderDetails){
     for (var item in _data)
       if (item.orderid == orderDetails){
-        openDialogOrderDetails(item); 
-      } 
+        openDialogOrderDetails(item);
+      }
   }
 
   _arrivedSuccess(){
@@ -128,52 +128,52 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     return Scaffold(
         backgroundColor: theme.colorBackground,
         body: Directionality(
-        textDirection: strings.direction,
-        child: Stack(
-          children: <Widget>[
+            textDirection: strings.direction,
+            child: Stack(
+              children: <Widget>[
 
-            headerWidget(context, widget.onBack, Colors.black, strings.get(119)), // "My Orders",
+                headerWidget(context, widget.onBack, Colors.black, strings.get(119)), // "My Orders",
 
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 10, top: MediaQuery.of(context).padding.top+40),
-              child: Container(
-                child: RefreshIndicator(
-                  displacement: 200,
-                  key: _refreshIndicatorKey,
-                  onRefresh: () async {
-                    _data = [];
-                    print('RefreshIndicator');
-                    // _success(null, null);
-                    await ordersData.init(_success, _onError);
-                    await Future.delayed(Duration(seconds: 2));
+                Container(
+                  margin: EdgeInsets.only(left: 10, right: 10, top: MediaQuery.of(context).padding.top+40),
+                  child: Container(
+                    child: RefreshIndicator(
+                      displacement: 200,
+                      key: _refreshIndicatorKey,
+                      onRefresh: () async {
+                        _data = [];
+                        print('RefreshIndicator');
+                        // _success(null, null);
+                        await ordersData.init(_success, _onError);
+                        await Future.delayed(Duration(seconds: 2));
 
 
-                    setState(() { });
-                  },
+                        setState(() { });
+                      },
 
-                  child: ListView(
-                    padding: EdgeInsets.only(top: 0),
-                    children: _body(),
-                  ),
-                ),
-              ),
-            ),
-
-            if (_wait)
-                Center(
-                  child: ColorLoader2(
-                    color1: Colors.yellow,
-                    color2: theme.colorCompanion,
-                    color3: theme.colorPrimary,
+                      child: ListView(
+                        padding: EdgeInsets.only(top: 0),
+                        children: _body(),
+                      ),
+                    ),
                   ),
                 ),
 
-            IEasyDialog2(setPosition: (double value){_show = value;}, getPosition: () {return _show;}, color: theme.colorGrey,
-              body: _dialogBody, backgroundColor: theme.colorBackground,),
+                if (_wait)
+                  Center(
+                    child: ColorLoader2(
+                      color1: Colors.yellow,
+                      color2: theme.colorCompanion,
+                      color3: theme.colorPrimary,
+                    ),
+                  ),
 
-          ],
-        )
-    ));
+                IEasyDialog2(setPosition: (double value){_show = value;}, getPosition: () {return _show;}, color: theme.colorGrey,
+                  body: _dialogBody, backgroundColor: theme.colorBackground,),
+
+              ],
+            )
+        ));
   }
 
   _body(){
@@ -225,7 +225,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
           if(_userrolUpdate==4)porEl= strings.get(326);
           if(_userrolUpdate==2)porEl= strings.get(327);
         }
-        
+
         imageStatus = '';
         if(_status==1)  imageStatus ='assets/recibido.png';
         if(_status==2)  imageStatus ='assets/preparando.png';
@@ -310,12 +310,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         }else{
           if (item.curbsidePickup == "true"){
 
-             var datenow = _getStatusTime(item.ordertimes, 12);
-             if (datenow.isEmpty){
-                DateTime now = new DateTime.now();
-                datenow = myintl.DateFormat('yyyy-MM-dd – kk:mm').format(now);
-             }
-                  
+            var datenow = _getStatusTime(item.ordertimes, 12);
+            if (datenow.isEmpty){
+              DateTime now = new DateTime.now();
+              datenow = myintl.DateFormat('yyyy-MM-dd – kk:mm').format(now);
+            }
+
 
             list.add(SizedBox(height: 25,));
             if (item.arrived == "true"){
@@ -330,7 +330,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         list.add(SizedBox(height: 15,));
         list.add(_buttonMoreDetails(item.orderid));
         list.add(SizedBox(height: 5,));
-        
+
         break;
       }
 
@@ -449,7 +449,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                 !reached ?
+                  !reached ?
                   TimerBuilder.periodic(
                       Duration(seconds: 1),
                       alignment: Duration.zero,
@@ -460,7 +460,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             alignment: Alignment.center,
                             child: Container(
                               child: Column(
-                               children: [
+                                children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -565,7 +565,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   int _getMaxStatus(List<OrderTimes> times){
     var ret = 0;
     for (var time in times){
-      if (time.status > ret && time.status != 6)
+      // if (time.status > ret && time.status != 6)
+      if (time.status > ret && time.status <= 6 )
         ret = time.status;
     }
     return ret;
@@ -574,12 +575,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   _itemTextPastOrder(String leftText, String rightText, bool _delivery){
     var _icon = Icon(Icons.check_circle, color: theme.colorPrimary, size: 30);
     if (!_delivery)
-        _icon = Icon(Icons.history, color: theme.colorGrey, size: 30,);
-      return Container(
-          margin: EdgeInsets.only(left: 20, right: 20),
-          child: Column(
-            children: [
-              Row(
+      _icon = Icon(Icons.history, color: theme.colorGrey, size: 30,);
+    return Container(
+        margin: EdgeInsets.only(left: 20, right: 20),
+        child: Column(
+          children: [
+            Row(
               children: <Widget>[
                 _icon,
                 SizedBox(width: 20,),
@@ -640,48 +641,48 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         SizedBox(height: 20,),
 
         Container(
-              padding: EdgeInsets.only(left: 10,right: 10, bottom: 10,top: 10),
-              width:  MediaQuery.of(context).size.width - 35,
-              height: (MediaQuery.of(context).size.height / 2) - 90,
+          padding: EdgeInsets.only(left: 10,right: 10, bottom: 10,top: 10),
+          width:  MediaQuery.of(context).size.width - 35,
+          height: (MediaQuery.of(context).size.height / 2) - 90,
 
-              decoration: BoxDecoration(
-                border: Border(
-                        top: BorderSide( //  <--- top side
-                                color:  Colors.grey[300],
-                                width:  1.0,
-                              ),
-
-                        ),
-                      ),
-
-
-               child: SingleChildScrollView(
-                  child:Column(
-                    children: _printItemOrderDetails(order),
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide( //  <--- top side
+                color:  Colors.grey[300],
+                width:  1.0,
               ),
 
             ),
+          ),
+
+
+          child: SingleChildScrollView(
+            child:Column(
+              children: _printItemOrderDetails(order),
+            ),
+
+          ),
         ),
 
         SizedBox(height: 5,),
 
         Container(
-              padding: EdgeInsets.only(left: 10,right: 10, bottom: 10,top: 10),
-              width:  MediaQuery.of(context).size.width - 35,
-              decoration: BoxDecoration(
-                border: Border(
-                        top: BorderSide( //  <--- top side
-                                color:  Colors.grey[300],
-                                width:  1.0,
-                              ),
-                        bottom: BorderSide( //  <--- top side
-                                color:  Colors.grey[300],
-                                width:  1.0,
-                              ),
-                        ),
-                      ),
+          padding: EdgeInsets.only(left: 10,right: 10, bottom: 10,top: 10),
+          width:  MediaQuery.of(context).size.width - 35,
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide( //  <--- top side
+                color:  Colors.grey[300],
+                width:  1.0,
+              ),
+              bottom: BorderSide( //  <--- top side
+                color:  Colors.grey[300],
+                width:  1.0,
+              ),
+            ),
+          ),
 
-              child: _bottomBar( order ),
+          child: _bottomBar( order ),
 
         ),
 
@@ -871,35 +872,35 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   List<Widget> _printItemOrderDetails(order)
   {
     String delivery = strings.get(247);
-      if(order.curbsidePickup.toString() == 'false')
-          delivery = order.address;
-       // print( jsonEncode(order) );
+    if(order.curbsidePickup.toString() == 'false')
+      delivery = order.address;
+    // print( jsonEncode(order) );
 
-        List<Widget> list = [ 
-                  _textLine('Ticket:',order.ticketCode),
-                  _textLine(strings.get(301)+':',order.method),
-                  _textLine(strings.get(66)+':',delivery),
-                  _textLine(strings.get(300)+':',order.date),
-                  SizedBox(height:20),
-                ]; 
+    List<Widget> list = [
+      _textLine('Ticket:',order.ticketCode),
+      _textLine(strings.get(301)+':',order.method),
+      _textLine(strings.get(66)+':',delivery),
+      _textLine(strings.get(300)+':',order.date),
+      SizedBox(height:20),
+    ];
 
-        for (var item  in order.orderdetails) 
-        {
-            double price = item.foodprice;
-            int count = item.count;
-            String food = item.food;
-            if(item.foodprice  == 0.0){
-              price = double.parse(item.extrasprice);
-              count = int.parse(item.extrascount);
-              food = '  -Extra '+ item.extras;
-            } 
-           
-            double total = count * price;
-            String leftText = food + ' (' + count.toString() + ' x \$' + price.toString() + ')'; 
-            list.add(_textLineExpanded(leftText,'\$'+total.toString()));
-        }
+    for (var item  in order.orderdetails)
+    {
+      double price = item.foodprice;
+      int count = item.count;
+      String food = item.food;
+      if(item.foodprice  == 0.0){
+        price = double.parse(item.extrasprice);
+        count = int.parse(item.extrascount);
+        food = '  -Extra '+ item.extras;
+      }
 
-        return list;
+      double total = count * price;
+      String leftText = food + ' (' + count.toString() + ' x \$' + price.toString() + ')';
+      list.add(_textLineExpanded(leftText,'\$'+total.toString()));
+    }
+
+    return list;
   }
   List<Widget> _printItemOrderDetailsFactura(order)
   {
@@ -938,11 +939,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       var today =  DateTime.now();
       if( order.fecha_lim_fac.toString()!='null' ) fechaLimFac = DateTime.parse(order.fecha_lim_fac);
 
-     //  fechaLimFac = DateTime.parse('2021-03-11 11:49:02');
+      //  fechaLimFac = DateTime.parse('2021-03-11 11:49:02');
       //print('fechaLimFac:');
-     // print(fechaLimFac);
-     // print('today:');
-     // print(today);
+      // print(fechaLimFac);
+      // print('today:');
+      // print(today);
       if( fechaLimFac.isAfter(today)){
         print('fecha NO vencida de factura');
         return   Container(
@@ -1013,7 +1014,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                     formKey.currentState.save();
 
                                     setState(() {
-                                     //_show = 0;
+                                      //_show = 0;
                                     });
                                     //_openDiaSendSAT();
                                     _callbackFacturar( order );
@@ -1068,61 +1069,61 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
     }else{
 
-        return Container(
-          width: double.maxFinite,
-          height: (MediaQuery
-              .of(context)
-              .size
-              .height / 3) - 50,
-          margin: EdgeInsets.only(left: 10, right: 10),
+      return Container(
+        width: double.maxFinite,
+        height: (MediaQuery
+            .of(context)
+            .size
+            .height / 3) - 50,
+        margin: EdgeInsets.only(left: 10, right: 10),
 
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(height: 20,),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(height: 20,),
 
-                Row(
-                  children: <Widget>[
+              Row(
+                children: <Widget>[
 
-                    Icon( FontAwesomeIcons.solidCheckCircle, color: Colors.lightGreen,),//Se ha generado su factura exitosamente
-                    Text(strings.get(307), style: theme.text12bold),
-                  ],
-                ),
-                SizedBox(height: 40,),
-                Row(
-                  children: <Widget>[
+                  Icon( FontAwesomeIcons.solidCheckCircle, color: Colors.lightGreen,),//Se ha generado su factura exitosamente
+                  Text(strings.get(307), style: theme.text12bold),
+                ],
+              ),
+              SizedBox(height: 40,),
+              Row(
+                children: <Widget>[
 
-                    Container(
-                       // width: windowWidth,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                                width: windowWidth/2-45,
-                                child: socialMediaBtn(appSettings.twitterText, new Image.asset('assets/xml.png',color: Colors.brown,))),
-                            SizedBox(width: 10,),
-                            Container(
-                                width: windowWidth/2-45,
-                                child: socialMediaBtn(appSettings.twitterText, Image.asset('assets/pdf.png',color: Colors.red,))),
-                          ],
-                        )),
-                  ],
-                ),
+                  Container(
+                    // width: windowWidth,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              width: windowWidth/2-45,
+                              child: socialMediaBtn(appSettings.twitterText, new Image.asset('assets/xml.png',color: Colors.brown,))),
+                          SizedBox(width: 10,),
+                          Container(
+                              width: windowWidth/2-45,
+                              child: socialMediaBtn(appSettings.twitterText, Image.asset('assets/pdf.png',color: Colors.red,))),
+                        ],
+                      )),
+                ],
+              ),
 
 
 
-              ],
-            ),
-
+            ],
           ),
 
+        ),
 
 
 
-        );
 
-      }
+      );
+
+    }
 
   }
   facturasBtn(String link,var icon)
@@ -1167,12 +1168,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     setState(() {
       //_show = 0;
     });
-   _dialogBody = Column(
+    _dialogBody = Column(
       children: [
         Row(
           children: <Widget>[
             Icon( FontAwesomeIcons.solidCheckCircle, color: Colors.lightGreen,),//Se ha generado su factura exitosamente
-           Text(strings.get(307), style: theme.text12bold),
+            Text(strings.get(307), style: theme.text12bold),
           ],
         ),
         Text(txt, style: theme.text14,),
@@ -1197,8 +1198,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     print(' _successFactura ');
 
 
-   // setState(() {
-   // });
+    // setState(() {
+    // });
   }
   _openDialogError(String _text) {
     _dialogBody = Column(
@@ -1258,22 +1259,22 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   }
   double subTotal(order)
   {
-      double subtotal = 0.0; 
+    double subtotal = 0.0;
 
-      for (var item  in order.orderdetails) 
-        {
-            double price = item.foodprecioUnit;
-            int count = item.count; 
-            if(item.foodprice  == 0.0){
-              price = double.parse(item.extrasprecioUnit);
-              count = int.parse(item.extrascount); 
-            } 
-           
-            double total = count * price;
-            subtotal = subtotal + total;
-        }
+    for (var item  in order.orderdetails)
+    {
+      double price = item.foodprecioUnit;
+      int count = item.count;
+      if(item.foodprice  == 0.0){
+        price = double.parse(item.extrasprecioUnit);
+        count = int.parse(item.extrascount);
+      }
 
-      return subtotal;
+      double total = count * price;
+      subtotal = subtotal + total;
+    }
+
+    return subtotal;
   }
 
   double getTax(order)
@@ -1306,11 +1307,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   String getTotal(order)
   {
-     double total = order.total;
+    double total = order.total;
 
-     return  total.toStringAsFixed(appSettings.symbolDigits);
+    return  total.toStringAsFixed(appSettings.symbolDigits);
   }
- 
+
 
   Widget _textLine(text1,text2){
 
@@ -1365,7 +1366,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     return Padding(
       padding: const EdgeInsets.only(top:2.0),
       child: Row(
-        children: [ 
+        children: [
           Text(text1,style: TextStyle(color: pcolor1, fontWeight: pfontWeight),),
           Expanded(child: SizedBox(width:10),),
           Text(text2,style: TextStyle(color: pcolor2, fontWeight: pfontWeight),),
@@ -1374,13 +1375,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     );
   }
   Widget _textLineExpandedZero(
-                              text1,
-                                text2 ,{pfontWeight = FontWeight.normal, pcolor1 = Colors.black,pcolor2 = Colors.black}){
+      text1,
+      text2 ,{pfontWeight = FontWeight.normal, pcolor1 = Colors.black,pcolor2 = Colors.black}){
 
-  //  if(text2.toString().isEmpty || double.parse( text2 )==0)
- //     text2 = '-';
-  //  else
-  //    text2 = '\$' +text2;
+    //  if(text2.toString().isEmpty || double.parse( text2 )==0)
+    //     text2 = '-';
+    //  else
+    //    text2 = '\$' +text2;
     //if(  int.parse( order.fee )==0 ){
     if(text2.toString().isEmpty || double.parse( text2 )==0){
 
