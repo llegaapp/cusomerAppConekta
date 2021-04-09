@@ -59,6 +59,7 @@ class Conekta
 	{
 		print('CREATING ORDER for: ${account.email}');
 		var order 			= this.buildOrder(tdata.id, basket, account);
+		/*
 		//##crear cliente
 		var customer = await this.createCustomerFromMap({
 			'name': order['customer_info']['name'],
@@ -74,8 +75,9 @@ class Conekta
 		print('CONEKTA CUSTOMER CREATED: ${customer.id}');
 		order['customer_info'] = {
 			'customer_id': customer.id, 
-			//'customer_id': 'cus_2pWaQmCmAfm5eTw4L',
 		};
+		*/
+		print(order);
 		(order['line_items'] as List).add({
 			'name': 'Compras en Delivery Llega',
 			'unit_price': total.toStringAsFixed(2).replaceAll('.', ''),
